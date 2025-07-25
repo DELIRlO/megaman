@@ -23,7 +23,7 @@
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
             <div class="loading-sprite"></div>
-            <div class="loading-text">[ LOADING...]</div>
+            <div class="loading-text">Carregando...</div>
             <div class="loading-bar">
                 <div class="loading-progress"></div>
             </div>
@@ -117,6 +117,13 @@
             </div>
         </section>
     </main>
+
+    <div class="loading-sprite">
+    <!-- Imagem de fallback -->
+    <img src="assets/sprites/megaman-idle.gif" 
+         onerror="this.src='https://raw.githubusercontent.com/delirlo/megaman/main/public/assets/sprites/megaman-idle.gif'"
+         style="display: none;">
+</div>
 
     <!-- Megaman Transition -->
     <div id="megaman-transition" class="megaman-transition">
