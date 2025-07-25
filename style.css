@@ -51,7 +51,7 @@ body::before {
         radial-gradient(2px 2px at 160px 30px, var(--color-primary), transparent);
     background-repeat: repeat;
     background-size: 200px 100px;
-    animation: starfield 20s linear infinite;
+    animation: starfield 7s linear infinite;
     z-index: -1;
     will-change: transform;
     transform: translateZ(0);

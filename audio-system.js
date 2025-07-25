@@ -29,7 +29,7 @@ class AudioSystem {
     // Carregar sons
     async loadSounds() {
         const soundFiles = {
-            bgMusic: '/public/assets/audio/bg_music.wav',
+            bgMusic: '/assets/audio/bg_music.wav',
             menuSelect: '/public/assets/audio/menu_select.wav',
             menuHover: '/public/assets/audio/hover_bleep.wav',
             teleport: '/public/assets/audio/teleport.wav',
