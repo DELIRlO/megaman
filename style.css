@@ -1,7 +1,7 @@
 /* Importação da fonte Press Start 2P */
 @font-face {
     font-family: 'Press Start 2P';
-    src: url('/public/assets/fonts/press-start-2p.woff2') format('woff2');
+    src: url('./assets/fonts/press-start-2p.woff2') format('woff2');
     font-display: swap;
 }
 
@@ -26,13 +26,13 @@ body {
     background: var(--color-background);
     color: var(--color-text);
     overflow-x: hidden;
-    cursor: url('/public/assets/sprites/cursor.png'), auto;
+    cursor: url('./assets/sprites/cursor.png'), auto;
     line-height: 1.6;
 }
 
 /* Cursor personalizado */
 body:hover {
-    cursor: url('/public/assets/sprites/cursor-hover.png'), auto;
+    cursor: url('./assets/sprites/cursor-hover.png'), auto;
 }
 
 /* Animação de fundo starfield */
@@ -84,7 +84,7 @@ body::before {
 .loading-sprite {
     width: 64px;
     height: 64px;
-    background: url('/public/assets/sprites/megaman-idle.gif') no-repeat center;
+    background: url('./assets/sprites/megaman-idle.gif') no-repeat center;
     background-size: contain;
     margin: 0 auto 20px;
     animation: bounce 1s infinite;
@@ -281,7 +281,7 @@ body::before {
 .avatar-sprite {
     width: 100%;
     height: 100%;
-    background: url('/public/assets/sprites/megaman-idle.gif') no-repeat center;
+    background: url('./assets/sprites/megaman-idle.gif') no-repeat center;
     background-size: contain;
     transition: all 0.3s ease;
 }
@@ -410,7 +410,7 @@ body::before {
 .megaman-sprite {
     width: 64px;
     height: 64px;
-    background: url('/public/assets/sprites/megaman-running.gif') no-repeat center;
+    background: url('./assets/sprites/megaman-running.gif') no-repeat center;
     background-size: contain;
 }
 
@@ -512,7 +512,7 @@ body::before {
 .player-sprite {
     width: 32px;
     height: 32px;
-    background: url('/public/assets/sprites/megaman-idle.gif') no-repeat center;
+    background: url('./assets/sprites/megaman-idle.gif') no-repeat center;
     background-size: contain;
     position: absolute;
     bottom: 10px;
@@ -729,7 +729,7 @@ body::before {
 .avatar-large {
     width: 128px;
     height: 128px;
-    background: url('/public/assets/sprites/megaman-idle.gif') no-repeat center;
+    background: url('./assets/sprites/megaman-idle.gif') no-repeat center;
     background-size: contain;
     margin: 0 auto;
     border: 4px solid var(--color-secondary);
