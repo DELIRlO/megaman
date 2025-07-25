@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#8A2BE2">
+    <meta property="og:title" content="Carlos Augusto Diniz Filho - Portfólio 8-bit">
+    <meta property="og:description" content="Desenvolvedor, programador e Técnico computacional autodidata">
+    <meta property="og:image" content="/public/assets/images/screenshot.png">
+    <title>Carlos Augusto Diniz Filho - Portfólio 8-bit</title>
+    
+    <!-- Preload da fonte -->
+    <link rel="preload" href="/public/assets/fonts/press-start-2p.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/public/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-sprite"></div>
+            <div class="loading-text">LOADING...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Flutuante -->
+    <nav class="floating-menu">
+        <div class="menu-item" data-page="home">
+            <div class="menu-icon">🏠</div>
+            <span class="menu-label">HOME</span>
+        </div>
+        <div class="menu-item" data-page="sobre">
+            <div class="menu-icon">👤</div>
+            <span class="menu-label">SOBRE</span>
+        </div>
+        <div class="menu-item" data-page="curriculo">
+            <div class="menu-icon">📄</div>
+            <span class="menu-label">CURRÍCULO</span>
+        </div>
+        <div class="menu-item" data-page="projetos">
+            <div class="menu-icon">💻</div>
+            <span class="menu-label">PROJETOS</span>
+        </div>
+        <div class="menu-item" data-page="skills">
+            <div class="menu-icon">⚡</div>
+            <span class="menu-label">SKILLS</span>
+        </div>
+        <div class="menu-item" data-page="blog">
+            <div class="menu-icon">📝</div>
+            <span class="menu-label">BLOG</span>
+        </div>
+        <div class="menu-item" data-page="contato">
+            <div class="menu-icon">📧</div>
+            <span class="menu-label">CONTATO</span>
+        </div>
+        
+        <!-- Controles de áudio -->
+        <div class="audio-controls">
+            <button id="mute-btn" class="audio-btn">🔊</button>
+        </div>
+        
+        <!-- Links sociais -->
+        <div class="social-links">
+            <a href="https://github.com/carlosfilho" target="_blank" class="social-link">
+                <div class="social-icon">📱</div>
+            </a>
+            <a href="https://linkedin.com/in/smeshy/" target="_blank" class="social-link">
+                <div class="social-icon">💼</div>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main id="main-content" class="main-content">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero-section">
+                <div class="hero-avatar" id="hero-avatar">
+                    <div class="avatar-sprite"></div>
+                </div>
+                <h1 class="hero-title">CARLOS AUGUSTO DINIZ FILHO</h1>
+                <h2 class="hero-subtitle">ENGENHEIRO DA COMPUTAÇÃO</h2>
+                <div class="hero-description">
+                    <p>Desenvolvedor, programador e Técnico computacional autodidata com um olhar aguçado para computação e Redes.</p>
+                    <p>Inovador e com grande conhecimento de técnicas voltadas a uma ótima experiência do usuário e público.</p>
+                </div>
+                
+                <!-- Terminal de comandos -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="terminal-title">TERMINAL_8BIT.EXE</span>
+                        <div class="terminal-controls">
+                            <span class="terminal-btn">_</span>
+                            <span class="terminal-btn">□</span>
+                            <span class="terminal-btn">×</span>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">C:\PORTFOLIO></span>
+                            <span class="terminal-cursor">_</span>
+                        </div>
+                        <div id="terminal-output" class="terminal-output"></div>
+                        <div class="terminal-input-line">
+                            <span class="terminal-prompt">C:\PORTFOLIO></span>
+                            <input type="text" id="terminal-input" class="terminal-input" placeholder="Digite 'help' para comandos">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Megaman Transition -->
+    <div id="megaman-transition" class="megaman-transition">
+        <div class="megaman-sprite"></div>
+    </div>
+
+    <!-- Speedrun Timer -->
+    <div id="speedrun-timer" class="speedrun-timer hidden">
+        <div class="timer-label">SPEEDRUN</div>
+        <div class="timer-value">00:00:00</div>
+        <div class="timer-ranking">
+            <div>1. SPEEDRUNNER - 01:23:45</div>
+            <div>2. PIXEL_MASTER - 01:45:12</div>
+            <div>3. RETRO_GAMER - 02:01:33</div>
+        </div>
+    </div>
+
+    <!-- Easter Egg: Konami Code -->
+    <div id="konami-game" class="konami-game hidden">
+        <div class="game-screen">
+            <h3>EASTER EGG ATIVADO!</h3>
+            <p>Você descobriu o código Konami!</p>
+            <div class="mini-game">
+                <div class="game-score">SCORE: <span id="game-score">0</span></div>
+                <div class="game-area">
+                    <div class="player-sprite"></div>
+                </div>
+            </div>
+            <button onclick="closeKonamiGame()">FECHAR</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="audio-system.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
+

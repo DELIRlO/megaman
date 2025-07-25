@@ -1,0 +1,402 @@
+Criar um portfólio estático com tema retro gamer 8-bit, altamente interativo, com:
+
+Músicas e SFX imersivos
+
+Animações "empurrando a tela"
+
+Menus flutuantes reativos
+
+12+ páginas temáticas
+
+Easter eggs e funcionalidades criativas
+
+📂 Estrutura do Projeto
+markdown
+/portfolio_8bit/
+├── /assets/
+│   ├── /audio/ (bg_music.mp3, sfx_menu.wav, etc.)
+│   ├── /sprites/ (megaman.gif, icons_8bit.png)
+│   ├── /fonts/ (press-start-2p.woff2)
+│   └── /images/ (backgrounds.webp)
+├── /pages/ (sobre.html, projetos.html, etc.)
+├── index.html
+├── scripts.js (vanilla)
+└── style.css (com animações keyframes)
+🎨 Design & Temática
+🔹 Estilo Visual:
+
+Cores: Roxo (#8A2BE2), Azul Neon (#00FFFF), Preto (#000)
+
+Fundo: Animação CSS de starfield (como este exemplo)
+
+Cursor: Mira de videogame (.png transparente) que vira ★ azul no hover
+
+🔹 Referências:
+
+carlosfilho.vercel.app (cores/animções)
+
+Sprites: OpenGameArt - Megaman
+
+🔊 Sistema de Áudio
+Tipo	Descrição	Exemplo/Fonte
+Música	Loop 8-bit em todas as páginas	8-bit-space.mp3
+SFX Menu	Clique estilo "Mega Man X"	menu-select.wav
+SFX Hover	"bleep" curto (8-bit)	Criar com jsfxr
+Botão Mute	Ícone de 🔊/🔇 no menu flutuante	Alternar via Howler.js ou Web Audio API
+📝 Conteúdo (Dados Fictícios)
+🔹 Seu Perfil:
+
+html
+<!-- Home -->
+CARLOS AUGUSTO DINIZ FILHO
+ENGENHEIRO DA COMPUTAÇÃO
+
+TUDO SOBRE MIM
+Desenvolvedor, programador e Técnico computacional autodidata com um olhar aguçado para computação e Redes. Inovador e com grande conhecimento de técnicas voltadas a uma ótima experiência do usuário e público.
+
+CERTIFICADOS E CURSOS
+
+Programador Web – IFRS 2022.
+
+TJ Competência Transversal – SENAI 2022.
+
+Programação de Robótica EV3 – IFRS 2022.
+
+AssaSocial Linguagem – IFRS 2022.
+
+CSS3 - Folha de estilo – IFRS 2022.
+
+Automação de Sistemas – IFRS 2022.
+
+Windows Server 2016 – IFRS 2022.
+
+Aprendendo com Python – EVAG EMAP 2022.
+
+Programação Básica com Java – IFRS 2022.
+
+HTML introdução e desenvolvimento – IFRS 2022.
+
+Segurança Tecnologia da Informação – Bradesco.
+
+Lógica de Programação múltiplos - IFRS 2022.
+
+Raspberry Pi e Aplicações – IFRS 2022.
+
+Fundamentos em sistema Linux – Virtual link 2010.
+
+Administração de Redes Linux – Virtual link 2013.
+
+Redes e segurança Linux – Virtual link 2011.
+
+Psicologia no Trabalho – IFRS 2022.
+
+Marketing Público – IFRS 2022.
+
+Administração Estratégica – IFRS 2022.
+
+Tecnologia Assistiva no contexto – IFRS 2022.
+
+Psicologia Aplicada à Reabilitação – UFRS 2022.
+
+Geradores e Motores de Aeronaves – SENAT 2022.
+
+Sistemas de Instrumentos do motor – SENAT 2022.
+
+Eletrônica - Técnicas Digitais – SENAT 2022.
+
+Análise de Dados: Leitura crítica – ENAP 2022.
+
+Conceitos de Aerodinâmica – SENAT 2022.
+
+Inteligência Artificial no Contexto – ENAP 2022.
+
+Tecnologias a Transformação Digital – ENAP 2022.
+
+Scrum no Serviço Público – ENAP 2022.
+
+Lógica de Programação Arduino – IFMS 2022.
+
+Análise de Dados e Linguagem R – ENAP 2022.
+
+Learning with Python – ENAP 2022.
+
+Banco de Dados Fundamentos – IFRS 2022.
+
+Assistente administrativo – IFRS 2022.
+
+Direito Administrativo – IFRS 2022.
+
+Economia e Macroeconomia – ENAP 2022.
+
+Introdução à Vigilância Sanitária – ENAP 2022.
+
+Formação na SPU conceitos – ENAP 2022.
+
+Administrador de Banco de Dados – Bradesco 2022.
+
+Assistente Administrativo – IFRS 2022.
+
+Projetos de Sistema de TI – Bradesco 2022.
+
+Implementando Banco de Dados – Bradesco 2022.
+
+Veículos Elétricos e Híbridos – SENAI 2022.
+
+Desvendando Redes 5G – SENAI 2022.
+
+Privacidade e segurança de Dados – SENAI 2022.
+
+Desvendando a Blockchain – SENAI 2022.
+
+Desvendando a Indústria 4.0 – SENAI 2022.
+
+CONTATO
+
+Data: 37 Promorar, Val-de-Cans nº 231
+LinkedIn: www.linkedin.com/in/smeshy/
+E-mail: carlosaugustodiniz@outlook.com
+Nacionalidade: Brasileiro, Pará, Belém.
+Portfolio: https://carlosfilho.vercel.app
+
+EXPERIÊNCIA PROFISSIONAL
+Técnico em manutenção de computadores – 50$ Computadores
+Limpeza, Programação e manutenção de software e hardware com configuração e montagem de Desktops, Micro Computadores e notebooks. Configuração de Redes e sistemas em domicílio. Consultor de Tecnologia e aquisição de hardware e sistemas.
+
+Assistente Desenvolvedor e programação – Mac manutenções
+Resignação de serviço como pessoa física além de Limpeza e configuração de micro-computadores, atuando em agendamento de arquivos de backup usados para diretórios oficiais e projetos online. Respondendo a consultas por e-mail de clientes sobre o andamento de pedidos.
+
+FORMAÇÃO ACADÊMICA
+Bacharelado em Engenharia da Computação – Instituto de Estudos Superiores da Amazônia (IESAM)
+Aluno recorrente de 2011 a 2016.
+
+Participou do Clube de Tecnologia e Palestrante desenvolvimento Arduino.
+
+Palestrante na Feira do Empreendedor e Desafio SEBRAE 2011-2017.
+
+Pós-Graduação Lato Sensu em Engenharia de Redes e Telecomunicações – Faculdade Estácio
+2017 - 2018.
+
+Desenvolvimento de Projetos variados voltados à robótica.
+
+Presente na organização de eventos na Faculdade voltados a Tecnologia da Informação.
+
+COMPETÊNCIAS
+
+Desenvolvedor Front-End em constante atualização.
+
+Node.js, HTML5, JavaScript, Quasar, Web.js, React, TypeScript, CSS3.
+
+Sistemas Operacionais, Rede de Computadores, Proteção de Dados pessoais.
+
+Montagem e limpeza de Micros, Inteligência Artificial, Restauração de Dados.
+
+Administração de Redes Linux.
+
+HABILIDADES
+
+Múltiplas Linguagens de Programação, Frameworks e IDE.
+
+Proficiência em Sistemas de Software.
+
+Sistemas Operacionais e Instalação.
+
+Habilidades de Resolução de Problemas.
+
+Habilidades de Comunicação e aprendizado.
+
+IDIOMAS
+
+Inglês (Básico)
+
+Francês (Básico)
+
+OUTROS INTERESSES
+
+Meu principal objetivo é agregar com todo meu conhecimento e experiência que possuo na área de computação virtual. Sou responsável, criativo, 
+dinâmico e estratégico e estou à disposição para entrevistas e comprovações.
+
+
+🔹 Experiência Profissional:
+
+html
+<div class="job">
+  <h3>Técnico em Manutenção</h3>
+  <p>50$ Computadores (2015-2020)</p>
+  <ul>
+    <li>Manutenção de hardware/software</li>
+    <li>Configuração de redes domésticas</li>
+  </ul>
+</div>
+🎮 Funcionalidades Interativas
+Menu Flutuante
+
+Ícones laterais (GitHub, LinkedIn) com:
+
+hover: Glow neon + SFX
+
+click: Animação de "pixel burst"
+
+Transições entre Páginas
+
+GIF do Megaman "empurrando" a tela (usar IntersectionObserver)
+
+Som de teleporte 8-bit
+
+Terminal de Comandos (Blog)
+
+Digitar view projects abre a página de projetos
+
+Efeito de texto digitando com SFX de teclado
+
+Easter Eggs
+
+Código Konami: ↑↑↓↓←→←→BA → Ativa minigame no footer
+
+Clique no avatar: Tela glitcha por 2 segundos (filter: hue-rotate(90deg))
+
+Modo Speedrun
+
+Timer no canto + ranking fictício
+
+Segurar Shift acelera animações
+
+⚙️ Tecnologias (Vanilla Only)
+Funcionalidade	Técnica Usada
+Animações	CSS @keyframes + JS requestAnimationFrame
+Controle de Áudio	Howler.js (apenas para SFX)
+Responsividade	CSS Grid + Media Queries
+Persistência (Achievements)	localStorage
+📋 Checklist de Entrega
+Páginas HTML (12+): Home, Sobre, Currículo, Projetos (4-7), Skills, Blog, Contato
+
+Assets otimizados: Imagens em .webp, áudios em .mp3 (128kbps)
+
+Interações: Hover menus, transições, easter eggs
+
+Dados fictícios integrados (cursos, experiência, etc.)
+
+Mobile-friendly: Botões grandes (48px), gestos de swipe
+
+💡 Extras Recomendados
+Botão "Save State" → Salva scroll atual no localStorage
+
+Efeito CRT → Adicionar overlay de "scanlines" via CSS (linear-gradient)
+
+Créditos Secretos → Página oculta acessível via Alt+F7
+
+🎯 Prioridade Máxima:
+
+Imersão sonora (música/SFX em todas ações)
+
+Performance (zero lag mesmo com animações)
+
+Fidelidade ao tema 8-bit (pixel art, cores retro)
+
+Quer ajustar algum item ou adicionar mais detalhes técnicos?
+
+esta incluso que tem q ser compativel com servidor vercel?
+Aqui está a versão atualizada com compatibilidade explícita para Vercel e todos os seus requisitos anteriores, em formato de briefing técnico completo:
+
+🚀 Solicitação para IA: Portfólio 8-bit (Vercel-Compatible)
+✅ Requisitos de Hospedagem no Vercel
+
+1. **Estrutura de Arquivos**:  
+   - Todos os assets em `/public` (Vercel automaticamente serve estáticos)  
+   - Páginas HTML na raiz (ex.: `sobre.html`, não `/pages/sobre.html`)  
+
+2. **Configuração Extra**:  
+   - Adicionar `vercel.json` para redirecionamentos:  
+     ```json
+     {
+       "routes": [{ "handle": "filesystem" }],
+       "cleanUrls": true
+     }
+     ```
+
+3. **Otimizações para Vercel**:  
+   - Pré-carregar fontes (`press-start-2p.woff2`) via `<link rel="preload">`  
+   - Limitar áudios a <500KB cada (evitar limites de deploy)  
+
+🔧 Adaptações Técnicas para o Vercel
+1. Estrutura de Pastas (Otimizada)
+
+/portfolio_8bit/
+├── /public/           # Pasta obrigatória no Vercel
+│   ├── /assets/       # Sprites, áudios, fonts
+│   └── favicon.ico    # Ícone 8-bit
+├── sobre.html         # Páginas na raiz
+├── index.html         # Home
+└── vercel.json        # Config específica
+
+2. Controle de Áudio (Howler.js Modificado)
+
+// scripts.js - Código Vercel-friendly
+if (typeof window !== 'undefined') { // Evita SSR breaks
+  import('howler').then(({ Howl }) => {
+    const sfx = new Howl({ src: ['/assets/audio/menu-click.mp3'] }); // Caminho absoluto
+  });
+}
+
+3. Animações CSS (Performance-Critical)	
+
+/* style.css - Evitar compositing pesado */
+.pixel-art {
+  will-change: transform; /* Otimiza animações */
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+Todos os meus Dados Fictícios Integrados
+Exemplo: Página "Currículo"
+
+<!-- curriculo.html -->
+<section class="nes-container">
+  <h2>CERTIFICADOS</h2>
+  <div class="certificados">
+    <!-- Gerado dinamicamente via JS para facilitar manutenção -->
+    <script>
+      const cursos = [
+        { nome: "Programador Web", instituicao: "IFRS", ano: 2022 },
+        { nome: "Windows Server 2016", instituicao: "IFRS", ano: 2022 },
+        // ... +40 cursos aqui ...
+      ];
+      document.querySelector('.certificados').innerHTML = cursos.map(curso => `
+        <div class="curso">
+          <p>${curso.nome} – ${curso.instituicao} (${curso.ano})</p>
+        </div>
+      `).join('');
+    </script>
+  </div>
+</section>
+
+Funcionalidades Chave (Vercel-Proof)
+Feature	Solução Vercel-Compatible
+Loading Screen	GIF animado servido via /public
+Formulário Contato	FormSubmit.co (sem backend)
+Achievements	localStorage (client-side only)
+SPA-like Nav	history.pushState() + CSS transitions
+
+
+ Testes Pré-Deploy
+Localmente:
+
+npm install -g serve
+serve -s ./
+
+No Vercel:
+
+Conectar repositório GitHub → Deploy automático
+
+Verificar logs por erros de caminhos (404 em assets)
+
+Entregáveis Esperados
+Código 100% estático (zero APIs, zero Node.js)
+
+Build Size: <5MB (limite free do Vercel)
+
+SEO Básico:
+
+<!-- index.html -->
+<meta name="theme-color" content="#8A2BE2">
+<meta property="og:image" content="/assets/screenshot.png">
+
+"Garanta que todos os caminhos de arquivos usem caminhos absolutos (ex.: /assets/audio/bg.mp3) para funcionar tanto localmente quanto no Vercel após o deploy."
