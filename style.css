@@ -21,6 +21,8 @@
     --font-main: 'Press Start 2P', monospace;
 }
 
+
+
 body {
     font-family: var(--font-main);
     background: var(--color-background);
@@ -127,6 +129,30 @@ body::before {
     to { width: 100%; }
 }
 
+/* controle de audio */
+.audio-controls-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.audio-control-item {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.audio-control-item:hover {
+    transform: scale(1.05);
+}
+
+.menu-icon i {
+    font-size: 1.2em;
+}
+/* controle de audio */
+
 /* Menu Flutuante */
 .floating-menu {
     position: fixed;
@@ -184,6 +210,25 @@ body::before {
 .menu-label {
     font-size: 8px;
     white-space: nowrap;
+}
+
+
+/* Estilo para os controles de áudio no topo */
+.audio-controls-top {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.audio-control {
+    cursor: pointer;
+}
+
+.audio-control .menu-icon i {
+    transition: all 0.3s;
 }
 
 /* Controles de áudio */

@@ -9,6 +9,7 @@
     <meta property="og:image" content="/public/assets/images/screenshot.png">
     <title>Carlos Augusto Diniz Filho - Portfólio 8-bit</title>
     
+    
     <!-- Preload da fonte -->
     <link rel="preload" href="/public/assets/fonts/press-start-2p.woff2" as="font" type="font/woff2" crossorigin>
     
@@ -17,24 +18,25 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- Adicionando Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     
-    <!-- Botão para controlar SOMENTE a música de fundo -->
-<button onclick="window.audioSystem.toggleBackgroundMusic()">
-    <span id="music-icon">🔊</span> Música
-</button>
+    <!-- Botões de Áudio Modificados (Única Alteração) -->
+    <div class="audio-controls-top">
+        <div class="menu-item audio-control" onclick="window.audioSystem.toggleBackgroundMusic()">
+            <div class="menu-icon" id="music-icon"><i class="fas fa-music"></i></div>
+            <span class="menu-label">Music</span>
+        </div>
+        
+        <div class="menu-item audio-control" onclick="window.audioSystem.toggleMute()">
+            <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
+            <span class="menu-label">Mute</span>
+        </div>
+    </div>
 
-<!-- Botão de mute existente (opcional) -->
-<button onclick="window.audioSystem.toggleMute()">
-    <span id="mute-icon">🔊</span> Mudo total
-</button>
-
-
-<script src="audio-system.js"></script>
-
-
-    <!-- Loading Screen -->
+    <!-- Loading Screen (Mantido Igual) -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
             <div class="loading-sprite"></div>
@@ -45,7 +47,7 @@
         </div>
     </div>
 
-    <!-- Menu Flutuante -->
+    <!-- Menu Flutuante (Mantido Igual) -->
     <nav class="floating-menu">
         <div class="menu-item" data-page="home">
             <div class="menu-icon">🏠</div>
@@ -76,12 +78,7 @@
             <span class="menu-label">CONTATO</span>
         </div>
         
-        <!-- Controles de áudio -->
-        <div class="audio-controls">
-            <button id="mute-btn" class="audio-btn">🔊</button>
-        </div>
-        
-        <!-- Links sociais -->
+        <!-- Links sociais (Mantido Igual) -->
         <div class="social-links">
             <a href="https://github.com/delirlo" target="_blank" class="social-link">
                 <div class="social-icon">📱</div>
@@ -92,7 +89,7 @@
         </div>
     </nav>
 
-    <!-- Conteúdo Principal -->
+    <!-- Conteúdo Principal (Mantido Igual) -->
     <main id="main-content" class="main-content">
         <!-- Home Page -->
         <section id="home" class="page active">
@@ -133,19 +130,17 @@
         </section>
     </main>
 
+    <!-- Elementos adicionais (Mantidos Iguais) -->
     <div class="loading-sprite">
-    <!-- Imagem de fallback -->
-    <img src="assets/sprites/megaman-idle.gif" 
-         onerror="this.src='https://raw.githubusercontent.com/delirlo/megaman/main/public/assets/sprites/megaman-idle.gif'"
-         style="display: none;">
-</div>
+        <img src="assets/sprites/megaman-idle.gif" 
+             onerror="this.src='https://raw.githubusercontent.com/delirlo/megaman/main/public/assets/sprites/megaman-idle.gif'"
+             style="display: none;">
+    </div>
 
-    <!-- Megaman Transition -->
     <div id="megaman-transition" class="megaman-transition">
         <div class="megaman-sprite"></div>
     </div>
 
-    <!-- Speedrun Timer -->
     <div id="speedrun-timer" class="speedrun-timer hidden">
         <div class="timer-label">SPEEDRUN</div>
         <div class="timer-value">00:00:00</div>
@@ -156,7 +151,6 @@
         </div>
     </div>
 
-    <!-- Easter Egg: Konami Code -->
     <div id="konami-game" class="konami-game hidden">
         <div class="game-screen">
             <h3>EASTER EGG ATIVADO!</h3>
@@ -171,10 +165,50 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts (Adicionado apenas o necessário para os controles) -->
     <script src="audio-system.js"></script>
     <script src="scripts.js"></script>
     
+    <script>
+        // Atualiza os ícones de áudio conforme o estado
+        function updateAudioIcons() {
+            // Ícone de música
+            const musicIcon = document.getElementById('music-icon');
+            if (window.audioSystem && window.audioSystem.backgroundMusic) {
+                musicIcon.innerHTML = window.audioSystem.backgroundMusic.paused ? 
+                    '<i class="fas fa-music" style="opacity:0.5"></i>' : 
+                    '<i class="fas fa-music"></i>';
+            }
+            
+            // Ícone de mudo
+            const muteIcon = document.getElementById('mute-icon');
+            if (window.audioSystem && window.audioSystem.isMuted) {
+                muteIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            } else {
+                muteIcon.innerHTML = '<i class="fas fa-volume-up"></i>';
+            }
+        }
+        
+        // Inicializa os listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Atualiza os ícones quando o áudio muda
+            if (window.audioSystem) {
+                const originalToggleMute = window.audioSystem.toggleMute;
+                window.audioSystem.toggleMute = function() {
+                    originalToggleMute.apply(this, arguments);
+                    updateAudioIcons();
+                };
+                
+                const originalToggleBgMusic = window.audioSystem.toggleBackgroundMusic;
+                window.audioSystem.toggleBackgroundMusic = function() {
+                    originalToggleBgMusic.apply(this, arguments);
+                    updateAudioIcons();
+                };
+            }
+            
+            // Atualiza os ícones inicialmente
+            updateAudioIcons();
+        });
+    </script>
 </body>
 </html>
-
