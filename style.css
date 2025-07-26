@@ -86,7 +86,7 @@ body::before {
 .loading-sprite {
     width: 64px;
     height: 64px;
-    background: url('https://delirlo.github.io/megaman/assets/sprites/m2.gif') no-repeat center;
+    background: url('https://delirlo.github.io/megaman/assets/sprites/megaman-idle.gif') no-repeat center;
     background-size: contain;
     margin: 0 auto 20px;
     animation: bounce 1s infinite;
