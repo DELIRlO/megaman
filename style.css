@@ -84,8 +84,8 @@ body::before {
 }
 
 .loading-sprite {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
     background: url('https://delirlo.github.io/megaman/assets/sprites/carregando.gif') no-repeat center;
     background-size: contain;
     margin: 0 auto 20px;
