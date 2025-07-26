@@ -19,6 +19,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
+    <!-- Botão para controlar SOMENTE a música de fundo -->
+<button onclick="window.audioSystem.toggleBackgroundMusic()">
+    <span id="music-icon">🔊</span> Música
+</button>
+
+<!-- Botão de mute existente (opcional) -->
+<button onclick="window.audioSystem.toggleMute()">
+    <span id="mute-icon">🔊</span> Mudo total
+</button>
+
+
+<script src="audio-system.js"></script>
+
+
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
@@ -159,6 +174,7 @@
     <!-- Scripts -->
     <script src="audio-system.js"></script>
     <script src="scripts.js"></script>
+    
 </body>
 </html>
 
