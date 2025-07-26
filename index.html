@@ -17,6 +17,7 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+<<<<<<< HEAD
 </head>
 <body>
     
@@ -33,6 +34,64 @@
 
 <script src="audio-system.js"></script>
 
+=======
+    
+    <style>
+        /* NOVOS ESTILOS PARA OS BOTÕES RETRÔ */
+        .retro-audio-btn {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            background-color: #222;
+            border: 3px solid #8A2BE2;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+            z-index: 1000;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .retro-audio-btn:hover {
+            background-color: #8A2BE2;
+            transform: scale(1.1);
+        }
+        
+        .retro-audio-btn.active {
+            background-color: #8A2BE2;
+            color: #000;
+        }
+        
+        #music-toggle {
+            top: 15px;
+            left: 15px;
+        }
+        
+        #mute-toggle {
+            top: 15px;
+            left: 65px;
+        }
+        
+        /* Remove estilos padrão dos botões */
+        button {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- NOVOS BOTÕES RETRÔ -->
+    <button id="music-toggle" class="retro-audio-btn" onclick="window.audioSystem.toggleBackgroundMusic()" title="Música ON/OFF">♫</button>
+    <button id="mute-toggle" class="retro-audio-btn" onclick="window.audioSystem.toggleMute()" title="Mudo ON/OFF">🔊</button>
+>>>>>>> 9038818 (:bug: :robot:)
 
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
@@ -76,7 +135,11 @@
             <span class="menu-label">CONTATO</span>
         </div>
         
+<<<<<<< HEAD
         <!-- Controles de áudio -->
+=======
+        <!-- Controles de áudio (opcional - pode remover se quiser) -->
+>>>>>>> 9038818 (:bug: :robot:)
         <div class="audio-controls">
             <button id="mute-btn" class="audio-btn">🔊</button>
         </div>
@@ -171,7 +234,89 @@
         </div>
     </div>
 
+    <!-- Elemento de áudio para a música de fundo -->
+    <audio id="background-music" loop>
+        <source src="/public/assets/audio/background-music.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- Scripts -->
+<<<<<<< HEAD
+=======
+    <script>
+        // Sistema de áudio atualizado para os novos botões
+        window.audioSystem = {
+            init: function() {
+                this.bgMusic = document.getElementById('background-music');
+                this.musicToggle = document.getElementById('music-toggle');
+                this.muteToggle = document.getElementById('mute-toggle');
+                
+                // Configuração inicial
+                this.bgMusic.volume = 0.5;
+                
+                // Tenta reproduzir a música automaticamente
+                const playPromise = this.bgMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        this.updateMusicIcon(true);
+                    }).catch(error => {
+                        this.updateMusicIcon(false);
+                    });
+                }
+            },
+            
+            toggleBackgroundMusic: function() {
+                if (this.bgMusic.paused) {
+                    this.bgMusic.play();
+                    this.updateMusicIcon(true);
+                } else {
+                    this.bgMusic.pause();
+                    this.updateMusicIcon(false);
+                }
+            },
+            
+            toggleMute: function() {
+                this.bgMusic.muted = !this.bgMusic.muted;
+                this.updateMuteIcon();
+            },
+            
+            updateMusicIcon: function(isPlaying) {
+                this.musicToggle.textContent = isPlaying ? '■' : '♫';
+                this.musicToggle.title = isPlaying ? 'Pausar música' : 'Tocar música';
+            },
+            
+            updateMuteIcon: function() {
+                const isMuted = this.bgMusic.muted;
+                this.muteToggle.textContent = isMuted ? '🔇' : '🔊';
+                this.muteToggle.title = isMuted ? 'Desativar mudo' : 'Ativar mudo';
+                
+                if (isMuted) {
+                    this.muteToggle.classList.add('active');
+                } else {
+                    this.muteToggle.classList.remove('active');
+                }
+            }
+        };
+
+        // Inicializa o sistema de áudio quando a página carregar
+        window.addEventListener('DOMContentLoaded', function() {
+            window.audioSystem.init();
+            
+            // Atualiza estados quando a música é pausada/continuada
+            const bgMusic = document.getElementById('background-music');
+            bgMusic.addEventListener('pause', function() {
+                if (!bgMusic.ended) {
+                    window.audioSystem.updateMusicIcon(false);
+                }
+            });
+            
+            bgMusic.addEventListener('play', function() {
+                window.audioSystem.updateMusicIcon(true);
+            });
+        });
+    </script>
+    
+>>>>>>> 9038818 (:bug: :robot:)
     <script src="audio-system.js"></script>
     <script src="scripts.js"></script>
     
