@@ -249,84 +249,66 @@
 
     <!-- SISTEMA DE SCROLL HORIZONTAL ARRASTÁVEL -->
     <script>
-// SCROLL HORIZONTAL ARRASTÁVEL - VERSÃO OTIMIZADA
-document.addEventListener('DOMContentLoaded', function() {
+// SCROLL HORIZONTAL À PROVA DE FALHAS
+document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.menu-scroll-container');
-    const menu = container.querySelector('.menu-scroll');
-    let isDragging = false;
-    let startX, scrollLeft;
-    let momentumId;
+    if (!container) {
+        console.error('Elemento .menu-scroll-container não encontrado!');
+        return;
+    }
 
-    // Configurações iniciais CRÍTICAS
+    // 1. CONFIGURAÇÕES ESSENCIAIS (funciona no seu HTML atual)
     container.style.overflowX = 'auto';
     container.style.webkitOverflowScrolling = 'touch';
     container.style.touchAction = 'pan-x';
-    menu.style.display = 'inline-block';
+    container.style.cursor = 'grab';
+    
+    const menu = container.querySelector('.menu-scroll') || container;
+    menu.style.display = 'inline-flex';
     menu.style.whiteSpace = 'nowrap';
+    menu.style.gap = '15px';
 
-    // Função para cancelar momentum
-    const cancelMomentum = () => {
-        cancelAnimationFrame(momentumId);
-    };
-
-    // Mouse/Touch Down
-    const handleStart = (clientX) => {
-        isDragging = true;
-        startX = clientX - container.offsetLeft;
-        scrollLeft = container.scrollLeft;
+    // 2. CONTROLE DE ARRASTE (simplificado e eficaz)
+    let pos = { left: 0, x: 0 };
+    
+    const mouseDown = (e) => {
+        pos = {
+            left: container.scrollLeft,
+            x: e.clientX || e.touches[0].clientX
+        };
         container.style.cursor = 'grabbing';
         container.style.userSelect = 'none';
-        cancelMomentum();
     };
 
-    // Mouse/Touch Move
-    const handleMove = (clientX) => {
-        if (!isDragging) return;
-        const x = clientX - container.offsetLeft;
-        const walk = (x - startX) * 1.8; // Ajuste de sensibilidade
-        container.scrollLeft = scrollLeft - walk;
+    const mouseMove = (e) => {
+        if (!pos.x) return;
+        const dx = (e.clientX || e.touches[0].clientX) - pos.x;
+        container.scrollLeft = pos.left - dx;
     };
 
-    // Mouse/Touch Up
-    const handleEnd = () => {
-        isDragging = false;
+    const mouseUp = () => {
         container.style.cursor = 'grab';
-        container.style.removeProperty('user-select');
+        container.style.userSelect = '';
+        pos.x = 0;
     };
 
-    // Eventos de Mouse
-    container.addEventListener('mousedown', (e) => {
-        handleStart(e.clientX);
-    });
+    // 3. EVENTOS (mouse + touch)
+    container.addEventListener('mousedown', mouseDown);
+    container.addEventListener('touchstart', mouseDown, { passive: false });
 
-    document.addEventListener('mousemove', (e) => {
-        handleMove(e.clientX);
-    });
-
-    document.addEventListener('mouseup', handleEnd);
-
-    // Eventos de Touch
-    container.addEventListener('touchstart', (e) => {
-        handleStart(e.touches[0].clientX);
-    }, { passive: false });
-
+    document.addEventListener('mousemove', mouseMove);
     document.addEventListener('touchmove', (e) => {
-        handleMove(e.touches[0].clientX);
+        mouseMove(e);
+        e.preventDefault();
     }, { passive: false });
 
-    document.addEventListener('touchend', handleEnd);
+    document.addEventListener('mouseup', mouseUp);
+    document.addEventListener('touchend', mouseUp);
 
-    // Inertia/Momentum
-    container.addEventListener('scroll', () => {
-        cancelMomentum();
-    });
-
-    // Impede scroll vertical acidental
-    container.addEventListener('wheel', (e) => {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-            e.preventDefault();
-        }
-    }, { passive: false });
+    // 4. GARANTIA DE FUNCIONAMENTO (force reflow)
+    setTimeout(() => {
+        container.style.overflowX = 'auto';
+    }, 100);
 });
 </script>
 </body>
