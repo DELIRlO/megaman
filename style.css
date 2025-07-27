@@ -1156,33 +1156,4 @@ body::before {
 }
 
 
-.menu-scroll-container {
-  width: 100%;
-  overflow-x: auto; /* Permite rolagem horizontal */
-  -webkit-overflow-scrolling: touch; /* Suave no iOS */
-  white-space: nowrap; /* Itens na mesma linha */
-  background: #000; /* Fundo preto (estilo Megaman) */
-  padding: 10px 0;
-}
 
-.menu-scroll {
-  display: inline-block; /* Mantém itens na linha */
-  padding: 0;
-  margin: 0;
-}
-
-.menu-scroll li {
-  display: inline-block; /* Itens lado a lado */
-  margin: 0 10px;
-}
-
-.menu-scroll a {
-  color: #00f0ff; /* Azul do Megaman */
-  text-decoration: none;
-  font-size: 16px;
-}
-
-/* Esconde a barra de rolagem (opcional) */
-.menu-scroll-container::-webkit-scrollbar {
-  display: none;
-}

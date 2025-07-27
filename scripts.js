@@ -634,7 +634,6 @@ function updateSpeedrunTimer() {
 
 
 
-
 // Função global para fechar o easter egg (chamada pelo HTML)
 window.closeKonamiGame = closeKonamiGame;
 
