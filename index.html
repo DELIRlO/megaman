@@ -249,67 +249,85 @@
 
     <!-- SISTEMA DE SCROLL HORIZONTAL ARRASTÁVEL -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.menu-scroll-container');
-            const menu = document.querySelector('.menu-scroll');
-            let isDragging = false;
-            let startX, scrollLeft;
+// SCROLL HORIZONTAL ARRASTÁVEL - VERSÃO OTIMIZADA
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector('.menu-scroll-container');
+    const menu = container.querySelector('.menu-scroll');
+    let isDragging = false;
+    let startX, scrollLeft;
+    let momentumId;
 
-            // Configurações iniciais
-            container.style.cursor = 'grab';
+    // Configurações iniciais CRÍTICAS
+    container.style.overflowX = 'auto';
+    container.style.webkitOverflowScrolling = 'touch';
+    container.style.touchAction = 'pan-x';
+    menu.style.display = 'inline-block';
+    menu.style.whiteSpace = 'nowrap';
 
-            // Eventos de mouse
-            container.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                startX = e.pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-                container.style.cursor = 'grabbing';
-            });
+    // Função para cancelar momentum
+    const cancelMomentum = () => {
+        cancelAnimationFrame(momentumId);
+    };
 
-            container.addEventListener('mouseup', () => {
-                isDragging = false;
-                container.style.cursor = 'grab';
-            });
+    // Mouse/Touch Down
+    const handleStart = (clientX) => {
+        isDragging = true;
+        startX = clientX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+        container.style.cursor = 'grabbing';
+        container.style.userSelect = 'none';
+        cancelMomentum();
+    };
 
-            container.addEventListener('mouseleave', () => {
-                isDragging = false;
-                container.style.cursor = 'grab';
-            });
+    // Mouse/Touch Move
+    const handleMove = (clientX) => {
+        if (!isDragging) return;
+        const x = clientX - container.offsetLeft;
+        const walk = (x - startX) * 1.8; // Ajuste de sensibilidade
+        container.scrollLeft = scrollLeft - walk;
+    };
 
-            container.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 1.5;
-                container.scrollLeft = scrollLeft - walk;
-            });
+    // Mouse/Touch Up
+    const handleEnd = () => {
+        isDragging = false;
+        container.style.cursor = 'grab';
+        container.style.removeProperty('user-select');
+    };
 
-            // Eventos de touch (mobile)
-            container.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                startX = e.touches[0].pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-            }, { passive: false });
+    // Eventos de Mouse
+    container.addEventListener('mousedown', (e) => {
+        handleStart(e.clientX);
+    });
 
-            container.addEventListener('touchend', () => {
-                isDragging = false;
-            });
+    document.addEventListener('mousemove', (e) => {
+        handleMove(e.clientX);
+    });
 
-            container.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                const x = e.touches[0].pageX - container.offsetLeft;
-                const walk = (x - startX) * 1.5;
-                container.scrollLeft = scrollLeft - walk;
-            }, { passive: false });
+    document.addEventListener('mouseup', handleEnd);
 
-            // Impede o scroll vertical acidental
-            container.addEventListener('wheel', (e) => {
-                if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-        });
-    </script>
+    // Eventos de Touch
+    container.addEventListener('touchstart', (e) => {
+        handleStart(e.touches[0].clientX);
+    }, { passive: false });
+
+    document.addEventListener('touchmove', (e) => {
+        handleMove(e.touches[0].clientX);
+    }, { passive: false });
+
+    document.addEventListener('touchend', handleEnd);
+
+    // Inertia/Momentum
+    container.addEventListener('scroll', () => {
+        cancelMomentum();
+    });
+
+    // Impede scroll vertical acidental
+    container.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+});
+</script>
 </body>
 </html>

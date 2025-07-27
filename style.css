@@ -1157,3 +1157,24 @@ body::before {
 
 
 
+.menu-scroll-container {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    width: 100%;
+    padding: 10px 0;
+    cursor: grab;
+    scrollbar-width: none; /* Firefox */
+}
+
+.menu-scroll-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.menu-scroll {
+    display: inline-flex; /* Mantém itens alinhados */
+    user-select: none;
+}
+
+.menu-scroll > * {
+    flex-shrink: 0; /* Impede que os itens encolham */
+}
