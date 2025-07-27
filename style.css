@@ -1121,3 +1121,39 @@ body::before {
         font-size: 14px;
     }
 }
+
+/* Estilo para os controles sociais */
+.menu-item.social-control {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.menu-item.social-control a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.menu-item.social-control .menu-icon {
+    font-size: 1.2em;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.menu-item.social-control:hover .menu-icon {
+    color: #8A2BE2;
+    transform: scale(1.1);
+}
+
+/* Ajuste de alinhamento */
+.audio-controls-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
