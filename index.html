@@ -24,6 +24,8 @@
 <body>
     
     <!-- Botões de Áudio Modificados (Única Alteração) -->
+     <div class="menu-scroll-container">
+  <ul class="menu-scroll">
    <div class="audio-controls-top">
     <!-- Botões de áudio existentes -->
     <div class="menu-item audio-control" onclick="window.audioSystem.toggleBackgroundMusic()" style="width: 90px; height: 40px;">
@@ -35,8 +37,6 @@
         <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
         <span class="menu-label">Mute</span>
     </div>
-
-    <!-- Redes sociais - NOVOS BOTÕES -->
      <!-- Redes sociais - ESTRUTURA CORRIGIDA -->
     <a href="https://github.com/delirlo" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="GitHub">
         <div class="menu-icon"><i class="fab fa-github"></i></div>
@@ -53,6 +53,8 @@
       <a href="https://t.me/ysneshy2025" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="LinkedIn">
     <div class="menu-icon"><i class="fab fa-telegram"></i></div>  
     </a>  
+    </ul>
+</div>
 </div>
 </div>
 
@@ -230,6 +232,52 @@
             updateAudioIcons();
         });
     </script>
-    
+    <script>
+  const menuScroll = document.querySelector('.menu-scroll');
+  let isDragging = false;
+  let startX, scrollLeft; // Corrigido: "scrollleft" → "scrollLeft"
+
+  // Eventos para mouse
+  menuScroll.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.pageX - menuScroll.offsetLeft;
+    scrollLeft = menuScroll.scrollLeft;
+  });
+
+  menuScroll.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  menuScroll.addEventListener('mouseleave', () => { // Corrigido: "mouselave" → "mouseleave"
+    isDragging = false;
+  });
+
+  menuScroll.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - menuScroll.offsetLeft;
+    const walk = (x - startX) * 2;
+    menuScroll.scrollLeft = scrollLeft - walk;
+  });
+
+  // Eventos para touch (celular)
+  menuScroll.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].pageX - menuScroll.offsetLeft;
+    scrollLeft = menuScroll.scrollLeft;
+  });
+
+  menuScroll.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+
+  menuScroll.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.touches[0].pageX - menuScroll.offsetLeft;
+    const walk = (x - startX) * 2;
+    menuScroll.scrollLeft = scrollLeft - walk;
+  });
+</script>
 </body>
 </html>
