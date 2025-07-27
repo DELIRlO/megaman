@@ -9,6 +9,7 @@
     <meta property="og:image" content="/public/assets/images/screenshot.png">
     <title>Carlos Augusto Diniz Filho - Portfólio 8-bit</title>
     
+    
     <!-- Preload da fonte -->
     <link rel="preload" href="https://delirlo.github.io/megaman/assets/fonts/press-start-2p.woff2" as="font" type="font/woff2" crossorigin>
     
@@ -19,65 +20,119 @@
     <link rel="stylesheet" href="style.css">
     <!-- Adicionando Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        /* ESTILOS PARA SCROLL HORIZONTAL */
-        .menu-scroll-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            touch-action: pan-x;
-            padding: 10px 0;
-            width: 100%;
-        }
-        .menu-scroll {
-            display: inline-block;
-            white-space: nowrap;
-            padding: 0 20px;
-        }
-        /* Esconde a barra de scroll */
-        .menu-scroll-container::-webkit-scrollbar {
-            display: none;
-        }
-    </style>
 </head>
 <body>
     
-    <!-- Menu Superior (Audio + Redes Sociais) -->
-    <div class="menu-scroll-container">
-        <div class="menu-scroll">
-            <div class="audio-controls-top">
-                <!-- Botões de áudio -->
-                <div class="menu-item audio-control" onclick="window.audioSystem.toggleBackgroundMusic()" style="width: 90px; height: 40px;">
-                    <div class="menu-icon" id="music-icon"><i class="fas fa-music"></i></div>
-                    <span class="menu-label">Music</span>
+    <!-- Botões de Áudio Modificados (Única Alteração) -->
+   <div class="audio-controls-top">
+    <!-- Botões de áudio existentes -->
+    <div class="menu-item audio-control" id="music-button" onclick="window.audioSystem.toggleBackgroundMusic()" style="width: 45px; height: 40px;">
+        <div class="menu-icon" id="music-icon"><i class="fas fa-music"></i></div>
+        <span class="menu-label">.</span>
+    </div>
+    
+    <div class="menu-item audio-control" onclick="window.audioSystem.toggleMute()" style="width: 45px; height: 40px;">
+        <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
+        <span class="menu-label">.</span>
+    </div>
+
+    <!-- Redes sociais - NOVOS BOTÕES -->
+     <!-- Redes sociais - ESTRUTURA CORRIGIDA -->
+    <a href="https://github.com/delirlo" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="GitHub">
+        <div class="menu-icon"><i class="fab fa-github"></i></div>
+    </a>
+    <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="LinkedIn">
+    <div class="menu-icon"><i class="fab fa-linkedin"></i></div>  
+    </a>  
+       <a href="https://instagram.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="GitHub">
+        <div class="menu-icon"><i class="fab fa-instagram"></i></div>
+    </a>
+    <a href="https://facebook.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="LinkedIn">
+    <div class="menu-icon"><i class="fab fa-facebook"></i></div> 
+    </a>  
+      <a href="https://t.me/ysneshy2025" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="LinkedIn">
+    <div class="menu-icon"><i class="fab fa-telegram"></i></div>  
+    </a>  
+</div>
+</div>
+
+    <!-- Atalho de Menu Móvel (3 pontos) -->
+    <div class="mobile-menu-shortcut" id="mobile-shortcut">
+        <div class="shortcut-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- Overlay de Menu Móvel -->
+    <div class="mobile-menu-overlay" id="mobile-overlay">
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-header">
+                <h3>MENU</h3>
+                <button class="close-menu" id="close-menu">✕</button>
+            </div>
+            
+            <div class="mobile-menu-grid">
+                <div class="mobile-menu-item" data-page="home">
+                    <div class="menu-icon">🏛️</div>
+                    <span class="menu-label">HOME</span>
                 </div>
-                
-                <div class="menu-item audio-control" onclick="window.audioSystem.toggleMute()" style="width: 90px; height: 40px;">
-                    <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
-                    <span class="menu-label">Mute</span>
+                <div class="mobile-menu-item" data-page="sobre">
+                    <div class="menu-icon">👨‍🚀</div>
+                    <span class="menu-label">SOBRE</span>
                 </div>
-                
-                <!-- Redes sociais -->
-                <a href="https://github.com/delirlo" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="GitHub">
-                    <div class="menu-icon"><i class="fab fa-github"></i></div>
-                </a>
-                <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="LinkedIn">
-                    <div class="menu-icon"><i class="fab fa-linkedin"></i></div>  
-                </a>  
-                <a href="https://instagram.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="Instagram">
-                    <div class="menu-icon"><i class="fab fa-instagram"></i></div>
-                </a>
-                <a href="https://facebook.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="Facebook">
-                    <div class="menu-icon"><i class="fab fa-facebook"></i></div> 
-                </a>  
-                <a href="https://t.me/ysneshy2025" target="_blank" class="menu-item social-control" style="width: 45px; height: 40px;" title="Telegram">
-                    <div class="menu-icon"><i class="fab fa-telegram"></i></div>  
-                </a>
+                <div class="mobile-menu-item" data-page="curriculo">
+                    <div class="menu-icon">📚</div>
+                    <span class="menu-label">CURRÍCULO</span>
+                </div>
+                <div class="mobile-menu-item" data-page="projetos">
+                    <div class="menu-icon">👨‍💻</div>
+                    <span class="menu-label">PROJETOS</span>
+                </div>
+                <div class="mobile-menu-item" data-page="skills">
+                    <div class="menu-icon">🚀</div>
+                    <span class="menu-label">SKILLS</span>
+                </div>
+                <div class="mobile-menu-item" data-page="blog">
+                    <div class="menu-icon">📕</div>
+                    <span class="menu-label">BLOG</span>
+                </div>
+                <div class="mobile-menu-item" data-page="contato">
+                    <div class="menu-icon">📡</div>
+                    <span class="menu-label">CONTATO</span>
+                </div>
+            </div>
+            
+            <div class="mobile-social-section">
+                <div class="mobile-social-title">REDES SOCIAIS</div>
+                <div class="mobile-social-grid">
+                    <a href="https://github.com/delirlo" target="_blank" class="mobile-social-item">
+                        <div class="social-icon"><i class="fab fa-github"></i></div>
+                        <span class="social-label">GitHub</span>
+                    </a>
+                    <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="mobile-social-item">
+                        <div class="social-icon"><i class="fab fa-linkedin"></i></div>
+                        <span class="social-label">LinkedIn</span>
+                    </a>
+                    <a href="https://instagram.com/ysneshy" target="_blank" class="mobile-social-item">
+                        <div class="social-icon"><i class="fab fa-instagram"></i></div>
+                        <span class="social-label">Instagram</span>
+                    </a>
+                    <a href="https://facebook.com/ysneshy" target="_blank" class="mobile-social-item">
+                        <div class="social-icon"><i class="fab fa-facebook"></i></div>
+                        <span class="social-label">Facebook</span>
+                    </a>
+                    <a href="https://t.me/ysneshy2025" target="_blank" class="mobile-social-item">
+                        <div class="social-icon"><i class="fab fa-telegram"></i></div>
+                        <span class="social-label">Telegram</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Loading Screen -->
+    <!-- Loading Screen (Mantido Igual) -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
             <div class="loading-sprite"></div>
@@ -88,7 +143,7 @@
         </div>
     </div>
 
-    <!-- Menu Flutuante -->
+    <!-- Menu Flutuante (Mantido Igual) -->
     <nav class="floating-menu">
         <div class="menu-item" data-page="home">
             <div class="menu-icon">🏛️</div>
@@ -119,18 +174,18 @@
             <span class="menu-label">CONTATO</span>
         </div>
         
-        <!-- Links sociais -->
-        <div class="social-links">
-            <a href="https://github.com/delirlo" target="_blank" class="social-link" title="GitHub">
-                <div class="social-icon"><i class="fab fa-github-alt"></i></div>
-            </a>
-            <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="social-link" title="LinkedIn">
-                <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
-            </a>
-        </div>
+        <!-- Links sociais (Mantido Igual) -->
+       <div class="social-links">
+    <a href="https://github.com/delirlo" target="_blank" class="social-link" title="GitHub">
+        <div class="social-icon"><i class="fab fa-github-alt"></i></div>
+    </a>
+    <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="social-link" title="LinkedIn">
+        <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
+    </a>
+</div>
     </nav>
 
-    <!-- Conteúdo Principal -->
+    <!-- Conteúdo Principal (Mantido Igual) -->
     <main id="main-content" class="main-content">
         <!-- Home Page -->
         <section id="home" class="page active">
@@ -171,7 +226,7 @@
         </section>
     </main>
 
-    <!-- Elementos adicionais -->
+    <!-- Elementos adicionais (Mantidos Iguais) -->
     <div class="loading-sprite">
         <img src="assets/sprites/megaman-idle.gif" 
              onerror="this.src='https://raw.githubusercontent.com/delirlo/megaman/main/assets/sprites/megaman-idle.gif'"
@@ -206,110 +261,76 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts (Adicionado apenas o necessário para os controles) -->
     <script src="audio-system.js"></script>
     <script src="scripts.js"></script>
     
     <script>
-        // Atualiza os ícones de áudio
+        // Atualiza os ícones de áudio conforme o estado
         function updateAudioIcons() {
+            // Ícone e botão de música
             const musicIcon = document.getElementById('music-icon');
-            if (window.audioSystem && window.audioSystem.backgroundMusic) {
-                musicIcon.innerHTML = window.audioSystem.backgroundMusic.paused ? 
-                    '<i class="fas fa-music" style="opacity:0.5"></i>' : 
-                    '<i class="fas fa-music"></i>';
+            const musicButton = document.getElementById('music-button');
+            
+            if (musicButton && musicIcon) {
+                // Verificar se a música está habilitada
+                const isMusicEnabled = window.audioSystem && window.audioSystem.backgroundMusicEnabled;
+                
+                if (!isMusicEnabled) {
+                    // Música desabilitada/pausada - piscar vermelho
+                    musicButton.classList.remove('music-button-playing');
+                    musicButton.classList.add('music-button-paused');
+                    console.log('Música pausada - aplicando classe music-button-paused');
+                } else {
+                    // Música habilitada/tocando - estado normal
+                    musicButton.classList.remove('music-button-paused');
+                    musicButton.classList.add('music-button-playing');
+                    console.log('Música tocando - aplicando classe music-button-playing');
+                }
             }
             
+            // Ícone de mudo
             const muteIcon = document.getElementById('mute-icon');
-            if (window.audioSystem && window.audioSystem.isMuted) {
-                muteIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            } else {
-                muteIcon.innerHTML = '<i class="fas fa-volume-up"></i>';
+            if (muteIcon && window.audioSystem) {
+                if (window.audioSystem.isMuted) {
+                    muteIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                } else {
+                    muteIcon.innerHTML = '<i class="fas fa-volume-up"></i>';
+                }
             }
         }
         
-        // Inicializa os listeners de áudio
+        // Inicializa os listeners
         document.addEventListener('DOMContentLoaded', function() {
-            if (window.audioSystem) {
-                const originalToggleMute = window.audioSystem.toggleMute;
-                window.audioSystem.toggleMute = function() {
-                    originalToggleMute.apply(this, arguments);
-                    updateAudioIcons();
-                };
+            // Aguardar inicialização do sistema de áudio
+            setTimeout(() => {
+                if (window.audioSystem) {
+                    // Interceptar função de toggle da música
+                    const originalToggleBgMusic = window.audioSystem.toggleBackgroundMusic;
+                    window.audioSystem.toggleBackgroundMusic = function() {
+                        const result = originalToggleBgMusic.apply(this, arguments);
+                        console.log('Toggle música - novo estado:', this.backgroundMusicEnabled);
+                        setTimeout(updateAudioIcons, 100);
+                        return result;
+                    };
+                    
+                    // Interceptar função de toggle do mudo
+                    const originalToggleMute = window.audioSystem.toggleMute;
+                    window.audioSystem.toggleMute = function() {
+                        const result = originalToggleMute.apply(this, arguments);
+                        setTimeout(updateAudioIcons, 100);
+                        return result;
+                    };
+                }
                 
-                const originalToggleBgMusic = window.audioSystem.toggleBackgroundMusic;
-                window.audioSystem.toggleBackgroundMusic = function() {
-                    originalToggleBgMusic.apply(this, arguments);
-                    updateAudioIcons();
-                };
-            }
-            updateAudioIcons();
+                // Atualizar ícones inicialmente
+                updateAudioIcons();
+                
+                // Atualizar periodicamente para sincronizar
+                setInterval(updateAudioIcons, 2000);
+            }, 1000);
         });
     </script>
-
-    <!-- SISTEMA DE SCROLL HORIZONTAL ARRASTÁVEL -->
-    <script>
-// SCROLL HORIZONTAL À PROVA DE FALHAS
-document.addEventListener('DOMContentLoaded', () => {
-    const container = document.querySelector('.menu-scroll-container');
-    if (!container) {
-        console.error('Elemento .menu-scroll-container não encontrado!');
-        return;
-    }
-
-    // 1. CONFIGURAÇÕES ESSENCIAIS (funciona no seu HTML atual)
-    container.style.overflowX = 'auto';
-    container.style.webkitOverflowScrolling = 'touch';
-    container.style.touchAction = 'pan-x';
-    container.style.cursor = 'grab';
     
-    const menu = container.querySelector('.menu-scroll') || container;
-    menu.style.display = 'inline-flex';
-    menu.style.whiteSpace = 'nowrap';
-    menu.style.gap = '15px';
-
-    // 2. CONTROLE DE ARRASTE (simplificado e eficaz)
-    let pos = { left: 0, x: 0 };
-    
-    const mouseDown = (e) => {
-        pos = {
-            left: container.scrollLeft,
-            x: e.clientX || e.touches[0].clientX
-        };
-        container.style.cursor = 'grabbing';
-        container.style.userSelect = 'none';
-    };
-
-    const mouseMove = (e) => {
-        if (!pos.x) return;
-        const dx = (e.clientX || e.touches[0].clientX) - pos.x;
-        container.scrollLeft = pos.left - dx;
-    };
-
-    const mouseUp = () => {
-        container.style.cursor = 'grab';
-        container.style.userSelect = '';
-        pos.x = 0;
-    };
-
-    // 3. EVENTOS (mouse + touch)
-    container.addEventListener('mousedown', mouseDown);
-    container.addEventListener('touchstart', mouseDown, { passive: false });
-
-    document.addEventListener('mousemove', mouseMove);
-    document.addEventListener('touchmove', (e) => {
-        mouseMove(e);
-        e.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('mouseup', mouseUp);
-    document.addEventListener('touchend', mouseUp);
-
-    // 4. GARANTIA DE FUNCIONAMENTO (force reflow)
-    setTimeout(() => {
-        container.style.overflowX = 'auto';
-    }, 100);
-});
-</script>
 </body>
 </html>

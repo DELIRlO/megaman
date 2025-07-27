@@ -582,52 +582,228 @@ body::before {
     color: var(--color-background);
 }
 
+/* Atalho de Menu Móvel (3 pontos) */
+.mobile-menu-shortcut {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    display: none;
+    width: 50px;
+    height: 50px;
+    background: rgba(138, 43, 226, 0.9);
+    border: 2px solid var(--color-secondary);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+}
+
+.mobile-menu-shortcut:hover {
+    background: var(--color-secondary);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.5);
+}
+
+.shortcut-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.shortcut-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--color-text);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-shortcut:hover .shortcut-dots span {
+    background: var(--color-background);
+}
+
+/* Overlay de Menu Móvel */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1002;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.show {
+    display: flex;
+    opacity: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobile-menu-content {
+    background: rgba(0, 0, 0, 0.98);
+    border: 2px solid var(--color-secondary);
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.mobile-menu-overlay.show .mobile-menu-content {
+    transform: scale(1);
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-primary);
+}
+
+.mobile-menu-header h3 {
+    color: var(--color-secondary);
+    font-size: 14px;
+    margin: 0;
+}
+
+.close-menu {
+    background: none;
+    border: none;
+    color: var(--color-text);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+
+.close-menu:hover {
+    color: var(--color-secondary);
+}
+
+.mobile-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.mobile-menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(138, 43, 226, 0.8);
+    border: 2px solid var(--color-secondary);
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 80px;
+    justify-content: center;
+    touch-action: manipulation;
+    border-radius: 10px;
+}
+
+.mobile-menu-item:hover,
+.mobile-menu-item:active {
+    background: var(--color-secondary);
+    color: var(--color-background);
+    box-shadow: 0 0 20px var(--color-secondary);
+    transform: scale(1.05);
+}
+
+.mobile-menu-item .menu-icon {
+    font-size: 20px;
+    margin-bottom: 8px;
+    margin-right: 0;
+}
+
+.mobile-menu-item .menu-label {
+    font-size: 8px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.mobile-social-section {
+    border-top: 1px solid var(--color-primary);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.mobile-social-title {
+    font-size: 10px;
+    color: var(--color-secondary);
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.mobile-social-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.mobile-social-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 255, 255, 0.8);
+    border: 2px solid var(--color-primary);
+    padding: 12px 8px;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+    min-height: 60px;
+    justify-content: center;
+    touch-action: manipulation;
+    border-radius: 8px;
+}
+
+.mobile-social-item:hover,
+.mobile-social-item:active {
+    background: var(--color-primary);
+    box-shadow: 0 0 20px var(--color-primary);
+    transform: scale(1.05);
+}
+
+.mobile-social-item .social-icon {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.mobile-social-item .social-label {
+    font-size: 6px;
+    text-align: center;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .main-content {
         margin-right: 0;
         padding: 10px;
+        padding-top: 80px; /* Espaço para atalho de menu */
     }
     
     .floating-menu {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        top: auto;
-        transform: none;
-        flex-direction: row;
-        justify-content: space-around;
-        background: rgba(0, 0, 0, 0.9);
-        padding: 10px;
-        border-top: 2px solid var(--color-secondary);
+        display: none; /* Ocultar menu desktop */
     }
     
-    .menu-item {
-        flex-direction: column;
-        padding: 8px;
-        min-width: 48px;
-        min-height: 48px;
+    .mobile-menu-shortcut {
+        display: flex; /* Mostrar atalho de 3 pontos */
     }
     
-    .menu-icon {
-        margin-right: 0;
-        margin-bottom: 2px;
-    }
-    
-    .menu-label {
-        font-size: 6px;
-    }
-    
-    .social-links {
-        flex-direction: row;
-        margin-top: 0;
-        margin-left: 10px;
-    }
-    
-    .audio-controls {
-        margin-top: 0;
-        margin-left: 10px;
+    .audio-controls-top {
+        top: 20px; /* Posição normal */
     }
     
     .hero-title {
@@ -645,6 +821,83 @@ body::before {
     .terminal {
         max-width: 100%;
     }
+    
+    /* Melhorar touch targets */
+    .menu-item,
+    .mobile-menu-item,
+    .mobile-social-item {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Animações para gestos de arrastar */
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* Estilo para botão de música piscante quando pausado */
+.music-button-paused {
+    animation: musicButtonBlink 1s infinite !important;
+    background-color: #ff0000 !important;
+    border-color: #ff0000 !important;
+}
+
+@keyframes musicButtonBlink {
+    0% {
+        background-color: #ff0000 !important;
+        border-color: #ff0000 !important;
+        box-shadow: 0 0 15px #ff0000 !important;
+        opacity: 1;
+    }
+    50% {
+        background-color: rgba(255, 0, 0, 0.3) !important;
+        border-color: #ff0000 !important;
+        box-shadow: 0 0 5px #ff0000 !important;
+        opacity: 0.7;
+    }
+    100% {
+        background-color: #ff0000 !important;
+        border-color: #ff0000 !important;
+        box-shadow: 0 0 15px #ff0000 !important;
+        opacity: 1;
+    }
+}
+
+.music-button-paused .menu-icon i {
+    color: #ffffff !important;
+    text-shadow: 0 0 5px #ffffff !important;
+}
+
+.music-button-playing {
+    background-color: rgba(138, 43, 226, 0.8) !important;
+    border-color: var(--color-secondary) !important;
+    animation: none !important;
+    box-shadow: none !important;
+}
+
+.music-button-playing .menu-icon i {
+    color: var(--color-text) !important;
+    text-shadow: none !important;
+}
+
+/* Hover states para botão de música - só aplicar quando não estiver piscando */
+.music-button-playing:hover {
+    background: var(--color-secondary) !important;
+    color: var(--color-background) !important;
+    box-shadow: 0 0 20px var(--color-secondary) !important;
+    transform: scale(1.1) !important;
+}
+
+.music-button-paused:hover {
+    /* Manter a animação de piscar mesmo no hover */
+    transform: scale(1.1) !important;
 }
 
 /* Efeitos especiais */
@@ -1157,50 +1410,3 @@ body::before {
 
 
 
-.menu-scroll-container {
-    -webkit-overflow-scrolling: touch;
-    overflow-x: auto;
-    width: 100%;
-    padding: 10px 0;
-    cursor: grab;
-    scrollbar-width: none; /* Firefox */
-}
-
-.menu-scroll-container::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-}
-
-.menu-scroll {
-    display: inline-flex; /* Mantém itens alinhados */
-    user-select: none;
-}
-
-.menu-scroll > * {
-    flex-shrink: 0; /* Impede que os itens encolham */
-}
-
-.menu-scroll-container {
-    width: 100vw;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
-    padding: 10px 0;
-    margin-left: -20px; /* Compensa padding */
-    scrollbar-width: none;
-    cursor: grab;
-}
-
-.menu-scroll-container::-webkit-scrollbar {
-    display: none;
-}
-
-.menu-scroll {
-    display: inline-flex;
-    gap: 15px;
-    padding: 0 20px;
-    user-select: none;
-}
-
-.menu-scroll > * {
-    flex: 0 0 auto;
-}

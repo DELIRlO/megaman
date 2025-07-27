@@ -12,11 +12,119 @@ const konamiSequence = [
 document.addEventListener('DOMContentLoaded', function() {
     initializeLoadingScreen();
     initializeMenu();
+    initializeMobileMenus();
     initializeTerminal();
     initializeEasterEggs();
     initializeSpeedrun();
     initializeAudioControls();
 });
+
+// Inicialização dos menus móveis
+function initializeMobileMenus() {
+    initializeMobileMenuShortcut();
+    initializeMobileMenuItems();
+}
+
+// Atalho de menu móvel (3 pontos)
+function initializeMobileMenuShortcut() {
+    const shortcut = document.getElementById('mobile-shortcut');
+    const overlay = document.getElementById('mobile-overlay');
+    const closeButton = document.getElementById('close-menu');
+    
+    if (!shortcut || !overlay || !closeButton) return;
+    
+    // Função para abrir o menu
+    function openMenu() {
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll
+        
+        if (window.audioSystem) {
+            window.audioSystem.play('menuSelect');
+        }
+    }
+    
+    // Função para fechar o menu
+    function closeMenu() {
+        overlay.classList.remove('show');
+        document.body.style.overflow = ''; // Restaurar scroll
+        
+        if (window.audioSystem) {
+            window.audioSystem.play('click');
+        }
+    }
+    
+    // Event listeners
+    shortcut.addEventListener('click', openMenu);
+    shortcut.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        openMenu();
+    });
+    
+    closeButton.addEventListener('click', closeMenu);
+    closeButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        closeMenu();
+    });
+    
+    // Fechar ao clicar fora do menu
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeMenu();
+        }
+    });
+    
+    // Fechar com tecla ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('show')) {
+            closeMenu();
+        }
+    });
+}
+
+// Inicializar eventos dos itens dos menus móveis
+function initializeMobileMenuItems() {
+    // Itens do menu
+    const menuItems = document.querySelectorAll('.mobile-menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('touchstart', () => {
+            if (window.audioSystem) {
+                window.audioSystem.play('menuHover');
+            }
+        });
+        
+        item.addEventListener('click', () => {
+            if (window.audioSystem) {
+                window.audioSystem.play('menuSelect');
+            }
+            const page = item.dataset.page;
+            if (page) {
+                navigateToPage(page);
+                // Fechar menu após navegação
+                const overlay = document.getElementById('mobile-overlay');
+                if (overlay) {
+                    overlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    });
+
+    // Links sociais móveis
+    const socialItems = document.querySelectorAll('.mobile-social-item');
+    socialItems.forEach(item => {
+        item.addEventListener('touchstart', () => {
+            if (window.audioSystem) {
+                window.audioSystem.play('menuHover');
+            }
+        });
+        
+        item.addEventListener('click', () => {
+            if (window.audioSystem) {
+                window.audioSystem.play('click');
+            }
+        });
+    });
+}
 
 // Controles de áudio
 function initializeAudioControls() {
@@ -631,8 +739,6 @@ function updateSpeedrunTimer() {
             `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 }
-
-
 
 // Função global para fechar o easter egg (chamada pelo HTML)
 window.closeKonamiGame = closeKonamiGame;
