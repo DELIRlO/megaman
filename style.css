@@ -23,6 +23,125 @@
 
 
 
+/* Estilo base para os botões do menu */
+.menu-item {
+    background: var(--pixel-green);
+    color: var(--arcade-black);
+    border: 3px solid var(--arcade-black);
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    position: relative;
+    border-radius: 0;
+    font-family: 'Press Start 2P', monospace;
+    cursor: none;
+}
+
+/* Efeito quando o mouse passa por cima */
+.menu-item:hover {
+    background: var(--pixel-yellow);
+    transform: translateY(-2px) rotate(2deg);
+    box-shadow: 
+        0 4px 0 var(--arcade-black),
+        0 0 12px var(--glow-yellow);
+}
+
+/* Efeito quando o botão é clicado */
+.menu-item:active {
+    transform: translateY(2px) rotate(-1deg);
+    box-shadow: 
+        0 2px 0 var(--arcade-black),
+        0 0 8px var(--glow-yellow);
+}
+
+/* Efeito nos ícones */
+.menu-icon {
+    transition: transform 0.2s ease;
+}
+
+.menu-item:hover .menu-icon {
+    transform: rotate(20deg) scale(1.2);
+}
+
+/* Estilo específico para os controles de áudio */
+.audio-control {
+    background: var(--pixel-blue);
+}
+
+.audio-control:hover {
+    background: var(--pixel-red);
+    box-shadow: 
+        0 4px 0 var(--arcade-black),
+        0 0 12px rgba(255, 0, 64, 0.6);
+}
+
+/* Estilo para os controles sociais */
+.social-control {
+    background: var(--pixel-blue);
+}
+
+.social-control:hover {
+    background: var(--pixel-magenta);
+    box-shadow: 
+        0 4px 0 var(--arcade-black),
+        0 0 12px rgba(255, 0, 255, 0.6);
+}
+
+/* Estilo para os itens do menu móvel */
+.mobile-menu-item {
+    background: var(--pixel-green);
+    color: var(--arcade-black);
+    border: 3px solid var(--arcade-black);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.mobile-menu-item:hover {
+    background: var(--pixel-yellow);
+    transform: translateY(-2px) rotate(2deg);
+    box-shadow: 
+        0 4px 0 var(--arcade-black),
+        0 0 12px var(--glow-yellow);
+}
+
+.mobile-menu-item:active {
+    transform: translateY(2px) rotate(-1deg);
+}
+
+/* Estilo para os itens sociais no menu móvel */
+.mobile-social-item {
+    background: var(--pixel-blue);
+    color: var(--arcade-black);
+    border: 3px solid var(--arcade-black);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-size: 0.7rem;
+}
+
+.mobile-social-item:hover {
+    background: var(--pixel-magenta);
+    transform: translateY(-2px) rotate(2deg);
+    box-shadow: 
+        0 4px 0 var(--arcade-black),
+        0 0 12px rgba(255, 0, 255, 0.6);
+}
+
 body {
     font-family: var(--font-main);
     background: var(--color-background);
@@ -181,7 +300,7 @@ body::before {
 
 .menu-item:hover {
     background: var(--color-secondary);
-    color: var(--color-background);
+    color: var(--color-text);
     box-shadow: 0 0 20px var(--color-secondary);
     transform: scale(1.1) translateZ(0);
 }
@@ -1411,5 +1530,46 @@ body::before {
 
 
 
+/* SEU CÓDIGO (MANTIDO INTEGRALMENTE) */
+.audio-controls-top .menu-icon,
+#music-button .menu-icon, 
+#mute-icon .menu-icon,
+.audio-controls-top .social-control .menu-icon {
+    all: unset;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    height: 100%;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 2;
+}
 
+/* APRIMORAMENTO DA ANIMAÇÃO (SEM QUEBRAR SEU CÓDIGO) expansao de animacao sem quebrar icons centralizados*/
+.audio-controls-top .menu-item:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2); /* Fundo branco sutil */
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Borda branca */
+    box-sizing: border-box;
+    animation: expandir 0.4s ease-out;
+    z-index: 1;
+    pointer-events: none; /* Não interfere no clique */
+}
 
+@keyframes expandir {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; } /* Aumentei para 1.5 para ficar mais visível */
+}
+
+/* SEU CONTROLE DE CAMADAS (PERFEITO) */
+.audio-controls-top .menu-item {
+    position: relative;
+    overflow: visible !important;
+}

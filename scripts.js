@@ -265,3 +265,15 @@ timerValue.textContent=`${hours.toString().padStart(2,'0')}:${minutes.toString()
 
 window.closeKonamiGame=closeKonamiGame;
 
+// Adiciona efeito de inclinação aleatória nos botões
+document.querySelectorAll('.menu-item, .mobile-menu-item, .mobile-social-item').forEach(button => {
+    button.addEventListener('mouseenter', () => {
+        // Gera um ângulo aleatório entre -5 e 5 graus
+        const angle = Math.random() * 10 - 5;
+        button.style.transform = `translateY(-2px) rotate(${angle}deg)`;
+    });
+    
+    button.addEventListener('mouseleave', () => {
+        button.style.transform = '';
+    });
+});
