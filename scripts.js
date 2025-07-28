@@ -146,7 +146,7 @@ default:page.innerHTML='<h1>PÁGINA EM CONSTRUÇÃO</h1><p>Esta página está se
 mainContent.appendChild(page);
 return page;}
 
-function createSobrePage(){
+function createSobrePage(){ 
 return`<div class="page-content"><h1>SOBRE MIM</h1><div class="about-section"><div class="about-avatar"><div class="avatar-large"></div></div><div class="about-text"><p>Desenvolvedor, programador e Técnico computacional autodidata com um olhar aguçado para computação e Redes.</p><p>Inovador e com grande conhecimento de técnicas voltadas a uma ótima experiência do usuário e público.</p><p>Meu principal objetivo é agregar com todo meu conhecimento e experiência que possuo na área de computação virtual.</p><p>Sou responsável, criativo, dinâmico e estratégico e estou à disposição para entrevistas e comprovações.</p></div></div><div class="stats-section"><div class="stat-item"><div class="stat-value">5+</div><div class="stat-label">ANOS DE EXPERIÊNCIA</div></div><div class="stat-item"><div class="stat-value">50+</div><div class="stat-label">CERTIFICADOS</div></div><div class="stat-item"><div class="stat-value">100+</div><div class="stat-label">PROJETOS</div></div></div></div>`;}
 
 function createCurriculoPage(){
@@ -177,7 +177,7 @@ const commands={
 'about':'Carlos Augusto Diniz Filho - Engenheiro da Computação especializado em desenvolvimento web e redes.',
 'skills':'JavaScript, HTML5, CSS3, Python, Java, React, Node.js, Linux, Windows Server, Arduino',
 'projects':'Portfólio 8-bit, Sistemas Arduino, Automação, Configuração de Redes',
-'contact':'E-mail: carlosaugustodiniz@outlook.com | LinkedIn: linkedin.com/in/smeshy/',
+'contact':'E-mail: carlosaugustodiniz@outlook.com | LinkedIn: linkedin.com/in/ysneshy/',
 'clear':'',
 'konami':'↑↑↓↓←→←→BA - Código secreto para easter egg!',
 'view projects':()=>navigateToPage('projetos')};
@@ -264,3 +264,4 @@ const timerValue=document.querySelector('.timer-value');
 timerValue.textContent=`${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;}}
 
 window.closeKonamiGame=closeKonamiGame;
+

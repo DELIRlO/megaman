@@ -236,3 +236,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', enableAudio, { once: true });
     document.addEventListener('keydown', enableAudio, { once: true });
 });
+
