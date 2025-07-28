@@ -277,3 +277,56 @@ document.querySelectorAll('.menu-item, .mobile-menu-item, .mobile-social-item').
         button.style.transform = '';
     });
 });
+
+
+
+// Botão Voltar ao Topo - Implementação robusta
+function initializeBackToTop() {
+    const backToTopButton = document.getElementById("back-to-top");
+    
+    if (!backToTopButton) {
+        console.warn("Botão 'back-to-top' não encontrado no DOM");
+        return;
+    }
+
+    // Verifica a posição de scroll e mostra/esconde o botão
+    function toggleBackToTop() {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add("show");
+        } else {
+            backToTopButton.classList.remove("show");
+        }
+    }
+
+    // Rolagem suave para o topo
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+        
+        // Tocar efeito sonoro se disponível
+        if(window.audioSystem) {
+            window.audioSystem.play('click');
+        }
+    }
+
+    // Event Listeners
+    window.addEventListener("scroll", toggleBackToTop);
+    backToTopButton.addEventListener("click", scrollToTop);
+    
+    // Inicialização
+    toggleBackToTop(); // Verifica estado inicial
+}
+
+// Adicione esta função à lista de inicializações no DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeLoadingScreen();
+    initializeMenu();
+    initializeMobileMenus();
+    initializeTerminal();
+    initializeEasterEggs();
+    initializeSpeedrun();
+    initializeAudioControls();
+    initializeBackToTop(); // Adicionado aqui
+});
