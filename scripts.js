@@ -18,6 +18,44 @@ initializeMobileMenuShortcut();
 initializeMobileMenuItems();
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const cursor = document.getElementById('custom-cursor');
+    cursor.style.display = 'block';
+
+    // Movimento do cursor
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+    });
+
+    // Elementos interativos
+    const clickableElements = ['a', 'button', 'input', '.menu-item', '.social-control'];
+
+    // Hover
+    document.addEventListener('mouseover', (e) => {
+        const isClickable = clickableElements.some(selector => 
+            e.target.matches(selector) || e.target.closest(selector)
+        );
+        
+        if (isClickable) {
+            cursor.style.backgroundImage = "url('assets/sprites/cursor-hover.png')";
+        }
+    });
+
+    document.addEventListener('mouseout', () => {
+        cursor.style.backgroundImage = "url('assets/sprites/cursor.png')";
+    });
+
+    // Clique
+    document.addEventListener('mousedown', () => {
+        cursor.style.backgroundImage = "url('assets/sprites/cursor-click.png')";
+    });
+    
+    document.addEventListener('mouseup', () => {
+        cursor.style.backgroundImage = "url('assets/sprites/cursor.png')";
+    });
+});
+
 function initializeMobileMenuShortcut(){
 const shortcut=document.getElementById('mobile-shortcut');
 const overlay=document.getElementById('mobile-overlay');
@@ -124,7 +162,7 @@ function createBlogPage(){
 return`<div class="page-content"><h1>BLOG TÉCNICO</h1><div class="blog-terminal"><div class="terminal-header"><span class="terminal-title">BLOG_TERMINAL.EXE</span></div><div class="terminal-body"><div class="blog-post"><div class="post-date">[2024-01-15]</div><h3>Implementando Portfólio 8-bit com Vanilla JS</h3><p>Neste post, vou compartilhar como desenvolvi este portfólio retro usando apenas HTML, CSS e JavaScript vanilla...</p><div class="post-tags">#JavaScript #CSS #8bit #Portfolio</div></div><div class="blog-post"><div class="post-date">[2024-01-10]</div><h3>Automação com Arduino: Projetos Práticos</h3><p>Explorando projetos de automação residencial usando Arduino, sensores e programação em C++...</p><div class="post-tags">#Arduino #IoT #Automação #C++</div></div><div class="blog-post"><div class="post-date">[2024-01-05]</div><h3>Configuração de Redes Linux: Guia Completo</h3><p>Um guia prático para configuração de redes em sistemas Linux, desde o básico até configurações avançadas...</p><div class="post-tags">#Linux #Redes #Administração #TCP/IP</div></div></div></div></div>`;}
 
 function createContatoPage(){
-return`<div class="page-content"><h1>CONTATO</h1><div class="contact-section"><div class="contact-info"><div class="contact-item"><div class="contact-icon">📍</div><div class="contact-text"><strong>ENDEREÇO</strong><br>Data:37 Promorar,Val-de-Cans nº 231<br>Belém,Pará-Brasil</div></div><div class="contact-item"><div class="contact-icon">📧</div><div class="contact-text"><strong>E-MAIL</strong><br>carlosaugustodiniz@outlook.com</div></div><div class="contact-item"><div class="contact-icon">💼</div><div class="contact-text"><strong>LINKEDIN</strong><br>www.linkedin.com/in/smeshy/</div></div><div class="contact-item"><div class="contact-icon">🌐</div><div class="contact-text"><strong>PORTFÓLIO</strong><br>https://carlosfilho.vercel.app</div></div></div><div class="contact-form"><h2>ENVIAR MENSAGEM</h2><form id="contact-form"><div class="form-group"><label>NOME:</label><input type="text"name="name"required></div><div class="form-group"><label>E-MAIL:</label><input type="email"name="email"required></div><div class="form-group"><label>MENSAGEM:</label><textarea name="message"rows="5"required></textarea></div><button type="submit">ENVIAR MENSAGEM</button></form></div></div></div>`;}
+return`<div class="page-content"><h1>CONTATO</h1><div class="contact-section"><div class="contact-info"><div class="contact-item"><div class="contact-icon">📍</div><div class="contact-text"><strong>ENDEREÇO</strong><br>Data:37 Promorar,Val-de-Cans nº 231<br>Belém,Pará-Brasil</div></div><div class="contact-item"><div class="contact-icon">📧</div><div class="contact-text"><strong>E-MAIL</strong><br>carlosaugustodiniz@outlook.com</div></div><div class="contact-item"><div class="contact-icon">💼</div><div class="contact-text"><strong>LINKEDIN</strong><br>www.linkedin.com/in/ysneshy/</div></div><div class="contact-item"><div class="contact-icon">🌐</div><div class="contact-text"><strong>PORTFÓLIO</strong><br>https://carlosfilho.vercel.app</div></div></div><div class="contact-form"><h2>ENVIAR MENSAGEM</h2><form id="contact-form"><div class="form-group"><label>NOME:</label><input type="text"name="name"required></div><div class="form-group"><label>E-MAIL:</label><input type="email"name="email"required></div><div class="form-group"><label>MENSAGEM:</label><textarea name="message"rows="5"required></textarea></div><button type="submit">ENVIAR MENSAGEM</button></form></div></div></div>`;}
 
 function triggerMegamanTransition(){
 const megamanTransition=document.getElementById('megaman-transition');
