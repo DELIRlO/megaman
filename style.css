@@ -1737,20 +1737,78 @@ body::before {
 
 
 
-.stage-loader {
-  font-family: 'Press Start 2P', cursive;
-  color: #00ffff;
-  text-shadow: 3px 3px 0 #000;
-  animation: 
-    blink 0.5s steps(1) infinite,
-    scanlines 0.1s linear infinite;
+/* Loader Definitivo - Roxo Portfolio e Super Grossa */
+.loading-bar {
+    height: 18px; /* 60% maior que os 11.2px anteriores (total ~18px) */
+    background: #1a1a1a;
+    border-radius: 9px; /* Metade da altura */
+    box-shadow: 
+        0 0 3px #000 inset,
+        0 2px 5px rgba(0,0,0,0.5); /* Sombra mais destacada */
+    overflow: hidden;
+    border: 1px solid #3a1a5f; /* Borda roxa sutil */
 }
 
-@keyframes blink {
-  50% { opacity: 0; }
+.loading-progress {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, 
+        #6a3093 0%,     /* Roxo mais escuro */
+        #44e9ff 50%,    /* Roxo vibrante do portfólio */
+        #6a3093 100%);  /* Roxo mais escuro */
+    background-size: 200% 100%;
+    animation: 
+        loading 2.3s cubic-bezier(0.65, 0, 0.35, 1) forwards, 
+        pixel-pulse 0.4s steps(3) infinite;
 }
 
-@keyframes scanlines {
-  from { background-position: 0 0; }
-  to { background-position: 0 8px; }
+@keyframes loading {
+    0% { width: 0; background-position: 0% 0; }
+    100% { width: 100%; background-position: -200% 0; }
+}
+
+@keyframes pixel-pulse {
+    0%, 100% { transform: translateY(0) scaleY(1); }
+    50% { transform: translateY(-2px) scaleY(0.96); }
+}
+
+/* Efeito de conclusão (opcional) */
+.loading-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 10px;
+    background: rgba(255,255,255,0.3);
+    animation: finish-glow 0.5s ease-out 2.1s forwards;
+}
+
+@keyframes finish-glow {
+    to { width: 100%; opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .loading-bar {
+        height: 14px;
+        border-radius: 7px;
+    }
+}
+
+/* Cursor Base */
+/* Estado Hover */
+#custom-cursor.hover {
+    background-image: url('assets/sprites/cursor-hover.png');
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Estado Click */
+#custom-cursor.click {
+    background-image: url('assets/sprites/cursor-click.png');
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+/* Garante que nada sobrescreva */
+* {
+    cursor: none !important;
 }
