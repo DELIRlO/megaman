@@ -2,49 +2,35 @@
 <html lang="pt-BR">
 <head>
 
-   <style>
-  /* DEBUG RESPONSIVO - Não sobrepõe elementos */
-  #audio-debug {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background: rgba(0, 0, 0, 0.85);
-    color: #00ff00;
-    padding: 12px;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    border: 1px solid #8A2BE2;
-    border-radius: 5px;
-    z-index: 100;
-    max-width: 280px;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-    line-height: 1.5;
-    pointer-events: none;
-  }
+   
+<style>
+#audio-debug {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  border-radius: 5px;
+  z-index: 1000;
+  max-width: 200px;
+}
 
-  @media (max-width: 768px) {
-    #audio-debug {
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
-      max-width: unset;
-      font-size: 12px;
-    }
-  }
+#audio-debug h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #4CAF50;
+}
 
-  #audio-debug h3 {
-    margin: 0 0 8px 0;
-    color: #8A2BE2;
-    font-size: 16px;
-    border-bottom: 1px solid #8A2BE2;
-    padding-bottom: 4px;
-  }
-
-  #audio-debug p {
-    margin: 4px 0;
-  }
+#audio-debug p {
+  margin: 4px 0;
+  font-size: 13px;
+}
 </style>
+
+    
     <style>
   /* Remove todos os cursores padrão */
   * {
@@ -81,45 +67,36 @@
   <!-- Div do cursor (coloque como PRIMEIRO elemento do body) -->
   <div id="custom-cursor"></div>
   
-<!-- Botão Voltar ao Topo - Deve vir ANTES dos scripts -->
-<button id="back-to-top" title="Voltar ao topo" class="back-to-top">↑</button>
-    
-    <!-- Botões de Áudio e Redes Sociais -->
-    <div class="audio-controls-top" style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px; position: absolute; top: 10px; left: 10px;">
-        <div style="display: flex; gap: 5px;">
-            <div class="menu-item audio-control" id="music-button" onclick="window.audioSystem.toggleBackgroundMusic()" style="width: 47px; height: 40px;">
-                <div class="menu-icon" id="music-icon"><i class="fas fa-music"></i></div>
-            </div>
-            <div class="menu-item audio-control" onclick="window.audioSystem.toggleMute()" style="width: 48px; height: 40px;">
-                <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
-            </div>
-            <div style="display: flex; gap: 5px; position: relative; left: -10px;">
-            <a href="https://github.com/delirlo" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="GitHub">
-                <div class="menu-icon"><i class="fab fa-github"></i></div>   
-            </a>
-            <div style="display: flex; gap: 5px; position: relative; left: -10px;">
-              <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="LinkedIn">
-                <div class="menu-icon"><i class="fab fa-linkedin"></i></div>  
-            </a>
-</div>
-            <div style="display: flex; gap: 5px; position: relative; left: -20px;">
-        <a href="https://instagram.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Instagram">
-                <div class="menu-icon"><i class="fab fa-instagram"></i></div>
-            </a>
-</div>
-</div>
-            
+<!-- Botões de Áudio e Redes Sociais -->
+<div class="audio-controls-top" style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px; position: absolute; top: 10px; left: 10px;">
+    <div style="display: flex; gap: 5px;">
+        <div class="menu-item audio-control" id="music-button" onclick="window.audioSystem.toggleBackgroundMusic()" style="width: 47px; height: 40px;">
+            <div class="menu-icon" id="music-icon"><i class="fas fa-music"></i></div>
         </div>
-
-        <div style="display: flex; flex-direction: column; gap: 5px; margin-left: -10px;">
-            <a href="https://facebook.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Facebook">
-                <div class="menu-icon"><i class="fab fa-facebook"></i></div>
-            </a>
-            <a href="https://t.me/ysneshy2025" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Telegram">
-                <div class="menu-icon"><i class="fab fa-telegram"></i></div>
-            </a>
+        <div class="menu-item audio-control" onclick="window.audioSystem.toggleMute()" style="width: 48px; height: 40px;">
+            <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
         </div>
     </div>
+        <div style="display: flex; flex-direction: column; gap: 5px; margin-left: -10px;">
+        <a href="https://t.me/ysneshy2025" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Telegram">
+            <div class="menu-icon"><i class="fab fa-telegram"></i></div>
+        </a>
+        <div style="display: flex; flex-direction: column; gap: 5px; margin-left: 0px;">
+        <a href="https://github.com/delirlo" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="GitHub">
+            <div class="menu-icon"><i class="fab fa-github"></i></div>   
+        </a>
+        <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="LinkedIn">
+            <div class="menu-icon"><i class="fab fa-linkedin"></i></div>  
+        </a>
+        <a href="https://instagram.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Instagram">
+            <div class="menu-icon"><i class="fab fa-instagram"></i></div>
+        </a>
+        <a href="https://facebook.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Facebook">
+            <div class="menu-icon"><i class="fab fa-facebook"></i></div>
+        </a>
+    </div>
+    </div>
+</div>
 
     <!-- Menu Móvel -->
     <div class="mobile-menu-shortcut" id="mobile-shortcut">
@@ -412,81 +389,61 @@
   <div class="energy-pulse"></div>
 </div>
 
+
+
+
+<div id="audio-debug"></div>
+
 <script>
-// Debug responsivo que evita sobreposição
+// Debug focado apenas no sistema de áudio
 function initAudioDebug() {
-  // Cria o elemento se não existir
-  let debugEl = document.getElementById('audio-debug');
-  if (!debugEl) {
-    debugEl = document.createElement('div');
-    debugEl.id = 'audio-debug';
-    document.body.appendChild(debugEl);
-  }
+  const debugEl = document.getElementById('audio-debug');
+  if (!debugEl) return;
 
   // Atualiza a cada segundo
   setInterval(() => {
-    if (!window.audioSystem) return;
+    if (!window.audioSystem) {
+      debugEl.innerHTML = '<p>Sistema de áudio não carregado</p>';
+      return;
+    }
     
     const audio = window.audioSystem;
-    let html = '<h3>🔊 Áudio</h3>';
+    let html = '<h3>🔊 Debug de Áudio</h3>';
     
+    // Status da música de fundo
+    html += `<p><strong>Música:</strong> ${audio.backgroundMusicEnabled ? 'LIGADA' : 'DESLIGADA'}</p>`;
+    
+    // Tempo de reprodução
     if (audio.backgroundMusic) {
-      const duration = audio.backgroundMusic.duration || 0;
       const currentTime = audio.audioContext?.currentTime || 0;
       const elapsed = currentTime - (audio.musicStartTime || 0);
-      
-      html += `
-        <p><strong>🎵 Música:</strong> ${audio.backgroundMusicEnabled ? 'ON' : 'OFF'}</p>
-        <p><strong>⏱️ Tempo:</strong> ${elapsed.toFixed(1)}s</p>
-        <p><strong>📊 Volume:</strong> ${(audio.volume * 100).toFixed(0)}%</p>
-      `;
+      html += `<p><strong>Tempo:</strong> ${elapsed.toFixed(1)}s</p>`;
     }
+    
+    // Configurações de áudio
+    html += `
+      <p><strong>Volume:</strong> ${(audio.volume * 100).toFixed(0)}%</p>
+      <p><strong>Mudo:</strong> ${audio.isMuted ? 'SIM' : 'NÃO'}</p>
+    `;
     
     debugEl.innerHTML = html;
-    
-    // Posicionamento inteligente (evita sobrepor botões)
-    adjustDebugPosition();
   }, 1000);
-
-  // Ajusta a posição para não cobrir elementos importantes
-  function adjustDebugPosition() {
-    const debugEl = document.getElementById('audio-debug');
-    if (!debugEl) return;
-    
-    // Lista de elementos que não devem ser cobertos
-    const protectedElements = [
-      document.getElementById('back-to-top'),
-      document.querySelector('.floating-menu'),
-      document.querySelector('.audio-controls-top')
-    ].filter(el => el);
-    
-    let bestPosition = { bottom: '20px', left: '20px' };
-    
-    // Verifica colisões
-    for (const el of protectedElements) {
-      const rect = el.getBoundingClientRect();
-      if (rect.bottom > window.innerHeight - 150) {
-        bestPosition = { top: '20px', left: '20px' };
-        break;
-      }
-    }
-    
-    // Aplica a posição
-    Object.assign(debugEl.style, {
-      top: bestPosition.top || 'auto',
-      bottom: bestPosition.bottom || 'auto',
-      left: bestPosition.left || 'auto',
-      right: bestPosition.right || 'auto'
-    });
-  }
-  
-  // Ajusta na redimensionamento da tela
-  window.addEventListener('resize', adjustDebugPosition);
 }
 
-// Inicia quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', initAudioDebug);
+// Inicia quando o sistema estiver pronto
+if (window.audioSystem) {
+  initAudioDebug();
+} else {
+  const checkInterval = setInterval(() => {
+    if (window.audioSystem) {
+      clearInterval(checkInterval);
+      initAudioDebug();
+    }
+  }, 500);
+}
 </script>
+
+
 
 </body>
 </html>
