@@ -1,12 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
+   <style>
+  /* DEBUG RESPONSIVO - Não sobrepõe elementos */
+  #audio-debug {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #00ff00;
+    padding: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    border: 1px solid #8A2BE2;
+    border-radius: 5px;
+    z-index: 100;
+    max-width: 280px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    line-height: 1.5;
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    #audio-debug {
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      max-width: unset;
+      font-size: 12px;
+    }
+  }
+
+  #audio-debug h3 {
+    margin: 0 0 8px 0;
+    color: #8A2BE2;
+    font-size: 16px;
+    border-bottom: 1px solid #8A2BE2;
+    padding-bottom: 4px;
+  }
+
+  #audio-debug p {
+    margin: 4px 0;
+  }
+</style>
     <style>
   /* Remove todos os cursores padrão */
   * {
     cursor: none !important;
   }
-  
+
   /* Estilo do cursor personalizado */
   #custom-cursor {
     position: fixed;
@@ -34,12 +78,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <body>
-        
   <!-- Div do cursor (coloque como PRIMEIRO elemento do body) -->
   <div id="custom-cursor"></div>
   
-  <!-- Restante do seu conteúdo -->
 <!-- Botão Voltar ao Topo - Deve vir ANTES dos scripts -->
 <button id="back-to-top" title="Voltar ao topo" class="back-to-top">↑</button>
     
@@ -362,6 +403,90 @@
 </script>
 
   <script src="scripts.js"></script>
+
+  <!-- Adicione isso no final do <body> -->
+<div class="energy-circuit">
+  <svg class="energy-connection" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <path class="energy-path" d=""/>
+  </svg>
+  <div class="energy-pulse"></div>
+</div>
+
+<script>
+// Debug responsivo que evita sobreposição
+function initAudioDebug() {
+  // Cria o elemento se não existir
+  let debugEl = document.getElementById('audio-debug');
+  if (!debugEl) {
+    debugEl = document.createElement('div');
+    debugEl.id = 'audio-debug';
+    document.body.appendChild(debugEl);
+  }
+
+  // Atualiza a cada segundo
+  setInterval(() => {
+    if (!window.audioSystem) return;
+    
+    const audio = window.audioSystem;
+    let html = '<h3>🔊 Áudio</h3>';
+    
+    if (audio.backgroundMusic) {
+      const duration = audio.backgroundMusic.duration || 0;
+      const currentTime = audio.audioContext?.currentTime || 0;
+      const elapsed = currentTime - (audio.musicStartTime || 0);
+      
+      html += `
+        <p><strong>🎵 Música:</strong> ${audio.backgroundMusicEnabled ? 'ON' : 'OFF'}</p>
+        <p><strong>⏱️ Tempo:</strong> ${elapsed.toFixed(1)}s</p>
+        <p><strong>📊 Volume:</strong> ${(audio.volume * 100).toFixed(0)}%</p>
+      `;
+    }
+    
+    debugEl.innerHTML = html;
+    
+    // Posicionamento inteligente (evita sobrepor botões)
+    adjustDebugPosition();
+  }, 1000);
+
+  // Ajusta a posição para não cobrir elementos importantes
+  function adjustDebugPosition() {
+    const debugEl = document.getElementById('audio-debug');
+    if (!debugEl) return;
+    
+    // Lista de elementos que não devem ser cobertos
+    const protectedElements = [
+      document.getElementById('back-to-top'),
+      document.querySelector('.floating-menu'),
+      document.querySelector('.audio-controls-top')
+    ].filter(el => el);
+    
+    let bestPosition = { bottom: '20px', left: '20px' };
+    
+    // Verifica colisões
+    for (const el of protectedElements) {
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom > window.innerHeight - 150) {
+        bestPosition = { top: '20px', left: '20px' };
+        break;
+      }
+    }
+    
+    // Aplica a posição
+    Object.assign(debugEl.style, {
+      top: bestPosition.top || 'auto',
+      bottom: bestPosition.bottom || 'auto',
+      left: bestPosition.left || 'auto',
+      right: bestPosition.right || 'auto'
+    });
+  }
+  
+  // Ajusta na redimensionamento da tela
+  window.addEventListener('resize', adjustDebugPosition);
+}
+
+// Inicia quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', initAudioDebug);
+</script>
 
 </body>
 </html>

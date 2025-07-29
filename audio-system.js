@@ -237,3 +237,32 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', enableAudio, { once: true });
 });
 
+// Adicione no final do arquivo audio-system.js, ANTES das exportações
+
+// Patch para corrigir a duração da música
+const originalPlay = AudioSystem.prototype.play;
+AudioSystem.prototype.play = function(soundName) {
+    if (soundName === 'bgMusic' && this.backgroundMusic) {
+        // Calcula o tempo restante da música
+        const currentTime = this.audioContext.currentTime;
+        const elapsed = currentTime - this.musicStartTime;
+        const remaining = this.backgroundMusic.duration - elapsed;
+        
+        // Se faltar menos de 10 segundos, reinicia
+        if (remaining < 10) {
+            this._stopSound('bgMusic');
+            this._playSound('bgMusic');
+            return;
+        }
+    }
+    originalPlay.call(this, soundName);
+};
+
+// Monitora o tempo de início
+const originalPlaySound = AudioSystem.prototype._playSound;
+AudioSystem.prototype._playSound = function(soundName) {
+    if (soundName === 'bgMusic') {
+        this.musicStartTime = this.audioContext.currentTime;
+    }
+    originalPlaySound.call(this, soundName);
+};

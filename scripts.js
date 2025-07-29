@@ -279,7 +279,6 @@ document.querySelectorAll('.menu-item, .mobile-menu-item, .mobile-social-item').
 });
 
 
-
 // Botão Voltar ao Topo - Implementação robusta
 function initializeBackToTop() {
     const backToTopButton = document.getElementById("back-to-top");
@@ -329,4 +328,15 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSpeedrun();
     initializeAudioControls();
     initializeBackToTop(); // Adicionado aqui
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Verifique se o conteúdo principal existe
+  if (!document.querySelector('.main-content')) {
+    console.error('Elemento principal não encontrado!');
+    return;
+  }
+
+  // Restante do código do efeito...
+  updateEnergyConnection();
 });

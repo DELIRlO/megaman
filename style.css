@@ -1527,9 +1527,6 @@ body::before {
     align-items: center;
     gap: 10px;
 }
-
-
-
 /* SEU CÓDIGO (MANTIDO INTEGRALMENTE) */
 .audio-controls-top .menu-icon,
 #music-button .menu-icon, 
@@ -1573,9 +1570,6 @@ body::before {
     position: relative;
     overflow: visible !important;
 }
-
-
-
 /* ANIMAÇÃO PARA O MENU PRINCIPAL (floating-menu) deixa centralizado icon e espansao  nao apagar*/
 .floating-menu .menu-item {
     position: relative;
@@ -1602,11 +1596,6 @@ body::before {
     50% { opacity: 1; }
     100% { transform: scale(1.5); opacity: 0; }
 }
-
-
-
-
-
 /* Ajuste para o botão Voltar ao Topo */
 #back-to-top {
     right: auto;
@@ -1621,7 +1610,6 @@ body::before {
     left: 20px;
     gap: 3px; /* Reduz o espaço entre os ícones */
 }
-
 
 /* ANIMAÇÃO DE EXPANSÃO ROSA VIBRANTE (NOVA VERSÃO) */
 #back-to-top:hover::after {
@@ -1795,20 +1783,12 @@ body::before {
     }
 }
 
-/* Cursor Base */
-/* Estado Hover */
-#custom-cursor.hover {
-    background-image: url('assets/sprites/cursor-hover.png');
-    transform: translate(-50%, -50%) scale(1.2);
-}
 
-/* Estado Click */
-#custom-cursor.click {
-    background-image: url('assets/sprites/cursor-click.png');
-    transform: translate(-50%, -50%) scale(0.9);
-}
 
-/* Garante que nada sobrescreva */
-* {
-    cursor: none !important;
-}
+
+
+
+
+
+
+
