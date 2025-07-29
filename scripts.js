@@ -125,6 +125,8 @@ function initializeMobileMenuItems() {
                     document.body.style.overflow = '';
                 }
             }
+
+            
         });
     });
     
