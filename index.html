@@ -2,7 +2,40 @@
 <html lang="pt-BR">
 <head>
 
-   
+   <!-- Substitua esta seção -->
+<div class="audio-controls-top" style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px; position: absolute; top: 10px; left: 10px;">
+    <div style="display: flex; gap: 5px;">
+        <div class="menu-item audio-control" id="music-button" onclick="window.audioSystem.toggleBackgroundMusic()" style="width: 47px; height: 40px;">
+            <div class="menu-icon" id="music-icon"><i class="fas fa-music"></i></div>
+        </div>
+        <div class="menu-item audio-control" onclick="window.audioSystem.toggleMute()" style="width: 48px; height: 40px;">
+            <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
+        </div>
+        
+        <!-- Adicione este botão de menu -->
+        <div class="menu-item audio-control" id="social-menu-button" style="width: 48px; height: 40px;" onclick="toggleSocialMenu()">
+            <div class="menu-icon"><i class="fas fa-share-alt"></i></div>
+        </div>
+    </div>
+
+    <!-- Container das redes sociais (inicialmente escondido) -->
+    <div id="social-buttons-container" style="display: none; flex-direction: column; gap: 5px; margin-left: -10px;">
+        <a href="https://t.me/ysneshy2025" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Telegram">
+            <div class="menu-icon"><i class="fab fa-telegram"></i></div>
+        </a>
+        <a href="https://github.com/delirlo" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="GitHub">
+            <div class="menu-icon"><i class="fab fa-github"></i></div>   
+        </a>
+        <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="LinkedIn">
+            <div class="menu-icon"><i class="fab fa-linkedin"></i></div>  
+        </a>
+        <a href="https://instagram.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Instagram">
+            <div class="menu-icon"><i class="fab fa-instagram"></i></div>
+        </a>
+    </div>
+</div>
+
+
 <style>
 #audio-debug {
   position: fixed;
@@ -67,36 +100,7 @@
   <!-- Div do cursor (coloque como PRIMEIRO elemento do body) -->
   <div id="custom-cursor"></div>
   
-<!-- Botões de Áudio e Redes Sociais -->
-<div class="audio-controls-top" style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px; position: absolute; top: 10px; left: 10px;">
-    <div style="display: flex; gap: 5px;">
-        <div class="menu-item audio-control" id="music-button" onclick="window.audioSystem.toggleBackgroundMusic()" style="width: 47px; height: 40px;">
-            <div class="menu-icon" id="music-icon"><i class="fas fa-music"></i></div>
-        </div>
-        <div class="menu-item audio-control" onclick="window.audioSystem.toggleMute()" style="width: 48px; height: 40px;">
-            <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
-        </div>
-    </div>
-        <div style="display: flex; flex-direction: column; gap: 5px; margin-left: -10px;">
-        <a href="https://t.me/ysneshy2025" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Telegram">
-            <div class="menu-icon"><i class="fab fa-telegram"></i></div>
-        </a>
-        <div style="display: flex; flex-direction: column; gap: 5px; margin-left: 0px;">
-        <a href="https://github.com/delirlo" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="GitHub">
-            <div class="menu-icon"><i class="fab fa-github"></i></div>   
-        </a>
-        <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="LinkedIn">
-            <div class="menu-icon"><i class="fab fa-linkedin"></i></div>  
-        </a>
-        <a href="https://instagram.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Instagram">
-            <div class="menu-icon"><i class="fab fa-instagram"></i></div>
-        </a>
-        <a href="https://facebook.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Facebook">
-            <div class="menu-icon"><i class="fab fa-facebook"></i></div>
-        </a>
-    </div>
-    </div>
-</div>
+
 
     <!-- Menu Móvel -->
     <div class="mobile-menu-shortcut" id="mobile-shortcut">
@@ -444,6 +448,24 @@ if (window.audioSystem) {
 </script>
 
 
-
+<script>
+function toggleSocialMenu() {
+    const container = document.getElementById('social-buttons-container');
+    const button = document.getElementById('social-menu-button');
+    
+    if (container.style.display === 'none' || !container.style.display) {
+        container.style.display = 'flex';
+        button.classList.add('active'); // Adicione uma classe para estilo
+    } else {
+        container.style.display = 'none';
+        button.classList.remove('active');
+    }
+    
+    // Tocar efeito sonoro se disponível
+    if (window.audioSystem) {
+        window.audioSystem.play('click');
+    }
+}
+</script>
 </body>
 </html>
