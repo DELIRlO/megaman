@@ -1,508 +1,643 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+  <head>
+    <!-- Substitua esta seção -->
+    <div
+      class="audio-controls-top"
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+      "
+    >
+      <div style="display: flex; gap: 5px">
+        <div
+          class="menu-item audio-control"
+          id="music-button"
+          onclick="window.audioSystem.toggleBackgroundMusic()"
+          style="width: 47px; height: 40px"
+        >
+          <div class="menu-icon" id="music-icon">
+            <i class="fas fa-music"></i>
+          </div>
+        </div>
+        <div
+          class="menu-item audio-control"
+          onclick="window.audioSystem.toggleMute()"
+          style="width: 48px; height: 40px"
+        >
+          <div class="menu-icon" id="mute-icon">
+            <i class="fas fa-volume-up"></i>
+          </div>
+        </div>
 
-   <!-- Substitua esta seção -->
-<div class="audio-controls-top" style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px; position: absolute; top: 10px; left: 10px;">
-    <div style="display: flex; gap: 5px;">
-        <div class="menu-item audio-control" id="music-button" onclick="window.audioSystem.toggleBackgroundMusic()" style="width: 47px; height: 40px;">
-            <div class="menu-icon" id="music-icon"><i class="fas fa-music"></i></div>
-        </div>
-        <div class="menu-item audio-control" onclick="window.audioSystem.toggleMute()" style="width: 48px; height: 40px;">
-            <div class="menu-icon" id="mute-icon"><i class="fas fa-volume-up"></i></div>
-        </div>
-        
         <!-- Adicione este botão de menu -->
-        <div class="menu-item audio-control" id="social-menu-button" style="width: 48px; height: 40px;" onclick="toggleSocialMenu()">
-            <div class="menu-icon"><i class="fas fa-share-alt"></i></div>
+        <div
+          class="menu-item audio-control"
+          id="social-menu-button"
+          style="width: 48px; height: 40px"
+          onclick="toggleSocialMenu()"
+        >
+          <div class="menu-icon"><i class="fas fa-share-alt"></i></div>
         </div>
+      </div>
+
+      <!-- Container das redes sociais (inicialmente escondido) -->
+      <div
+        id="social-buttons-container"
+        style="
+          display: none;
+          flex-direction: column;
+          gap: 5px;
+          margin-left: -10px;
+        "
+      >
+        <a
+          href="https://t.me/ysneshy2025"
+          target="_blank"
+          class="menu-item social-control"
+          style="width: 48px; height: 40px"
+          title="Telegram"
+        >
+          <div class="menu-icon"><i class="fab fa-telegram"></i></div>
+        </a>
+        <a
+          href="https://github.com/delirlo"
+          target="_blank"
+          class="menu-item social-control"
+          style="width: 48px; height: 40px"
+          title="GitHub"
+        >
+          <div class="menu-icon"><i class="fab fa-github"></i></div>
+        </a>
+        <a
+          href="https://linkedin.com/in/ysneshy/"
+          target="_blank"
+          class="menu-item social-control"
+          style="width: 48px; height: 40px"
+          title="LinkedIn"
+        >
+          <div class="menu-icon"><i class="fab fa-linkedin"></i></div>
+        </a>
+        <a
+          href="https://instagram.com/ysneshy"
+          target="_blank"
+          class="menu-item social-control"
+          style="width: 48px; height: 40px"
+          title="Instagram"
+        >
+          <div class="menu-icon"><i class="fab fa-instagram"></i></div>
+        </a>
+      </div>
     </div>
 
-    <!-- Container das redes sociais (inicialmente escondido) -->
-    <div id="social-buttons-container" style="display: none; flex-direction: column; gap: 5px; margin-left: -10px;">
-        <a href="https://t.me/ysneshy2025" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Telegram">
-            <div class="menu-icon"><i class="fab fa-telegram"></i></div>
-        </a>
-        <a href="https://github.com/delirlo" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="GitHub">
-            <div class="menu-icon"><i class="fab fa-github"></i></div>   
-        </a>
-        <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="LinkedIn">
-            <div class="menu-icon"><i class="fab fa-linkedin"></i></div>  
-        </a>
-        <a href="https://instagram.com/ysneshy" target="_blank" class="menu-item social-control" style="width: 48px; height: 40px;" title="Instagram">
-            <div class="menu-icon"><i class="fab fa-instagram"></i></div>
-        </a>
-    </div>
-</div>
-
-
-<style>
-#audio-debug {
-  position: fixed;
-  top: 10px;
-  left: 170px;
-  background: rgba(0, 0, 0, 0.2);
-  color: #fff;
-  padding: 5px 10px;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 10px;
-  border-radius: 4px;
-  z-index: 1000;
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  border: 1px solid #8A2BE2;
-  backdrop-filter: blur(2px);
-  max-width: 80%;
-  white-space: nowrap;
-}
-
-/* Versão Mobile */
-@media (max-width: 768px) {
-  #audio-debug {
-    left: 10px;
-    top: 60px;
-    font-size: 8px;
-    gap: 8px;
-  }
-}
-</style>
-    
     <style>
-  /* Remove todos os cursores padrão */
-  * {
-    cursor: none !important;
-  }
+      #audio-debug {
+        position: absolute;
+        top: 10px;
+        left: 170px;
+        background: rgba(0, 0, 0, 0.2);
+        color: #fff;
+        padding: 5px 10px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        border-radius: 4px;
+        z-index: 1000;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        border: 1px solid #8a2be2;
+        backdrop-filter: blur(2px);
+        max-width: 80%;
+        white-space: nowrap;
+      }
 
-  /* Estilo do cursor personalizado */
-  #custom-cursor {
-    position: fixed;
-    width: 32px;
-    height: 32px;
-    pointer-events: none;
-    z-index: 9999;
-    background-image: url('assets/sprites/cursor.png');
-    background-size: cover;
-    display: none; /* Inicia oculto */
-  }
-</style>
+      /* Versão Mobile */
+      @media (max-width: 768px) {
+        #audio-debug {
+          left: 10px;
+          top: 60px;
+          font-size: 8px;
+          gap: 8px;
+        }
+      }
+    </style>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#8A2BE2">
-    <meta property="og:title" content="Carlos Augusto Diniz Filho - Portfólio 8-bit">
-    <meta property="og:description" content="Desenvolvedor, programador e Técnico computacional autodidata">
-    <meta property="og:image" content="/public/assets/images/screenshot.png">
+    <style>
+      /* Remove todos os cursores padrão */
+      * {
+        cursor: none !important;
+      }
+
+      /* Estilo do cursor personalizado */
+      #custom-cursor {
+        position: fixed;
+        width: 32px;
+        height: 32px;
+        pointer-events: none;
+        z-index: 9999;
+        background-image: url("assets/sprites/cursor.png");
+        background-size: cover;
+        display: none; /* Inicia oculto */
+      }
+    </style>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#8A2BE2" />
+    <meta
+      property="og:title"
+      content="Carlos Augusto Diniz Filho - Portfólio 8-bit"
+    />
+    <meta
+      property="og:description"
+      content="Desenvolvedor, programador e Técnico computacional autodidata"
+    />
+    <meta property="og:image" content="/public/assets/images/screenshot.png" />
     <title>Carlos Augusto Diniz Filho - Portfólio 8-bit</title>
-    
-    <link rel="preload" href="https://delirlo.github.io/megaman/assets/fonts/press-start-2p.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="icon" href="https://delirlo.github.io/megaman/favicon.png" type="image/png">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-  <!-- Div do cursor (coloque como PRIMEIRO elemento do body) -->
-  <div id="custom-cursor"></div>
-  
 
+    <link
+      rel="preload"
+      href="https://delirlo.github.io/megaman/assets/fonts/press-start-2p.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="icon"
+      href="https://delirlo.github.io/megaman/favicon.png"
+      type="image/png"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Div do cursor (coloque como PRIMEIRO elemento do body) -->
+    <div id="custom-cursor"></div>
 
     <!-- Menu Móvel -->
     <div class="mobile-menu-shortcut" id="mobile-shortcut">
-        <div class="shortcut-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+      <div class="shortcut-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
 
     <div class="mobile-menu-overlay" id="mobile-overlay">
-        <div class="mobile-menu-content">
-            <div class="mobile-menu-header">
-                <h3>MENU</h3>
-                <button class="close-menu" id="close-menu">✕</button>
-            </div>
-            
-            <div class="mobile-menu-grid">
-                <div class="mobile-menu-item" data-page="home">
-                    <div class="menu-icon">🏛️</div>
-                    <span class="menu-label">HOME</span>
-                </div>
-                <div class="mobile-menu-item" data-page="sobre">
-                    <div class="menu-icon">👨‍🚀</div>
-                    <span class="menu-label">SOBRE</span>
-                </div>
-                <div class="mobile-menu-item" data-page="curriculo">
-                    <div class="menu-icon">📚</div>
-                    <span class="menu-label">CURRÍCULO</span>
-                </div>
-                <div class="mobile-menu-item" data-page="projetos">
-                    <div class="menu-icon">👨‍💻</div>
-                    <span class="menu-label">PROJETOS</span>
-                </div>
-                <div class="mobile-menu-item" data-page="skills">
-                    <div class="menu-icon">🚀</div>
-                    <span class="menu-label">SKILLS</span>
-                </div>
-                <div class="mobile-menu-item" data-page="blog">
-                    <div class="menu-icon">📕</div>
-                    <span class="menu-label">BLOG</span>
-                </div>
-                <div class="mobile-menu-item" data-page="contato">
-                    <div class="menu-icon">📡</div>
-                    <span class="menu-label">CONTATO</span>
-                </div>
-            </div>
-            
-            <div class="mobile-social-section">
-                <div class="mobile-social-title">REDES SOCIAIS</div>
-                <div class="mobile-social-grid">
-                       <div style="display: flex; gap: 5px; margin-left: -15px;"></div>
-                       
-                    <a href="https://github.com/delirlo" target="_blank" class="mobile-social-item">
-                        <div class="social-icon"><i class="fab fa-github"></i></div>
-                        <span class="social-label">GitHub</span>
-                    </a>
-                    <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="mobile-social-item">
-                        <div class="social-icon"><i class="fab fa-linkedin"></i></div>
-                        <span class="social-label">LinkedIn</span>
-                    </a>
-                    <a href="https://instagram.com/ysneshy" target="_blank" class="mobile-social-item">
-                        <div class="social-icon"><i class="fab fa-instagram"></i></div>
-                        <span class="social-label">Instagram</span>
-                    </a>
-                    <a href="https://facebook.com/ysneshy" target="_blank" class="mobile-social-item">
-                        <div class="social-icon"><i class="fab fa-facebook"></i></div>
-                        <span class="social-label">Facebook</span>
-                    </a>
-                    <a href="https://t.me/ysneshy2025" target="_blank" class="mobile-social-item">
-                        <div class="social-icon"><i class="fab fa-telegram"></i></div>
-                        <span class="social-label">Telegram</span>
-                    </a>
-                </div>
-            </div>
+      <div class="mobile-menu-content">
+        <div class="mobile-menu-header">
+          <h3>MENU</h3>
+          <button class="close-menu" id="close-menu">✕</button>
         </div>
+
+        <div class="mobile-menu-grid">
+          <div class="mobile-menu-item" data-page="home">
+            <div class="menu-icon">🏛️</div>
+            <span class="menu-label">HOME</span>
+          </div>
+          <div class="mobile-menu-item" data-page="sobre">
+            <div class="menu-icon">👨‍🚀</div>
+            <span class="menu-label">SOBRE</span>
+          </div>
+          <div class="mobile-menu-item" data-page="curriculo">
+            <div class="menu-icon">📚</div>
+            <span class="menu-label">CURRÍCULO</span>
+          </div>
+          <div class="mobile-menu-item" data-page="projetos">
+            <div class="menu-icon">👨‍💻</div>
+            <span class="menu-label">PROJETOS</span>
+          </div>
+          <div class="mobile-menu-item" data-page="skills">
+            <div class="menu-icon">🚀</div>
+            <span class="menu-label">SKILLS</span>
+          </div>
+          <div class="mobile-menu-item" data-page="blog">
+            <div class="menu-icon">📕</div>
+            <span class="menu-label">BLOG</span>
+          </div>
+          <div class="mobile-menu-item" data-page="contato">
+            <div class="menu-icon">📡</div>
+            <span class="menu-label">CONTATO</span>
+          </div>
+        </div>
+
+        <div class="mobile-social-section">
+          <div class="mobile-social-title">REDES SOCIAIS</div>
+          <div class="mobile-social-grid">
+            <div style="display: flex; gap: 5px; margin-left: -15px"></div>
+
+            <a
+              href="https://github.com/delirlo"
+              target="_blank"
+              class="mobile-social-item"
+            >
+              <div class="social-icon"><i class="fab fa-github"></i></div>
+              <span class="social-label">GitHub</span>
+            </a>
+            <a
+              href="https://linkedin.com/in/ysneshy/"
+              target="_blank"
+              class="mobile-social-item"
+            >
+              <div class="social-icon"><i class="fab fa-linkedin"></i></div>
+              <span class="social-label">LinkedIn</span>
+            </a>
+            <a
+              href="https://instagram.com/ysneshy"
+              target="_blank"
+              class="mobile-social-item"
+            >
+              <div class="social-icon"><i class="fab fa-instagram"></i></div>
+              <span class="social-label">Instagram</span>
+            </a>
+            <a
+              href="https://facebook.com/ysneshy"
+              target="_blank"
+              class="mobile-social-item"
+            >
+              <div class="social-icon"><i class="fab fa-facebook"></i></div>
+              <span class="social-label">Facebook</span>
+            </a>
+            <a
+              href="https://t.me/ysneshy2025"
+              target="_blank"
+              class="mobile-social-item"
+            >
+              <div class="social-icon"><i class="fab fa-telegram"></i></div>
+              <span class="social-label">Telegram</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
-        <div class="loading-content">
-            <div class="loading-sprite"></div>
-            <div class="loading-text">Carregando..</div>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
+      <div class="loading-content">
+        <div class="loading-sprite"></div>
+        <div class="loading-text">Carregando..</div>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
         </div>
+      </div>
     </div>
 
     <!-- Menu Flutuante -->
     <nav class="floating-menu">
-        <div class="menu-item" data-page="home">
-            <div class="menu-icon">🏛️</div>
-            <span class="menu-label">HOME</span>
-        </div>
-        <div class="menu-item" data-page="sobre">
-            <div class="menu-icon">👨‍🚀</div>
-            <span class="menu-label">SOBRE</span>
-        </div>
-        <div class="menu-item" data-page="curriculo">
-            <div class="menu-icon">📚</div>
-            <span class="menu-label">CURRICULO</span>
-        </div>
-        <div class="menu-item" data-page="projetos">
-            <div class="menu-icon">👨‍💻</div>
-            <span class="menu-label">PROJETOS</span>
-        </div>
-        <div class="menu-item" data-page="skills">
-            <div class="menu-icon">🚀</div>
-            <span class="menu-label">SKILLS</span>
-        </div>
-        <div class="menu-item" data-page="blog">
-            <div class="menu-icon">📕</div>
-            <span class="menu-label">BLOG</span>
-        </div>
-        <div class="menu-item" data-page="contato">
-            <div class="menu-icon">📡</div>
-            <span class="menu-label">CONTATO</span>
-        </div>
-        
-        <div class="social-links">
-            <a href="https://github.com/delirlo" target="_blank" class="social-link" title="GitHub">
-                <div class="social-icon"><i class="fab fa-github-alt"></i></div>
-            </a>
-            <a href="https://linkedin.com/in/ysneshy/" target="_blank" class="social-link" title="LinkedIn">
-                <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
-            </a>
-        </div>
+      <div class="menu-item" data-page="home">
+        <div class="menu-icon">🏛️</div>
+        <span class="menu-label">HOME</span>
+      </div>
+      <div class="menu-item" data-page="sobre">
+        <div class="menu-icon">👨‍🚀</div>
+        <span class="menu-label">SOBRE</span>
+      </div>
+      <div class="menu-item" data-page="curriculo">
+        <div class="menu-icon">📚</div>
+        <span class="menu-label">CURRICULO</span>
+      </div>
+      <div class="menu-item" data-page="projetos">
+        <div class="menu-icon">👨‍💻</div>
+        <span class="menu-label">PROJETOS</span>
+      </div>
+      <div class="menu-item" data-page="skills">
+        <div class="menu-icon">🚀</div>
+        <span class="menu-label">SKILLS</span>
+      </div>
+      <div class="menu-item" data-page="blog">
+        <div class="menu-icon">📕</div>
+        <span class="menu-label">BLOG</span>
+      </div>
+      <div class="menu-item" data-page="contato">
+        <div class="menu-icon">📡</div>
+        <span class="menu-label">CONTATO</span>
+      </div>
+
+      <div class="social-links">
+        <a
+          href="https://github.com/delirlo"
+          target="_blank"
+          class="social-link"
+          title="GitHub"
+        >
+          <div class="social-icon"><i class="fab fa-github-alt"></i></div>
+        </a>
+        <a
+          href="https://linkedin.com/in/ysneshy/"
+          target="_blank"
+          class="social-link"
+          title="LinkedIn"
+        >
+          <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
+        </a>
+      </div>
     </nav>
 
     <!-- Conteúdo Principal -->
     <main id="main-content" class="main-content">
-        <section id="home" class="page active">
-            <div class="hero-section">
-                <div class="hero-avatar" id="hero-avatar">
-                    <div class="avatar-sprite"></div>
-                </div>
-                <h1 class="hero-title">CARLOS AUGUSTO DINIZ FILHO</h1>
-                <h2 class="hero-subtitle">ENGENHEIRO DA COMPUTAÇÃO</h2>
-                <div class="hero-description">
-                    <p>Desenvolvedor, programador e Técnico computacional autodidata com um olhar aguçado para computação e Redes.</p>
-                    <p>Inovador e com grande conhecimento de técnicas voltadas a uma ótima experiência do usuário e público.</p>
-                </div>
-                
-                <div class="terminal">
-                    <div class="terminal-header">
-                        <span class="terminal-title">TERMINAL_8BIT.EXE</span>
-                        <div class="terminal-controls">
-                            <span class="terminal-btn">_</span>
-                            <span class="terminal-btn">□</span>
-                            <span class="terminal-btn">×</span>
-                        </div>
-                    </div>
-                    <div class="terminal-body">
-                        <div class="terminal-line">
-                            <span class="terminal-prompt">C:\PORTFOLIO\YSNESHY></span>
-                            <span class="terminal-cursor">_</span>
-                        </div>
-                        <div id="terminal-output" class="terminal-output"></div>
-                        <div class="terminal-input-line">
-                            <span class="terminal-prompt">C:\PORTFOLIO\YSNESHY></span>
-                            <input type="text" id="terminal-input" class="terminal-input" placeholder="Digite 'help' para comandos">
-                        </div>
-                    </div>
-                </div>
+      <section id="home" class="page active">
+        <div class="hero-section">
+          <div class="hero-avatar" id="hero-avatar">
+            <div class="avatar-sprite"></div>
+          </div>
+          <h1 class="hero-title">CARLOS AUGUSTO DINIZ FILHO</h1>
+          <h2 class="hero-subtitle">ENGENHEIRO DA COMPUTAÇÃO</h2>
+          <div class="hero-description">
+            <p>
+              Desenvolvedor, programador e Técnico computacional autodidata com
+              um olhar aguçado para computação e Redes.
+            </p>
+            <p>
+              Inovador e com grande conhecimento de técnicas voltadas a uma
+              ótima experiência do usuário e público.
+            </p>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="terminal-title">TERMINAL_8BIT.EXE</span>
+              <div class="terminal-controls">
+                <span class="terminal-btn">_</span>
+                <span class="terminal-btn">□</span>
+                <span class="terminal-btn">×</span>
+              </div>
             </div>
-        </section>
+            <div class="terminal-body">
+              <div class="terminal-line">
+                <span class="terminal-prompt">C:\PORTFOLIO\YSNESHY></span>
+                <span class="terminal-cursor">_</span>
+              </div>
+              <div id="terminal-output" class="terminal-output"></div>
+              <div class="terminal-input-line">
+                <span class="terminal-prompt">C:\PORTFOLIO\YSNESHY></span>
+                <input
+                  type="text"
+                  id="terminal-input"
+                  class="terminal-input"
+                  placeholder="Digite 'help' para comandos"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <!-- Elementos adicionais -->
     <div class="loading-sprite">
-        <img src="assets/sprites/megaman-idle.gif" 
-             onerror="this.src='https://raw.githubusercontent.com/delirlo/megaman/main/assets/sprites/megaman-idle.gif'"
-             style="display: none;">
+      <img
+        src="assets/sprites/megaman-idle.gif"
+        onerror="this.src='https://raw.githubusercontent.com/delirlo/megaman/main/assets/sprites/megaman-idle.gif'"
+        style="display: none"
+      />
     </div>
 
     <div id="megaman-transition" class="megaman-transition">
-        <div class="megaman-sprite"></div>
+      <div class="megaman-sprite"></div>
     </div>
 
     <div id="speedrun-timer" class="speedrun-timer hidden">
-        <div class="timer-label">SPEEDRUN</div>
-        <div class="timer-value">00:00:00</div>
-        <div class="timer-ranking">
-            <div>1. SPEEDRUNNER - 01:23:45</div>
-            <div>2. PIXEL_MASTER - 01:45:12</div>
-            <div>3. RETRO_GAMER - 02:01:33</div>
-        </div>
+      <div class="timer-label">SPEEDRUN</div>
+      <div class="timer-value">00:00:00</div>
+      <div class="timer-ranking">
+        <div>1. SPEEDRUNNER - 01:23:45</div>
+        <div>2. PIXEL_MASTER - 01:45:12</div>
+        <div>3. RETRO_GAMER - 02:01:33</div>
+      </div>
     </div>
 
     <div id="konami-game" class="konami-game hidden">
-        <div class="game-screen">
-            <h3>EASTER EGG ATIVADO!</h3>
-            <p>Você descobriu o código Konami! </p>
-            <div class="mini-game">
-                <div class="game-score">SCORE: <span id="game-score">0</span></div>
-                <div class="game-area">
-                    <div class="player-sprite"></div>
-                </div>
-            </div>
-            <button onclick="closeKonamiGame()">FECHAR</button>
+      <div class="game-screen">
+        <h3>EASTER EGG ATIVADO!</h3>
+        <p>Você descobriu o código Konami!</p>
+        <div class="mini-game">
+          <div class="game-score">SCORE: <span id="game-score">0</span></div>
+          <div class="game-area">
+            <div class="player-sprite"></div>
+          </div>
         </div>
+        <button onclick="closeKonamiGame()">FECHAR</button>
+      </div>
     </div>
 
     <script src="audio-system.js"></script>
     <script src="scripts.js"></script>
-    
+
     <script>
-        function updateAudioIcons() {
-            const musicIcon = document.getElementById('music-icon');
-            const musicButton = document.getElementById('music-button');
-            
-            if (musicButton && musicIcon) {
-                const isMusicEnabled = window.audioSystem && window.audioSystem.backgroundMusicEnabled;
-                
-                if (!isMusicEnabled) {
-                    musicButton.classList.remove('music-button-playing');
-                    musicButton.classList.add('music-button-paused');
-                } else {
-                    musicButton.classList.remove('music-button-paused');
-                    musicButton.classList.add('music-button-playing');
-                }
-            }
-            
-            const muteIcon = document.getElementById('mute-icon');
-            if (muteIcon && window.audioSystem) {
-                muteIcon.innerHTML = window.audioSystem.isMuted 
-                    ? '<i class="fas fa-volume-mute"></i>' 
-                    : '<i class="fas fa-volume-up"></i>';
-            }
+      function updateAudioIcons() {
+        const musicIcon = document.getElementById("music-icon");
+        const musicButton = document.getElementById("music-button");
+
+        if (musicButton && musicIcon) {
+          const isMusicEnabled =
+            window.audioSystem && window.audioSystem.backgroundMusicEnabled;
+
+          if (!isMusicEnabled) {
+            musicButton.classList.remove("music-button-playing");
+            musicButton.classList.add("music-button-paused");
+          } else {
+            musicButton.classList.remove("music-button-paused");
+            musicButton.classList.add("music-button-playing");
+          }
         }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                if (window.audioSystem) {
-                    const originalToggleBgMusic = window.audioSystem.toggleBackgroundMusic;
-                    window.audioSystem.toggleBackgroundMusic = function() {
-                        const result = originalToggleBgMusic.apply(this, arguments);
-                        setTimeout(updateAudioIcons, 100);
-                        return result;
-                    };
-                    
-                    const originalToggleMute = window.audioSystem.toggleMute;
-                    window.audioSystem.toggleMute = function() {
-                        const result = originalToggleMute.apply(this, arguments);
-                        setTimeout(updateAudioIcons, 100);
-                        return result;
-                    };
-                }
-                
-                updateAudioIcons();
-                setInterval(updateAudioIcons, 2000);
-            }, 1000);
-        });
+
+        const muteIcon = document.getElementById("mute-icon");
+        if (muteIcon && window.audioSystem) {
+          muteIcon.innerHTML = window.audioSystem.isMuted
+            ? '<i class="fas fa-volume-mute"></i>'
+            : '<i class="fas fa-volume-up"></i>';
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+          if (window.audioSystem) {
+            const originalToggleBgMusic =
+              window.audioSystem.toggleBackgroundMusic;
+            window.audioSystem.toggleBackgroundMusic = function () {
+              const result = originalToggleBgMusic.apply(this, arguments);
+              setTimeout(updateAudioIcons, 100);
+              return result;
+            };
+
+            const originalToggleMute = window.audioSystem.toggleMute;
+            window.audioSystem.toggleMute = function () {
+              const result = originalToggleMute.apply(this, arguments);
+              setTimeout(updateAudioIcons, 100);
+              return result;
+            };
+          }
+
+          updateAudioIcons();
+          setInterval(updateAudioIcons, 2000);
+        }, 1000);
+      });
     </script>
 
     <script>
-  // Configuração básica do cursor
-  document.addEventListener('DOMContentLoaded', () => {
-    const cursor = document.getElementById('custom-cursor');
-    
-    // Mostra o cursor quando o mouse entra na página
-    document.body.addEventListener('mouseenter', () => {
-      cursor.style.display = 'block';
-    });
+      // Configuração básica do cursor
+      document.addEventListener("DOMContentLoaded", () => {
+        const cursor = document.getElementById("custom-cursor");
 
-    // Move o cursor
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
-    });
+        // Mostra o cursor quando o mouse entra na página
+        document.body.addEventListener("mouseenter", () => {
+          cursor.style.display = "block";
+        });
 
-    // Efeito de clique (opcional)
-    document.addEventListener('mousedown', () => {
-      cursor.style.transform = 'scale(0.8)';
-    });
-    
-    document.addEventListener('mouseup', () => {
-      cursor.style.transform = 'scale(1)';
-    });
-  });
-</script>
+        // Move o cursor
+        document.addEventListener("mousemove", (e) => {
+          cursor.style.left = `${e.clientX}px`;
+          cursor.style.top = `${e.clientY}px`;
+        });
 
-  <!-- Adicione isso no final do <body> -->
-<div class="energy-circuit">
-  <svg class="energy-connection" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <path class="energy-path" d=""/>
-  </svg>
-  <div class="energy-pulse"></div>
-</div>
-<div id="audio-debug"></div>
-<script>
-function toggleSocialMenu() {
-    const container = document.getElementById('social-buttons-container');
-    const button = document.getElementById('social-menu-button');
-    
-    if (container.style.display === 'none' || !container.style.display) {
-        container.style.display = 'flex';
-        button.classList.add('active'); // Adicione uma classe para estilo
-    } else {
-        container.style.display = 'none';
-        button.classList.remove('active');
-    }
-    
-    // Tocar efeito sonoro se disponível
-    if (window.audioSystem) {
-        window.audioSystem.play('click');
-    }
-}
-</script>
-<button id="back-to-top" title="Voltar ao topo" class="back-to-top">↑</button>
-// abaca codigo aqui nao meccher ferramenta top down 
+        // Efeito de clique (opcional)
+        document.addEventListener("mousedown", () => {
+          cursor.style.transform = "scale(0.8)";
+        });
 
+        document.addEventListener("mouseup", () => {
+          cursor.style.transform = "scale(1)";
+        });
+      });
+    </script>
 
-<script>
-// Debug avançado do sistema de áudio
-function initAudioDebug() {
-  const debugEl = document.getElementById('audio-debug');
-  if (!debugEl || !window.audioSystem) return;
+    <script src="scripts.js"></script>
 
-  // Estilo adicional para o debug
-  debugEl.style.display = 'flex';
-  debugEl.style.alignItems = 'center';
-  debugEl.style.gap = '15px';
-  debugEl.style.padding = '8px 12px';
-  
-  // Função para formatar tempo
-  const formatTime = (seconds) => {
-    if (!seconds) return '0.0s';
-    const mins = Math.floor(seconds / 60);
-    const secs = (seconds % 60).toFixed(1);
-    return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
-  };
+    <!-- Adicione isso no final do <body> -->
+    <div class="energy-circuit">
+      <svg
+        class="energy-connection"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path class="energy-path" d="" />
+      </svg>
+      <div class="energy-pulse"></div>
+    </div>
+    <div id="audio-debug"></div>
+    <script>
+      function toggleSocialMenu() {
+        const container = document.getElementById("social-buttons-container");
+        const button = document.getElementById("social-menu-button");
 
-  // Atualização contínua do debug
-  const updateDebugInfo = () => {
-    try {
-      const audio = window.audioSystem;
-      const now = audio.audioContext?.currentTime || 0;
-      
-      // Tempo decorrido da música
-      const elapsed = audio.backgroundMusic && audio.musicStartTime ? 
-        formatTime(now - audio.musicStartTime) : '0.0s';
-      
-      // Estado dos controles
-      const musicState = audio.backgroundMusicEnabled ? 'ON' : 'OFF';
-      const muteState = audio.isMuted ? 'MUDO' : 'SOM';
-      
-      
-      // Atualiza o elemento de debug
-      debugEl.innerHTML = `
+        if (container.style.display === "none" || !container.style.display) {
+          container.style.display = "flex";
+          button.classList.add("active"); // Adicione uma classe para estilo
+        } else {
+          container.style.display = "none";
+          button.classList.remove("active");
+        }
+
+        // Tocar efeito sonoro se disponível
+        if (window.audioSystem) {
+          window.audioSystem.play("click");
+        }
+      }
+    </script>
+    <button id="back-to-top" title="Voltar ao topo" class="back-to-top">
+      ↑
+    </button>
+    // abaca codigo aqui nao meccher ferramenta top down
+
+    <script>
+      // Debug avançado do sistema de áudio
+      function initAudioDebug() {
+        const debugEl = document.getElementById("audio-debug");
+        if (!debugEl || !window.audioSystem) return;
+
+        // Estilo adicional para o debug
+        debugEl.style.display = "flex";
+        debugEl.style.alignItems = "center";
+        debugEl.style.gap = "15px";
+        debugEl.style.padding = "8px 12px";
+
+        // Função para formatar tempo
+        const formatTime = (seconds) => {
+          if (!seconds) return "0.0s";
+          const mins = Math.floor(seconds / 60);
+          const secs = (seconds % 60).toFixed(1);
+          return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+        };
+
+        // Atualização contínua do debug
+        const updateDebugInfo = () => {
+          try {
+            const audio = window.audioSystem;
+            const now = audio.audioContext?.currentTime || 0;
+
+            // Tempo decorrido da música
+            const elapsed =
+              audio.backgroundMusic && audio.musicStartTime
+                ? formatTime(now - audio.musicStartTime)
+                : "0.0s";
+
+            // Estado dos controles
+            const musicState = audio.backgroundMusicEnabled ? "ON" : "OFF";
+            const muteState = audio.isMuted ? "MUDO" : "SOM";
+
+            // Atualiza o elemento de debug
+            debugEl.innerHTML = `
         <span title="Música de fundo">🎵 ${musicState}</span>
         <span title="Tempo decorrido">⏱ ${elapsed}</span>
        
-        <span title="Estado mudo">${audio.isMuted ? '🔇' : '🔊'} ${muteState}</span>
+        <span title="Estado mudo">${
+          audio.isMuted ? "🔇" : "🔊"
+        } ${muteState}</span>
       `;
-      
-      // Cor baseada no estado
-      debugEl.style.borderColor = audio.isMuted ? '#ff5555' : '#8A2BE2';
-      
-    } catch (error) {
-      console.error('Audio debug error:', error);
-      debugEl.innerHTML = 'DEBUG ERROR';
-    }
-  };
 
-  // Configura o intervalo de atualização
-  const debugInterval = setInterval(updateDebugInfo, 500);
-  
-  // Atualiza também em eventos de redimensionamento
-  window.addEventListener('resize', updateDebugInfo);
-  
-  // Limpeza quando necessário
-  return () => clearInterval(debugInterval);
-}
+            // Cor baseada no estado
+            debugEl.style.borderColor = audio.isMuted ? "#ff5555" : "#8A2BE2";
+          } catch (error) {
+            console.error("Audio debug error:", error);
+            debugEl.innerHTML = "DEBUG ERROR";
+          }
+        };
 
-// Inicialização segura
-function setupAudioDebug() {
-  if (window.audioSystem) {
-    return initAudioDebug();
-  } else {
-    const checkInterval = setInterval(() => {
-      if (window.audioSystem) {
-        clearInterval(checkInterval);
-        initAudioDebug();
+        // Configura o intervalo de atualização
+        const debugInterval = setInterval(updateDebugInfo, 500);
+
+        // Atualiza também em eventos de redimensionamento
+        window.addEventListener("resize", updateDebugInfo);
+
+        // Limpeza quando necessário
+        return () => clearInterval(debugInterval);
       }
-    }, 300);
-    
-    // Timeout para não ficar verificando eternamente
-    setTimeout(() => {
-      clearInterval(checkInterval);
-      const debugEl = document.getElementById('audio-debug');
-      if (debugEl) debugEl.style.display = 'none';
-    }, 10000);
-  }
-}
 
-// Inicia quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', setupAudioDebug);
-</script>
-</body>
+      // Inicialização segura
+      function setupAudioDebug() {
+        if (window.audioSystem) {
+          return initAudioDebug();
+        } else {
+          const checkInterval = setInterval(() => {
+            if (window.audioSystem) {
+              clearInterval(checkInterval);
+              initAudioDebug();
+            }
+          }, 300);
+
+          // Timeout para não ficar verificando eternamente
+          setTimeout(() => {
+            clearInterval(checkInterval);
+            const debugEl = document.getElementById("audio-debug");
+            if (debugEl) debugEl.style.display = "none";
+          }, 10000);
+        }
+      }
+
+      // Inicia quando o DOM estiver pronto
+      document.addEventListener("DOMContentLoaded", setupAudioDebug);
+    </script>
+    <!-- Adicione isso no seu body -->
+    <div class="megaman-bg"></div>
+    <div class="megaman-transition">
+      <div class="megaman-sprite"></div>
+    </div>
+  </body>
 </html>
