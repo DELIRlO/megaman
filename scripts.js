@@ -16,7 +16,9 @@ const konamiSequence = [
 
 document.addEventListener("DOMContentLoaded", function () {
   // Usar configuração global para o tempo de loading
-  const loadingDuration = window.LOADING_CONFIG ? window.LOADING_CONFIG.duration : 3000;
+  const loadingDuration = window.LOADING_CONFIG
+    ? window.LOADING_CONFIG.duration
+    : 3000;
   initializeLoadingScreen(loadingDuration);
   initializeMenu();
   initializeMobileMenus();
@@ -286,6 +288,57 @@ function createSobrePage() {
 
 function createCurriculoPage() {
   return `<div class="page-content"><h1>CURRÍCULO</h1><div class="cv-section"><h2>FORMAÇÃO ACADÊMICA</h2><div class="cv-item"><h3>Bacharelado em Engenharia da Computação</h3><p>Instituto de Estudos Superiores da Amazônia (IESAM) - 2011-2016</p><ul><li>Participou do Clube de Tecnologia</li><li>Palestrante desenvolvimento Arduino</li><li>Palestrante na Feira do Empreendedor e Desafio SEBRAE 2011-2017</li></ul></div><div class="cv-item"><h3>Pós-Graduação Lato Sensu em Engenharia de Redes e Telecomunicações</h3><p>Faculdade Estácio - 2017-2018</p><ul><li>Desenvolvimento de Projetos variados voltados à robótica</li><li>Organização de eventos na Faculdade voltados a TI</li></ul></div></div><div class="cv-section"><h2>EXPERIÊNCIA PROFISSIONAL</h2><div class="cv-item"><h3>Técnico em manutenção de computadores</h3><p>50$ Computadores</p><ul><li>Limpeza, Programação e manutenção de software e hardware</li><li>Configuração e montagem de Desktops, Micro Computadores e notebooks</li><li>Configuração de Redes e sistemas em domicílio</li><li>Consultor de Tecnologia e aquisição de hardware e sistemas</li></ul></div><div class="cv-item"><h3>Assistente Desenvolvedor e programação</h3><p>Mac manutenções</p><ul><li>Limpeza e configuração de micro-computadores</li><li>Agendamento de arquivos de backup para diretórios oficiais</li><li>Projetos online e consultas por e-mail de clientes</li></ul></div></div></div>`;
+}
+
+function createCurriculoPage() {
+  return `
+  <div class="page-content">
+    <h1>CURRÍCULO</h1>
+    
+    <!-- Miniatura do currículo -->
+    <div class="cv-thumbnail-container">
+      <img src="https://i.ibb.co/Xrrx3kS2/CARLOS-AUGUSTO-DINIZ-FILHO-2025.png" 
+           alt="Miniatura do Currículo" 
+           class="cv-thumbnail"
+           onclick="abrirCurriculoCompleto()">
+      <p class="cv-thumbnail-caption">Clique na imagem para visualizar o currículo completo</p>
+      <button class="download-btn" onclick="downloadCurriculo()">
+        ⬇️ Baixar Currículo (PDF)
+      </button>
+    </div>
+    
+    <!-- Conteúdo do currículo que você já tem -->
+    <div class="cv-section">
+      <h2>FORMAÇÃO ACADÊMICA</h2>
+      <div class="cv-item">
+        <h3>Bacharelado em Engenharia da Computação</h3>
+        <p>Instituto de Estudos Superiores da Amazônia (IESAM) - 2011-2016</p>
+        <ul>
+          <li>Participou do Clube de Tecnologia</li>
+          <li>Palestrante desenvolvimento Arduino</li>
+          <li>Palestrante na Feira do Empreendedor e Desafio SEBRAE 2011-2017</li>
+        </ul>
+      </div>
+      <!-- Restante do seu conteúdo... -->
+    </div>
+  </div>
+  `;
+}
+
+// Funções auxiliares
+function abrirCurriculoCompleto() {
+  window.open(
+    "https://i.ibb.co/Xrrx3kS2/CARLOS-AUGUSTO-DINIZ-FILHO-2025.png",
+    "_blank"
+  );
+}
+
+function downloadCurriculo() {
+  const link = document.createElement("a");
+  link.href =
+    "https://drive.google.com/uc?export=download&id=1SgJETTmBMuwfhpDUp0DLn3v08SBc27EO";
+  link.download = "carlosfilho2025";
+  link.click();
 }
 
 function createProjetosPage() {
@@ -583,35 +636,32 @@ function triggerMegamanTransition() {
   }, 2000);
 }
 
-
 // Função para gerar linhas horizontais
 function generateHorizontalLines() {
-  const container = document.getElementById('horizontal-lines-container');
+  const container = document.getElementById("horizontal-lines-container");
   if (!container) return;
 
   const numberOfLines = 15; // Número de linhas
-  
+
   for (let i = 0; i < numberOfLines; i++) {
-    const line = document.createElement('div');
-    line.classList.add('line');
-    
+    const line = document.createElement("div");
+    line.classList.add("line");
+
     // Largura variável das linhas
     line.style.width = `${Math.random() * 40 + 30}%`;
-    
+
     // Posição vertical aleatória
     line.style.top = `${Math.random() * 100}%`;
-    
+
     // Duração da animação variável
     line.style.animationDuration = `${Math.random() * 6 + 4}s`;
-    
+
     // Delay aleatório para criar efeito escalonado
     line.style.animationDelay = `${Math.random() * 5}s`;
-    
+
     container.appendChild(line);
   }
 }
 
 // Chamar a função ao carregar a página
-document.addEventListener('DOMContentLoaded', generateHorizontalLines);
-
-
+document.addEventListener("DOMContentLoaded", generateHorizontalLines);

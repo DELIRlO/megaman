@@ -44,13 +44,17 @@
 .menu-item:hover {
   background: var(--pixel-yellow);
   transform: translateY(-2px) rotate(2deg);
-  box-shadow: 0 4px 0 var(--arcade-black), 0 0 12px var(--glow-yellow);
+  box-shadow:
+    0 4px 0 var(--arcade-black),
+    0 0 12px var(--glow-yellow);
 }
 
 /* Efeito quando o botão é clicado */
 .menu-item:active {
   transform: translateY(2px) rotate(-1deg);
-  box-shadow: 0 2px 0 var(--arcade-black), 0 0 8px var(--glow-yellow);
+  box-shadow:
+    0 2px 0 var(--arcade-black),
+    0 0 8px var(--glow-yellow);
 }
 
 /* Efeito nos ícones */
@@ -69,7 +73,9 @@
 
 .audio-control:hover {
   background: var(--pixel-red);
-  box-shadow: 0 4px 0 var(--arcade-black), 0 0 12px rgba(255, 0, 64, 0.6);
+  box-shadow:
+    0 4px 0 var(--arcade-black),
+    0 0 12px rgba(255, 0, 64, 0.6);
 }
 
 /* Estilo para os controles sociais */
@@ -79,7 +85,9 @@
 
 .social-control:hover {
   background: var(--pixel-magenta);
-  box-shadow: 0 4px 0 var(--arcade-black), 0 0 12px rgba(255, 0, 255, 0.6);
+  box-shadow:
+    0 4px 0 var(--arcade-black),
+    0 0 12px rgba(255, 0, 255, 0.6);
 }
 
 /* Estilo para os itens do menu móvel */
@@ -100,7 +108,9 @@
 .mobile-menu-item:hover {
   background: var(--pixel-yellow);
   transform: translateY(-2px) rotate(2deg);
-  box-shadow: 0 4px 0 var(--arcade-black), 0 0 12px var(--glow-yellow);
+  box-shadow:
+    0 4px 0 var(--arcade-black),
+    0 0 12px var(--glow-yellow);
 }
 
 .mobile-menu-item:active {
@@ -125,7 +135,9 @@
 .mobile-social-item:hover {
   background: var(--pixel-magenta);
   transform: translateY(-2px) rotate(2deg);
-  box-shadow: 0 4px 0 var(--arcade-black), 0 0 12px rgba(255, 0, 255, 0.6);
+  box-shadow:
+    0 4px 0 var(--arcade-black),
+    0 0 12px rgba(255, 0, 255, 0.6);
 }
 
 body {
@@ -133,14 +145,15 @@ body {
   background: var(--color-background);
   color: var(--color-text);
   overflow-x: hidden;
-  cursor: url("https://delirlo.github.io/megaman/assets/sprites/cursor.png"),
-    auto;
+  cursor:
+    url("https://delirlo.github.io/megaman/assets/sprites/cursor.png"), auto;
   line-height: 1.6;
 }
 
 /* Cursor personalizado */
 body:hover {
-  cursor: url("https://delirlo.github.io/megaman/assets/sprites/cursor-hover.png"),
+  cursor:
+    url("https://delirlo.github.io/megaman/assets/sprites/cursor-hover.png"),
     auto;
 }
 
@@ -152,11 +165,8 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
-      2px 2px at 20px 30px,
-      var(--color-secondary),
-      transparent
-    ),
+  background:
+    radial-gradient(2px 2px at 20px 30px, var(--color-secondary), transparent),
     radial-gradient(2px 2px at 40px 70px, var(--color-primary), transparent),
     radial-gradient(1px 1px at 90px 40px, var(--color-accent), transparent),
     radial-gradient(1px 1px at 130px 80px, var(--color-secondary), transparent),
@@ -196,22 +206,31 @@ body::before {
 
 /* Efeito de energia elétrica no fundo */
 .loading-screen::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-    linear-gradient(90deg, transparent 48%, rgba(0, 255, 255, 0.3) 50%, transparent 52%);
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(0, 255, 255, 0.1) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 48%,
+      rgba(0, 255, 255, 0.3) 50%,
+      transparent 52%
+    );
   animation: electricFlow 2s ease-in-out infinite;
   z-index: -1;
 }
 
 /* Linhas de energia emanando do centro */
 .loading-screen::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -220,7 +239,7 @@ body::before {
   background: rgba(0, 255, 255, 0.8);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(0, 255, 255, 0.5),
     0 0 40px rgba(0, 255, 255, 0.3),
     0 0 60px rgba(0, 255, 255, 0.1);
@@ -552,7 +571,9 @@ body::before {
     text-shadow: 2px 2px 0 var(--color-primary);
   }
   to {
-    text-shadow: 2px 2px 0 var(--color-primary), 0 0 20px var(--color-secondary);
+    text-shadow:
+      2px 2px 0 var(--color-primary),
+      0 0 20px var(--color-secondary);
   }
 }
 
@@ -1877,7 +1898,9 @@ body::before {
   height: 18px; /* 60% maior que os 11.2px anteriores (total ~18px) */
   background: #1a1a1a;
   border-radius: 9px; /* Metade da altura */
-  box-shadow: 0 0 3px #000 inset, 0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra mais destacada */
+  box-shadow:
+    0 0 3px #000 inset,
+    0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra mais destacada */
   overflow: hidden;
   border: 1px solid #3a1a5f; /* Borda roxa sutil */
 }
@@ -1892,7 +1915,8 @@ body::before {
     /* Roxo vibrante do portfólio */ #6a3093 100%
   ); /* Roxo mais escuro */
   background-size: 200% 100%;
-  animation: loading 2.3s cubic-bezier(0.65, 0, 0.35, 1) forwards,
+  animation:
+    loading 2.3s cubic-bezier(0.65, 0, 0.35, 1) forwards,
     pixel-pulse 0.4s steps(3) infinite;
 }
 
@@ -1943,7 +1967,6 @@ body::before {
   }
 }
 
-
 /* Animação de linhas horizontais */
 .horizontal-lines-container {
   position: fixed;
@@ -1959,19 +1982,34 @@ body::before {
 .line {
   position: absolute;
   height: 3px; /* Espessura da linha aumentada */
-  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary),
+    transparent
+  );
   opacity: 0.8; /* Transparência aumentada */
   animation: moveLine 8s linear infinite; /* Animação */
   box-shadow: 0 0 6px var(--color-primary);
 }
 
 .line:nth-child(odd) {
-  background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-secondary),
+    transparent
+  );
   box-shadow: 0 0 6px var(--color-secondary);
 }
 
 .line:nth-child(3n) {
-  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
   box-shadow: 0 0 6px var(--color-accent);
 }
 
@@ -1992,18 +2030,19 @@ body::before {
   }
 }
 
-
-
-
 /* Efeito de brilho suave para o loading */
 .loading-screen::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   width: 0;
   height: 0;
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 255, 0.3) 0%,
+    transparent 70%
+  );
   border-radius: 50%;
   transform: translate(-50%, -50%);
   animation: softGlow 3s ease-out forwards;
@@ -2028,4 +2067,354 @@ body::before {
   }
 }
 
+/* Estilo para o container da miniatura */
+.cv-thumbnail-container {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+/* Estilo para a miniatura */
+.cv-thumbnail {
+  width: 100%;
+  max-width: 300px;
+  border: 3px solid #2c3e50;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+
+.cv-thumbnail:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Legenda da miniatura */
+.cv-thumbnail-caption {
+  margin: 10px 0;
+  color: #666;
+  font-style: italic;
+}
+
+/* Botão de download */
+.download-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.download-btn:hover {
+  background: #2980b9;
+}
+
+/* Estilo para o container da miniatura - tema 8-bit */
+.cv-thumbnail-container {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+  border: 2px solid #8a2be2;
+  box-shadow:
+    0 0 0 2px #000,
+    0 0 0 4px #8a2be2;
+  font-family: "Press Start 2P", cursive;
+}
+
+/* Estilo para a miniatura - tema 8-bit */
+.cv-thumbnail {
+  width: 100%;
+  max-width: 300px;
+  border: 4px solid #8a2be2;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 4px 4px 0 #000;
+  image-rendering: pixelated;
+}
+
+.cv-thumbnail:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+/* Legenda da miniatura - estilo 8-bit */
+.cv-thumbnail-caption {
+  margin: 15px 0 10px;
+  color: #8a2be2;
+  font-size: 12px;
+  text-shadow: 2px 2px 0 #000;
+  line-height: 1.5;
+}
+
+/* Botão de download - estilo 8-bit */
+.download-btn {
+  background: #8a2be2;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+  transition: all 0.2s;
+  font-family: "Press Start 2P", cursive;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 4px 4px 0 #000;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #000;
+}
+
+.download-btn:hover {
+  background: #6a1b9a;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+.download-btn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0 #000;
+}
+
+/* Efeito de glitch no hover para combinar com o tema */
+.download-btn:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  animation: glitch 0.3s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Estilo para o container da miniatura - tema 8-bit com bordas finas */
+.cv-thumbnail-container {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  border: 1px solid #8a2be2;
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 0 2px #8a2be2;
+  font-family: "Press Start 2P", cursive;
+}
+
+/* Estilo para a miniatura - bordas finas */
+.cv-thumbnail {
+  width: 100%;
+  max-width: 300px;
+  border: 2px solid #8a2be2;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 2px 2px 0 #000;
+  image-rendering: pixelated;
+}
+
+.cv-thumbnail:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #000;
+}
+
+/* Legenda da miniatura - estilo 8-bit */
+.cv-thumbnail-caption {
+  margin: 12px 0 8px;
+  color: #8a2be2;
+  font-size: 11px;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.4;
+}
+
+/* Botão de download - estilo 8-bit com bordas finas */
+.download-btn {
+  background: #8a2be2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 12px;
+  transition: all 0.2s;
+  font-family: "Press Start 2P", cursive;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 2px 2px 0 #000;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #000;
+}
+
+.download-btn:hover {
+  background: #6a1b9a;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #000;
+}
+
+.download-btn:active {
+  transform: translate(0, 0);
+  box-shadow: 1px 1px 0 #000;
+}
+
+/* Efeito de glitch mais sutil */
+.download-btn:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  animation: glitch 0.3s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    transform: translate(-1px, -1px);
+  }
+  60% {
+    transform: translate(1px, 1px);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Estilo para o container da miniatura - sem bordas */
+.cv-thumbnail-container {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  font-family: "Press Start 2P", cursive;
+}
+
+/* Estilo para a miniatura - sem bordas */
+.cv-thumbnail {
+  width: 100%;
+  max-width: 300px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  image-rendering: pixelated;
+}
+
+.cv-thumbnail:hover {
+  transform: scale(1.02);
+}
+
+/* Legenda da miniatura */
+.cv-thumbnail-caption {
+  margin: 12px 0 8px;
+  color: #8a2be2;
+  font-size: 11px;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.4;
+}
+
+/* Botão de download - estilo minimalista 8-bit */
+.download-btn {
+  background: #8a2be2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 12px;
+  transition: all 0.2s;
+  font-family: "Press Start 2P", cursive;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.download-btn:hover {
+  background: #6a1b9a;
+  transform: translateY(-1px);
+}
+
+.download-btn:active {
+  transform: translateY(0);
+}
+
+/* Efeito de glitch sutil */
+.download-btn:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  animation: glitch 0.3s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-1px, 0);
+  }
+  40% {
+    transform: translate(1px, 0);
+  }
+  60% {
+    transform: translate(0, -1px);
+  }
+  80% {
+    transform: translate(0, 1px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
