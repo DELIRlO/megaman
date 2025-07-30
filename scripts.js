@@ -125,8 +125,6 @@ function initializeMobileMenuItems() {
                     document.body.style.overflow = '';
                 }
             }
-
-            
         });
     });
     
@@ -226,7 +224,7 @@ function navigateToPage(pageName) {
         if (window.audioSystem) {
             window.audioSystem.play('teleport');
         }
-    }, 1000);
+    }, 2000);
 }
 
 function createPage(pageName) {
@@ -289,10 +287,14 @@ function createContatoPage() {
 function triggerMegamanTransition() {
     const megamanTransition = document.getElementById('megaman-transition');
     if (megamanTransition) {
+        if (window.audioSystem) {
+            window.audioSystem.play('megaman-shoot');
+        }
+        
         megamanTransition.classList.add('active');
         setTimeout(() => {
             megamanTransition.classList.remove('active');
-        }, 2000);
+        }, 2300);
     }
 }
 

@@ -564,25 +564,40 @@ body::before {
 /* Transição Megaman */
 .megaman-transition {
     position: fixed;
-    top: 50%;
-    left: -100px;
-    transform: translateY(-50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(138, 43, 226, 0.5);
     z-index: 2000;
     pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
 }
 
 .megaman-sprite {
+    position: absolute;
+    top: 50%;
+    left: -100px;
+    transform: translate(0, -50%);
     width: 64px;
     height: 64px;
     background: url('https://delirlo.github.io/megaman/assets/sprites/megaman-running.gif') no-repeat center;
     background-size: contain;
+    z-index: 2001;
 }
 
 .megaman-transition.active {
-    animation: megamanPush 2s ease-in-out;
+    opacity: 1;
+    visibility: visible;
 }
 
-@keyframes megamanPush {
+.megaman-transition.active .megaman-sprite {
+    animation: megamanRun 2s ease-in-out;
+}
+
+@keyframes megamanRun {
     0% { left: -100px; }
     50% { left: 50%; transform: translate(-50%, -50%); }
     100% { left: calc(100% + 100px); }
@@ -1782,8 +1797,6 @@ body::before {
         border-radius: 7px;
     }
 }
-
-
 
 
 
