@@ -15,7 +15,9 @@ const konamiSequence = [
 ];
 
 document.addEventListener("DOMContentLoaded", function () {
-  initializeLoadingScreen();
+  // Usar configuração global para o tempo de loading
+  const loadingDuration = window.LOADING_CONFIG ? window.LOADING_CONFIG.duration : 3000;
+  initializeLoadingScreen(loadingDuration);
   initializeMenu();
   initializeMobileMenus();
   initializeTerminal();
@@ -172,7 +174,7 @@ function initializeAudioControls() {
   }
 }
 
-function initializeLoadingScreen() {
+function initializeLoadingScreen(loadingDuration = 3000) {
   const loadingScreen = document.getElementById("loading-screen");
   if (loadingScreen) {
     setTimeout(() => {
@@ -183,7 +185,7 @@ function initializeLoadingScreen() {
           console.log("🎵 Música de fundo iniciada");
         }
       }, 500);
-    }, 3000);
+    }, loadingDuration);
   }
 }
 

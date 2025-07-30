@@ -191,6 +191,71 @@ body::before {
   align-items: center;
   z-index: 9999;
   transition: opacity 0.5s ease;
+  overflow: hidden;
+}
+
+/* Efeito de energia elétrica no fundo */
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+    linear-gradient(90deg, transparent 48%, rgba(0, 255, 255, 0.3) 50%, transparent 52%);
+  animation: electricFlow 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+/* Linhas de energia emanando do centro */
+.loading-screen::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 2px;
+  background: rgba(0, 255, 255, 0.8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.5),
+    0 0 40px rgba(0, 255, 255, 0.3),
+    0 0 60px rgba(0, 255, 255, 0.1);
+  animation: energyPulse 1.5s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes electricFlow {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes energyPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 .loading-content {
@@ -1923,6 +1988,42 @@ body::before {
   }
   100% {
     transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+
+
+
+/* Efeito de brilho suave para o loading */
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: softGlow 3s ease-out forwards;
+  z-index: -1;
+}
+
+@keyframes softGlow {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  50% {
+    width: 300px;
+    height: 300px;
+    opacity: 1;
+  }
+  100% {
+    width: 600px;
+    height: 600px;
     opacity: 0;
   }
 }
