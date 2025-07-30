@@ -2418,3 +2418,112 @@ body::before {
     transform: translate(0);
   }
 }
+
+/* Container da miniatura */
+.cv-thumbnail-container {
+  position: relative;
+  z-index: 1000; /* Valor alto para ficar acima de tudo */
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Estilo da imagem - sem borda e com sombra sutil */
+.cv-thumbnail {
+  position: relative;
+  max-width: 300px;
+  border: none !important; /* Remove qualquer borda */
+  box-shadow: 0 4px 12px transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  transform: translateZ(0); /* Melhora performance e empilhamento */
+}
+
+/* Efeito hover sutil */
+.cv-thumbnail:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Legenda da miniatura */
+.cv-thumbnail-caption {
+  margin: 10px 0;
+  color: #666;
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* Botão de download */
+.download-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.download-btn:hover {
+  background: #bf02ee;
+}
+
+/* Container principal transparente */
+.page-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background: transparent; /* Fundo transparente */
+}
+
+/* Seções do currículo transparentes */
+.cv-section {
+  margin: 30px 0;
+  padding: 25px;
+  background: transparent; /* Levemente transparente */
+  border-radius: 10px;
+  backdrop-filter: blur(5px); /* Efeito de vidro fosco - opcional */
+  border: 1px solid rgba(52, 152, 219, 0.7); /* Borda sutil */
+}
+
+/* Itens individuais */
+.cv-item {
+  margin-bottom: 25px;
+  padding-left: 20px;
+  border-left: 3px solid rgba(52, 152, 219, 0.7); /* Borda esquerda com transparência */
+  color: #fff; /* Cor do texto para contraste */
+}
+
+/* Títulos */
+.cv-section h2 {
+  color: #fff; /* Cor clara para contraste */
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(5, 193, 240, 0.3); /* Borda inferior sutil */
+}
+
+/* Texto e listas */
+.cv-item p,
+.cv-item ul {
+  margin-left: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9); /* Texto com leve transparência */
+}
+
+.cv-item li {
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 15px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cv-item li::before {
+  content: "•";
+  color: rgba(52, 152, 219, 0.7);
+  position: absolute;
+  left: 0;
+}
