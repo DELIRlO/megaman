@@ -580,3 +580,36 @@ function triggerMegamanTransition() {
     transition.classList.remove("active");
   }, 2000);
 }
+
+
+// Função para gerar linhas horizontais
+function generateHorizontalLines() {
+  const container = document.getElementById('horizontal-lines-container');
+  if (!container) return;
+
+  const numberOfLines = 15; // Número de linhas
+  
+  for (let i = 0; i < numberOfLines; i++) {
+    const line = document.createElement('div');
+    line.classList.add('line');
+    
+    // Largura variável das linhas
+    line.style.width = `${Math.random() * 40 + 30}%`;
+    
+    // Posição vertical aleatória
+    line.style.top = `${Math.random() * 100}%`;
+    
+    // Duração da animação variável
+    line.style.animationDuration = `${Math.random() * 6 + 4}s`;
+    
+    // Delay aleatório para criar efeito escalonado
+    line.style.animationDelay = `${Math.random() * 5}s`;
+    
+    container.appendChild(line);
+  }
+}
+
+// Chamar a função ao carregar a página
+document.addEventListener('DOMContentLoaded', generateHorizontalLines);
+
+

@@ -593,7 +593,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(138, 43, 226, 0.7);
+  background-color: rgba(138, 43, 226, 0.2);
   z-index: 1999; /* Um abaixo do Mega Man */
   pointer-events: none;
   opacity: 0;
@@ -1877,3 +1877,54 @@ body::before {
     border-radius: 7px;
   }
 }
+
+
+/* Animação de linhas horizontais */
+.horizontal-lines-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1; /* Acima do starfield mas abaixo do conteúdo */
+  overflow: hidden;
+}
+
+.line {
+  position: absolute;
+  height: 3px; /* Espessura da linha aumentada */
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  opacity: 0.8; /* Transparência aumentada */
+  animation: moveLine 8s linear infinite; /* Animação */
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+.line:nth-child(odd) {
+  background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+  box-shadow: 0 0 6px var(--color-secondary);
+}
+
+.line:nth-child(3n) {
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  box-shadow: 0 0 6px var(--color-accent);
+}
+
+@keyframes moveLine {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+
