@@ -2527,3 +2527,53 @@ body::before {
   position: absolute;
   left: 0;
 }
+
+/* === Título Principal (Sem Cobertura da Borda) === */
+.title-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1; /* Garante que o título fique acima da borda */
+}
+
+/* Borda Ajustada (Não cobre o título) */
+.title-section::before {
+  content: "";
+  position: absolute;
+  top: 5px; /* Ajustado para não vazar no topo */
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 2px solid rgba(138, 43, 226, 0.1); /* Roxo 80% transparente */
+  border-radius: 15px;
+  background-color: rgba(138, 43, 226, 0.1); /* Fundo 80% transparente */
+  z-index: -1; /* Fica atrás do título */
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.1);
+}
+
+/* Efeito tracejado externo (opcional) */
+.title-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  z-index: -2;
+  opacity: 0.5;
+}
+
+/* === Lista e Container (80% Transparente) === */
+.highlights {
+  background: rgba(138, 43, 226, 0.1); /* 80% transparente */
+  border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.page-content {
+  background: rgba(138, 43, 226, 0.15); /* Quase transparente */
+}

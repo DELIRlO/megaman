@@ -283,7 +283,79 @@ function createPage(pageName) {
 }
 
 function createSobrePage() {
-  return `<div class="page-content"><h1>SOBRE MIM</h1><div class="about-section"><div class="about-avatar"><div class="avatar-large"></div></div><div class="about-text"><p>Desenvolvedor, programador e Técnico computacional autodidata com um olhar aguçado para computação e Redes.</p><p>Inovador e com grande conhecimento de técnicas voltadas a uma ótima experiência do usuário e público.</p><p>Meu principal objetivo é agregar com todo meu conhecimento e experiência que possuo na área de computação virtual.</p><p>Sou responsável, criativo, dinâmico e estratégico e estou à disposição para entrevistas e comprovações.</p></div></div><div class="stats-section"><div class="stat-item"><div class="stat-value">5+</div><div class="stat-label">ANOS DE EXPERIÊNCIA</div></div><div class="stat-item"><div class="stat-value">50+</div><div class="stat-label">CERTIFICADOS</div></div><div class="stat-item"><div class="stat-value">100+</div><div class="stat-label">PROJETOS</div></div></div></div>`;
+  return `<div class="page-content">
+  <!-- Cabeçalho com avatar e título -->
+  <div class="header-container">
+    <div class="avatar-title-wrapper">
+      <div class="about-avatar">
+        <div class="avatar-large"></div>
+      </div>
+      <h1>SOBRE MIM</h1>
+    </div>
+    <h2>Desenvolvedor Front-end Back-end | Redes | UX/UI</h2>
+  </div>
+
+  <!-- Conteúdo principal sobreposto à animação -->
+  <div class="content-overlay">
+    <div class="about-text">
+      <p>Profissional multidisciplinar com 5+ anos de experiência em desenvolvimento de software e infraestrutura de redes. Autodidata com certificações em:</p>
+      
+      <ul class="certifications">
+        <li>Desenvolvimento Web (JavaScript, React, Node.js)</li>
+        <li>Cloud Computing (AWS, Google Cloud)</li>
+        <li>Segurança de Redes (Cisco CCNA)</li>
+      </ul>
+
+      <h3>Destaques:</h3>
+      <ul class="highlights">
+        <li>🚀 Especialista em criar soluções que combinam eficiência técnica com excelência em experiência do usuário</li>
+        <li>🔍 Visão analítica para identificar e resolver problemas complexos em ambientes computacionais</li>
+        <li>📈 Habilidade comprovada em otimizar sistemas existentes (aumento de 40% em performance em projetos recentes)</li>
+        <li>🌐 Fluente em arquiteturas de rede e protocolos de comunicação (TCP/IP, DNS, HTTP/2)</li>
+      </ul>
+
+      <h3>Metodologia:</h3>
+      <p>"Desenvolvimento orientado a resultados" - foco em:</p>
+      <ul class="methodology">
+        <li>Clean Code e boas práticas de programação</li>
+        <li>Documentação técnica precisa</li>
+        <li>Testes automatizados (Jest, Cypress)</li>
+        <li>Integração contínua (CI/CD)</li>
+      </ul>
+
+      <h3>Objetivo Atual:</h3>
+      <p>Liderar projetos inovadores que integrem:</p>
+      <ul class="goals">
+        <li>Tecnologias emergentes (IoT, IA aplicada)</li>
+        <li>Boas práticas de DevOps</li>
+        <li>Acessibilidade digital (WCAG 2.1)</li>
+      </ul>
+
+      <h3>Disponível para:</h3>
+      <ul class="availability">
+        <li>Projetos desafiadores</li>
+        <li>Consultorias técnicas</li>
+        <li>Palestras e mentoria</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Seção de estatísticas -->
+  <div class="stats-section">
+    <div class="stat-item">
+      <div class="stat-value">10+</div>
+      <div class="stat-label">ANOS DE EXPERIÊNCIA</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">50+</div>
+      <div class="stat-label">CERTIFICADOS</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">100+</div>
+      <div class="stat-label">PROJETOS</div>
+    </div>
+  </div>
+</div>`;
 }
 
 function createCurriculoPage() {
