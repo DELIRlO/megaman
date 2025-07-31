@@ -185,7 +185,7 @@ class ElectricLines {
 
 // Configuração global para controle do tempo de loading
 window.LOADING_CONFIG = {
-  duration: 2000, // Tempo em milissegundos (padrão: 3 segundos)
+  duration: 3000, // Tempo em milissegundos (padrão: 3 segundos)
   enableElectricLines: true, // Habilitar/desabilitar linhas elétricas
 };
 
