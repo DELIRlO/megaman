@@ -290,52 +290,53 @@ function createSobrePage() {
       <div class="about-avatar">
         <div class="avatar-large"></div>
       </div>
-      <h1>SOBRE MIM</h1>
+      <h1 style="color: #34f2fd;"><i class="fas fa-user-tie" style="position: relative; top: -2px;"></i> SOBRE MIM</h1>
     </div>
-    <h2>Desenvolvedor Front-end Back-end | Redes | UX/UI</h2>
+    <h2><i class="fas fa-code red-icon" style="font-size: 15px;"></i> Desenvolvedor Full-Stack | <i class="fas fa-network-wired red-icon" style="font-size: 15px;"></i> Redes | <i class="fas fa-paint-brush red-icon" style="font-size: 15px;"></i> UX/UI</h2>
   </div>
 
-  <!-- Conteúdo principal sobreposto à animação -->
+  <!-- Conteúdo principal -->
   <div class="content-overlay">
     <div class="about-text">
-      <p>Profissional multidisciplinar com 5+ anos de experiência em desenvolvimento de software e infraestrutura de redes. Autodidata com certificações em:</p>
+      <p><i class="fas fa-briefcase green-icon" style="font-size: 15px;"></i> Profissional multidisciplinar com 5+ anos de experiência em desenvolvimento de software e infraestrutura de redes. Autodidata com certificações em:</p>
       
       <ul class="certifications">
-        <li>Desenvolvimento Web (JavaScript, React, Node.js)</li>
-        <li>Cloud Computing (AWS, Google Cloud)</li>
-        <li>Segurança de Redes (Cisco CCNA)</li>
+        <li><i class="fab fa-js-square green-icon" style="font-size: 15px;"></i> Desenvolvimento Web (JavaScript, React, Node.js)</li>
+        <li><i class="fas fa-cloud green-icon" style="font-size: 15px;"></i> Cloud Computing (AWS, Google Cloud)</li>
+        <li><i class="fas fa-shield-alt green-icon" style="font-size: 15px;"></i> Segurança de Redes (Cisco CCNA)</li>
       </ul>
 
-      <h3>Destaques:</h3>
+      <h3><i class="fas fa-star yellow-icon" style="font-size: 15px;"></i> Destaques:</h3>
       <ul class="highlights">
-        <li>🚀 Especialista em criar soluções que combinam eficiência técnica com excelência em experiência do usuário</li>
-        <li>🔍 Visão analítica para identificar e resolver problemas complexos em ambientes computacionais</li>
-        <li>📈 Habilidade comprovada em otimizar sistemas existentes (aumento de 40% em performance em projetos recentes)</li>
-        <li>🌐 Fluente em arquiteturas de rede e protocolos de comunicação (TCP/IP, DNS, HTTP/2)</li>
+        <li><i class="fas fa-rocket yellow-icon" style="font-size: 15px;"></i> Especialista em soluções que combinam eficiência técnica com UX</li>
+        <li><i class="fas fa-search-plus yellow-icon" style="font-size: 15px;"></i> Visão analítica para resolver problemas complexos</li>
+        <li><i class="fas fa-chart-line yellow-icon" style="font-size: 15px;"></i> +40% de performance em otimizações de sistemas</li>
+        <li><i class="fas fa-globe yellow-icon" style="font-size: 15px;"></i> Expertise em arquiteturas de rede (TCP/IP, DNS, HTTP/2)</li>
       </ul>
 
-      <h3>Metodologia:</h3>
+      <h3><i class="fas fa-tasks orange-icon" style="font-size: 15px;"></i> Metodologia:</h3>
       <p>"Desenvolvimento orientado a resultados" - foco em:</p>
       <ul class="methodology">
-        <li>Clean Code e boas práticas de programação</li>
-        <li>Documentação técnica precisa</li>
-        <li>Testes automatizados (Jest, Cypress)</li>
-        <li>Integração contínua (CI/CD)</li>
+        <li><i class="fas fa-broom orange-icon" style="font-size: 15px;"></i> Clean Code e boas práticas</li>
+        <li><i class="fas fa-file-alt orange-icon" style="font-size: 15px;"></i> Documentação técnica precisa</li>
+        <li><i class="fas fa-vial orange-icon" style="font-size: 15px;"></i> Testes automatizados (Jest, Cypress)</li>
+        <li><i class="fas fa-sync-alt orange-icon" style="font-size: 15px;"></i> CI/CD</li>
+        <li><i class="fas fa-clipboard-check orange-icon" style="font-size: 15px;"></i> Gestão de Qualidade</li>
       </ul>
 
-      <h3>Objetivo Atual:</h3>
+      <h3><i class="fas fa-bullseye red-icon" style="font-size: 15px;"></i> Objetivo Atual:</h3>
       <p>Liderar projetos inovadores que integrem:</p>
       <ul class="goals">
-        <li>Tecnologias emergentes (IoT, IA aplicada)</li>
-        <li>Boas práticas de DevOps</li>
-        <li>Acessibilidade digital (WCAG 2.1)</li>
+        <li><i class="fas fa-microchip red-icon" style="font-size: 15px;"></i> IoT e IA aplicada</li>
+        <li><i class="fas fa-robot red-icon" style="font-size: 15px;"></i> DevOps</li>
+        <li><i class="fas fa-universal-access red-icon" style="font-size: 15px;"></i> Acessibilidade (WCAG 2.1)</li>
       </ul>
 
-      <h3>Disponível para:</h3>
+      <h3><i class="fas fa-handshake red-icon" style="font-size: 15px;"></i> Disponível para:</h3>
       <ul class="availability">
-        <li>Projetos desafiadores</li>
-        <li>Consultorias técnicas</li>
-        <li>Palestras e mentoria</li>
+        <li><i class="fas fa-laptop-code red-icon" style="font-size: 15px;"></i> Projetos desafiadores</li>
+        <li><i class="fas fa-headset red-icon" style="font-size: 15px;"></i> Consultorias técnicas</li>
+        <li><i class="fas fa-chalkboard-teacher red-icon" style="font-size: 15px;"></i> Palestras e mentoria</li>
       </ul>
     </div>
   </div>
@@ -343,19 +344,39 @@ function createSobrePage() {
   <!-- Seção de estatísticas -->
   <div class="stats-section">
     <div class="stat-item">
-      <div class="stat-value">10+</div>
+      <div class="stat-value"><i class="fas fa-calendar-alt green-icon" style="font-size: 15px;"></i> 10+</div>
       <div class="stat-label">ANOS DE EXPERIÊNCIA</div>
     </div>
     <div class="stat-item">
-      <div class="stat-value">50+</div>
+      <div class="stat-value"><i class="fas fa-certificate green-icon" style="font-size: 15px;"></i> 50+</div>
       <div class="stat-label">CERTIFICADOS</div>
     </div>
     <div class="stat-item">
-      <div class="stat-value">100+</div>
+      <div class="stat-value"><i class="fas fa-project-diagram green-icon" style="font-size: 15px;"></i> 100+</div>
       <div class="stat-label">PROJETOS</div>
     </div>
   </div>
-</div>`;
+</div>
+
+<!-- CSS Customizado -->
+<style>
+  /* Configuração base dos ícones */
+  i.fas, i.fab {
+    margin-right: 8px;
+    width: 20px;
+    text-align: center;
+    position: relative;
+  }
+  
+  /* Cores por categoria */
+  .red-icon { color: #dc3545; }
+  .green-icon { color: #28a745; }
+  .yellow-icon { color: #ffc107; }
+  .orange-icon { color: #fd7e14; }
+</style>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">`;
 }
 
 function createCurriculoPage() {
@@ -446,19 +467,19 @@ function createProjetosPage() {
 function createSkillsPage() {
   return `<div class="page-content">
   <h1>
-    <i class="fas fa-laptop-code" style="font-size: 24px; color: #34f2fd; margin-right: 10px; position: relative; top: -3px;"></i>
+    <i class="fas fa-laptop-code" style="font-size: 26px; color: red; margin-right: 10px; position: relative; top: -5px;"></i>
     HABILIDADES
   </h1>
   <div class="skills-section">
     <div class="skill-category">
       <h2>
-        <i class="fas fa-code" style="font-size: 20px; color: #34f2fd; margin-right: 10px;"></i>
+        <i class="fas fa-code" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i>
         LINGUAGENS DE PROGRAMAÇÃO
       </h2>
       <div class="skill-bars">
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="18" style="position: relative; top: 2px;"/>
             JavaScript
           </div>
           <div class="skill-progress">
@@ -467,8 +488,8 @@ function createSkillsPage() {
         </div>
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="16"/>
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="18" style="position: relative; top: 2px;"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="18" style="position: relative; top: 2px;"/>
             HTML5/CSS3
           </div>
           <div class="skill-progress">
@@ -477,7 +498,7 @@ function createSkillsPage() {
         </div>
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="18" style="position: relative; top: 2px;"/>
             Python
           </div>
           <div class="skill-progress">
@@ -486,7 +507,7 @@ function createSkillsPage() {
         </div>
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="18" style="position: relative; top: 2px;"/>
             Java
           </div>
           <div class="skill-progress">
@@ -497,13 +518,13 @@ function createSkillsPage() {
     </div>
     <div class="skill-category">
       <h2>
-        <i class="fas fa-cubes" style="font-size: 20px; color: #34f2fd; margin-right: 10px;"></i>
+        <i class="fas fa-cubes" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i>
         FRAMEWORKS & TECNOLOGIAS
       </h2>
       <div class="skill-bars">
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="18" style="position: relative; top: 2px;"/>
             React
           </div>
           <div class="skill-progress">
@@ -512,7 +533,7 @@ function createSkillsPage() {
         </div>
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="18" style="position: relative; top: 2px;"/>
             Node.js
           </div>
           <div class="skill-progress">
@@ -521,7 +542,7 @@ function createSkillsPage() {
         </div>
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="18" style="position: relative; top: 2px;"/>
             TypeScript
           </div>
           <div class="skill-progress">
@@ -532,13 +553,13 @@ function createSkillsPage() {
     </div>
     <div class="skill-category">
       <h2>
-        <i class="fas fa-network-wired" style="font-size: 20px; color: #34f2fd; margin-right: 10px;"></i>
+        <i class="fas fa-network-wired" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i>
         SISTEMAS & REDES
       </h2>
       <div class="skill-bars">
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="18" style="position: relative; top: 2px;"/>
             Linux
           </div>
           <div class="skill-progress">
@@ -547,7 +568,7 @@ function createSkillsPage() {
         </div>
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" width="18" style="position: relative; top: 2px;"/>
             Windows Server
           </div>
           <div class="skill-progress">
@@ -556,7 +577,7 @@ function createSkillsPage() {
         </div>
         <div class="skill-bar">
           <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="18" style="position: relative; top: 2px;"/>
             Redes TCP/IP
           </div>
           <div class="skill-progress">
@@ -566,7 +587,10 @@ function createSkillsPage() {
       </div>
     </div>
   </div>
-</div>`;
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">`;
 }
 
 function createBlogPage() {
