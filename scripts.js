@@ -444,7 +444,129 @@ function createProjetosPage() {
 }
 
 function createSkillsPage() {
-  return `<div class="page-content"><h1>HABILIDADES</h1><div class="skills-section"><div class="skill-category"><h2>LINGUAGENS DE PROGRAMAÇÃO</h2><div class="skill-bars"><div class="skill-bar"><div class="skill-name">JavaScript</div><div class="skill-progress"><div class="skill-fill" style="width:90%"></div></div></div><div class="skill-bar"><div class="skill-name">HTML5/CSS3</div><div class="skill-progress"><div class="skill-fill" style="width:95%"></div></div></div><div class="skill-bar"><div class="skill-name">Python</div><div class="skill-progress"><div class="skill-fill" style="width:80%"></div></div></div><div class="skill-bar"><div class="skill-name">Java</div><div class="skill-progress"><div class="skill-fill" style="width:75%"></div></div></div></div></div><div class="skill-category"><h2>FRAMEWORKS & TECNOLOGIAS</h2><div class="skill-bars"><div class="skill-bar"><div class="skill-name">React</div><div class="skill-progress"><div class="skill-fill" style="width:85%"></div></div></div><div class="skill-bar"><div class="skill-name">Node.js</div><div class="skill-progress"><div class="skill-fill" style="width:80%"></div></div></div><div class="skill-bar"><div class="skill-name">TypeScript</div><div class="skill-progress"><div class="skill-fill" style="width:75%"></div></div></div></div></div><div class="skill-category"><h2>SISTEMAS & REDES</h2><div class="skill-bars"><div class="skill-bar"><div class="skill-name">Linux</div><div class="skill-progress"><div class="skill-fill" style="width:90%"></div></div></div><div class="skill-bar"><div class="skill-name">Windows Server</div><div class="skill-progress"><div class="skill-fill" style="width:85%"></div></div></div><div class="skill-bar"><div class="skill-name">Redes TCP/IP</div><div class="skill-progress"><div class="skill-fill" style="width:88%"></div></div></div></div></div></div></div>`;
+  return `<div class="page-content">
+  <h1>
+    <i class="fas fa-laptop-code" style="font-size: 24px; color: #34f2fd; margin-right: 10px; position: relative; top: -3px;"></i>
+    HABILIDADES
+  </h1>
+  <div class="skills-section">
+    <div class="skill-category">
+      <h2>
+        <i class="fas fa-code" style="font-size: 20px; color: #34f2fd; margin-right: 10px;"></i>
+        LINGUAGENS DE PROGRAMAÇÃO
+      </h2>
+      <div class="skill-bars">
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="16"/>
+            JavaScript
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:90%"></div>
+          </div>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="16"/>
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="16"/>
+            HTML5/CSS3
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:95%"></div>
+          </div>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="16"/>
+            Python
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:80%"></div>
+          </div>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="16"/>
+            Java
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:75%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="skill-category">
+      <h2>
+        <i class="fas fa-cubes" style="font-size: 20px; color: #34f2fd; margin-right: 10px;"></i>
+        FRAMEWORKS & TECNOLOGIAS
+      </h2>
+      <div class="skill-bars">
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="16"/>
+            React
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:85%"></div>
+          </div>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="16"/>
+            Node.js
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:80%"></div>
+          </div>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="16"/>
+            TypeScript
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:75%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="skill-category">
+      <h2>
+        <i class="fas fa-network-wired" style="font-size: 20px; color: #34f2fd; margin-right: 10px;"></i>
+        SISTEMAS & REDES
+      </h2>
+      <div class="skill-bars">
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="16"/>
+            Linux
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:90%"></div>
+          </div>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" width="16"/>
+            Windows Server
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:85%"></div>
+          </div>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-name">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="16"/>
+            Redes TCP/IP
+          </div>
+          <div class="skill-progress">
+            <div class="skill-fill" style="width:88%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
 }
 
 function createBlogPage() {
