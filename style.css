@@ -1048,7 +1048,6 @@ body::before {
   .main-content {
     margin-right: 0;
     padding: 10px;
-    padding-top: 80px; /* Espaço para atalho de menu */
   }
 
   .floating-menu {
@@ -1678,12 +1677,6 @@ body::before {
   transform: scale(1.1);
 }
 
-/* Ajuste de alinhamento */
-.audio-controls-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 /* SEU CÓDIGO (MANTIDO INTEGRALMENTE) */
 .audio-controls-top .menu-icon,
 #music-button .menu-icon,
