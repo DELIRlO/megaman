@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/COLOR-NEON-ff00ff?style=for-the-badge" alt="Neon colors">
 </p>
 
-````diff
+```diff
 + Um portfólio interativo com tema retro gamer 8-bit
 + Desenvolvido com HTML5, CSS3 e JavaScript vanilla
 
@@ -90,7 +90,7 @@ portfolio_8bit/
 + 👆 Touch: Suporte a gestos e toques
 + ⚡ Performance: Otimizado para dispositivos móveis
 
-```rust
+
 # Clonar o repositório
 git clone [url-do-repositorio]
 
@@ -102,7 +102,7 @@ python3 -m http.server 8000
 
 # Acessar no navegador
 http://localhost:8000
-````
+
 
 - Este projeto é de uso pessoal e educacional.
 - Não permite redistribuição comercial.
@@ -201,7 +201,5 @@ Mega Man não aparece Verifique se digitou megaman on corretamente
 Movimento muito rápido/lento Ajuste movementSpeed no código
 Não funciona no mobile Verifique se o terminal está acessível
 Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025 whatszap 91 88199828
-
-```
 
 ```
