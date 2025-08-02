@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/COLOR-NEON-ff00ff?style=for-the-badge" alt="Neon colors">
 </p>
 
-```diff
+````diff
 + Um portfólio interativo com tema retro gamer 8-bit
 + Desenvolvido com HTML5, CSS3 e JavaScript vanilla
 
@@ -105,7 +105,6 @@ http://localhost:8000
 - Este projeto é de uso pessoal e educacional.
 - Não permite redistribuição comercial.
 
-<p align="center"> <img src="https://img.shields.io/badge/MADE%20WITH-♥-ff0000?style=for-the-badge" alt="Made with love"> <img src="https://img.shields.io/badge/8BIT-STYLE-00ff00?style=for-the-badge" alt="8-bit style"> </p> ``
 
 🤖 Sistema Mega Man - Documentação
 🎮 Como Usar
@@ -178,11 +177,29 @@ this.sprites = {
 this.shootInterval = { min: 4000, max: 15000 }; // 4-15 segundos
 this.moveInterval = { min: 2000, max: 6000 }; // 2-6 segundos
 
+🔧 Desenvolvimento Local
+```diff
+! ----------------------------------------
++ # 1. Clonar o repositório
++ git clone [url-do-repositorio]
+!
++ # 2. Entrar na pasta do projeto
++ cd portfolio_8bit
+!
++ # 3. Iniciar servidor Python
++ python3 -m http.server 8000
+!
++ # 4. Acessar no navegador
++ http://localhost:8000
+! ----------------------------------------
+...
+
+
 🐛 Solução de Problemas
 Problema	Solução
 Mega Man não aparece	Verifique se digitou megaman on corretamente
 Movimento muito rápido/lento	Ajuste movementSpeed no código
 Não funciona no mobile	Verifique se o terminal está acessível
-Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2023
+Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025    whatszap 91 88199828
 
-```
+````
