@@ -2789,3 +2789,203 @@ body::before {
 .speed-mode .megaman-character.shooting {
   animation: shootingPulse 0.1s ease-in-out 5;
 }
+
+/* === ANIMAÇÕES PARA DESTRUIÇÃO E REGENERAÇÃO DO NOME === */
+
+/* Animação de tremor/shake para quando o nome está sendo destruído */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-2px) rotate(-0.5deg);
+  }
+  20% {
+    transform: translateX(2px) rotate(0.5deg);
+  }
+  30% {
+    transform: translateX(-2px) rotate(-0.5deg);
+  }
+  40% {
+    transform: translateX(2px) rotate(0.5deg);
+  }
+  50% {
+    transform: translateX(-1px) rotate(-0.25deg);
+  }
+  60% {
+    transform: translateX(1px) rotate(0.25deg);
+  }
+  70% {
+    transform: translateX(-1px) rotate(-0.25deg);
+  }
+  80% {
+    transform: translateX(1px) rotate(0.25deg);
+  }
+  90% {
+    transform: translateX(-0.5px) rotate(-0.1deg);
+  }
+}
+
+/* Animação de regeneração com brilho e pulsação */
+@keyframes regenerate {
+  0% {
+    filter: brightness(1) contrast(1);
+    text-shadow: 2px 2px 0 #000;
+  }
+  25% {
+    filter: brightness(1.3) contrast(1.2);
+    text-shadow:
+      2px 2px 0 #000,
+      0 0 5px rgba(0, 255, 255, 0.7),
+      0 0 10px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    filter: brightness(1.5) contrast(1.4);
+    text-shadow:
+      2px 2px 0 #000,
+      0 0 8px rgba(0, 255, 255, 0.9),
+      0 0 15px rgba(0, 255, 255, 0.7),
+      0 0 20px rgba(0, 255, 255, 0.5);
+  }
+  75% {
+    filter: brightness(1.2) contrast(1.1);
+    text-shadow:
+      2px 2px 0 #000,
+      0 0 3px rgba(0, 255, 255, 0.5);
+  }
+  100% {
+    filter: brightness(1) contrast(1);
+    text-shadow: 2px 2px 0 #000;
+  }
+}
+
+/* Efeito adicional para letras quebrando - cintilação */
+@keyframes letterBreaking {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  10% {
+    opacity: 0.8;
+    transform: scale(0.98) rotate(-0.5deg);
+  }
+  20% {
+    opacity: 0.9;
+    transform: scale(1.02) rotate(0.5deg);
+  }
+  30% {
+    opacity: 0.7;
+    transform: scale(0.96) rotate(-0.3deg);
+  }
+  40% {
+    opacity: 0.85;
+    transform: scale(1.01) rotate(0.3deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.94) rotate(-0.2deg);
+  }
+  60% {
+    opacity: 0.8;
+    transform: scale(1.03) rotate(0.2deg);
+  }
+  70% {
+    opacity: 0.9;
+    transform: scale(0.97) rotate(-0.1deg);
+  }
+  80% {
+    opacity: 0.75;
+    transform: scale(1.01) rotate(0.1deg);
+  }
+  90% {
+    opacity: 0.95;
+    transform: scale(0.99);
+  }
+}
+
+/* Efeito de pulsação para regeneração */
+@keyframes regeneratePulse {
+  0% {
+    transform: scale(1);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: hue-rotate(30deg);
+  }
+  100% {
+    transform: scale(1);
+    filter: hue-rotate(0deg);
+  }
+}
+
+/* Classe auxiliar para aplicar efeito de quebra */
+.breaking-text {
+  animation: letterBreaking 0.1s ease-in-out infinite;
+}
+
+/* Classe auxiliar para texto sendo destruído */
+.destroying-text {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Classe auxiliar para texto sendo regenerado */
+.regenerating-text {
+  animation:
+    regenerate 0.5s ease-in-out,
+    regeneratePulse 0.15s ease-in-out infinite;
+}
+
+/* Efeito especial para o título quando está sendo atacado */
+.hero-title.under-attack {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title.under-attack::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background:
+    linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 0, 0, 0.1) 35%,
+      rgba(255, 0, 0, 0.2) 40%,
+      transparent 45%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 30%,
+      rgba(255, 0, 0, 0.1) 35%,
+      rgba(255, 0, 0, 0.2) 40%,
+      transparent 45%
+    );
+  animation: dangerField 0.3s ease-in-out infinite;
+  z-index: -1;
+  border-radius: 3px;
+}
+
+@keyframes dangerField {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* Efeito para quando o nome está sendo regenerado */
+.hero-title.regenerating {
+  animation:
+    regenerate 0.5s ease-in-out,
+    titleGlow 1s ease-in-out infinite;
+}
