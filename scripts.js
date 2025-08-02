@@ -972,3 +972,6 @@ function generateHorizontalLines() {
 
 // Chamar a função ao carregar a página
 document.addEventListener("DOMContentLoaded", generateHorizontalLines);
+
+// Adicione no console para forçar início
+megamanController.start();

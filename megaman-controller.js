@@ -18,26 +18,17 @@ class MegamanController {
     this.currentPage = "home";
     this.isPaused = false;
 
-    // Propriedades para controle do nome
-    this.targetName = null;
-    this.nameElement = null;
-    this.isMovingToName = false;
-    this.nameOriginalContent = "";
-    this.nameRegenerationTimer = null;
-
-    // Configurações de timing - mais movimento, menos tiro
-    this.shootInterval = { min: 12000, max: 30000 }; // 12-30 segundos (reduzido)
-    this.moveInterval = { min: 1500, max: 4000 }; // 1.5-4 segundos (aumentado)
-    this.shootDuration = 1000; // Duração do tiro em ms (reduzido)
+    // Configurações de timing
+    this.shootInterval = { min: 6000, max: 20000 }; // 6-20 segundos
+    this.moveInterval = { min: 3000, max: 8000 }; // 3-8 segundos
+    this.shootDuration = 1500; // Duração do tiro em ms
 
     // Sprites disponíveis
     this.sprites = {
-      idle: "assets/sprites/parado10.gif", // Mudado para sprite parado inicial
+      idle: "assets/sprites/megaman-pushing.gif",
       idleLeft: "assets/sprites/megaman-pushing-esquerda.gif",
       stopped: "assets/sprites/parado10.gif",
       shooting: "assets/sprites/m2.gif",
-      running: "assets/sprites/megaman-pushing.gif", // Sprite para movimento
-      runningLeft: "assets/sprites/megaman-pushing-esquerda.gif", // Sprite para movimento à esquerda
     };
 
     // Controle de direção
@@ -269,25 +260,14 @@ class MegamanController {
       return;
     }
 
-    // Verifica se deve se mover para o nome ou posição aleatória
-    this.findNameElement();
-
     // Salva posição anterior para calcular direção
     this.lastPosition = { ...this.position };
-
-    // Se há um nome detectado, 40% de chance de ir até ele
-    if (this.nameElement && Math.random() < 0.4) {
-      this.moveToName();
-      return;
-    }
-
     this.targetPosition = this.getRandomPosition();
 
     // Determina direção do movimento
     this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
 
     this.isMoving = true;
-    this.isMovingToName = false;
     this.stats.totalMoves++;
 
     if (this.element) {
@@ -350,11 +330,6 @@ class MegamanController {
       return;
     }
 
-    // Para o movimento se estiver se movendo
-    if (this.isMoving) {
-      this.stopMovement();
-    }
-
     this.isShooting = true;
     this.stats.totalShots++;
     this.switchSprite("shooting");
@@ -370,13 +345,10 @@ class MegamanController {
 
     console.log("💥 Mega Man atirando!");
 
-    // Verifica se está próximo do nome e o destrói
-    this.checkNameDestruction();
-
-    // Volta ao sprite idle após a duração do tiro e agenda movimento rápido
+    // Volta ao sprite idle após a duração do tiro
     setTimeout(() => {
       if (this.isActive) {
-        this.switchSprite("stopped");
+        this.switchSprite("idle");
         this.isShooting = false;
 
         if (this.element) {
@@ -384,15 +356,6 @@ class MegamanController {
         }
 
         this.scheduleNextShoot();
-
-        // Agenda um movimento mais rápido após atirar (50% de chance)
-        if (Math.random() < 0.5) {
-          setTimeout(() => {
-            if (this.isActive && !this.isMoving) {
-              this.moveToRandomPosition();
-            }
-          }, 500); // Move após 0.5 segundos
-        }
       }
     }, this.shootDuration);
   }
@@ -407,9 +370,9 @@ class MegamanController {
   // Atualiza sprite baseado na direção do movimento
   updateMovementSprite() {
     if (this.direction === "left") {
-      this.switchSprite("runningLeft");
+      this.switchSprite("idleLeft");
     } else {
-      this.switchSprite("running");
+      this.switchSprite("idle");
     }
   }
 
@@ -445,331 +408,6 @@ class MegamanController {
       startTime: this.isActive ? Date.now() : null,
     };
     console.log("📊 Estatísticas do Mega Man resetadas!");
-  }
-
-  // Encontra o elemento com o nome na página home
-  findNameElement() {
-    if (this.currentPage !== "home") {
-      this.nameElement = null;
-      return;
-    }
-
-    // Procura pelo título principal que contém o nome
-    const titleElement = document.querySelector(".hero-title");
-    if (
-      titleElement &&
-      titleElement.textContent
-        .toLowerCase()
-        .includes("carlos augusto diniz filho")
-    ) {
-      this.nameElement = titleElement;
-      if (!this.nameOriginalContent) {
-        this.nameOriginalContent = titleElement.innerHTML;
-      }
-    } else {
-      this.nameElement = null;
-    }
-  }
-
-  // Move o Megaman para próximo do nome
-  moveToName() {
-    if (!this.nameElement) return;
-
-    const rect = this.nameElement.getBoundingClientRect();
-
-    // Posição próxima ao nome (um pouco à esquerda para não cobrir)
-    this.targetPosition = {
-      x: Math.max(50, rect.left - 100),
-      y: Math.max(50, rect.top + rect.height / 2 - 32), // Centraliza verticalmente
-    };
-
-    // Determina direção do movimento
-    this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
-
-    this.isMoving = true;
-    this.isMovingToName = true;
-    this.stats.totalMoves++;
-
-    if (this.element) {
-      this.element.classList.add("moving");
-    }
-
-    console.log("🎯 Mega Man se movendo em direção ao nome!");
-
-    // Atualiza sprite baseado na direção
-    this.updateMovementSprite();
-    this.updateMovement();
-  }
-
-  // Verifica se está próximo do nome e o destrói quando atirar
-  checkNameDestruction() {
-    if (!this.nameElement || !this.isActive) return;
-
-    const nameRect = this.nameElement.getBoundingClientRect();
-    const megamanRect = {
-      left: this.position.x,
-      top: this.position.y,
-      right: this.position.x + 64,
-      bottom: this.position.y + 64,
-    };
-
-    // Calcula distância entre Megaman e o nome
-    const distance = Math.sqrt(
-      Math.pow(nameRect.left - megamanRect.left, 2) +
-        Math.pow(nameRect.top - megamanRect.top, 2)
-    );
-
-    // Se estiver próximo o suficiente (150px), 40% de chance de destruir o nome
-    if (distance < 150 && Math.random() < 0.4) {
-      this.destroyName();
-      console.log("💥 Nome destruído pelo Mega Man!");
-    }
-  }
-
-  // Destrói o nome com efeito visual aprimorado
-  destroyName() {
-    if (!this.nameElement || !this.nameOriginalContent) return;
-
-    // Limpa timer de regeneração anterior se existir
-    if (this.nameRegenerationTimer) {
-      clearTimeout(this.nameRegenerationTimer);
-    }
-
-    console.log("💥 Iniciando destruição do nome...");
-
-    // Adiciona efeito de tremor
-    this.nameElement.style.animation = "shake 0.3s ease-in-out";
-
-    // Animação de quebra das letras em etapas
-    this.animateLetterBreaking();
-  }
-
-  // Animação de quebra das letras
-  animateLetterBreaking() {
-    if (!this.nameElement || !this.nameOriginalContent) return;
-
-    const plainText = this.nameOriginalContent.replace(/<[^>]*>/g, "");
-    const letters = plainText.split("");
-    let currentStep = 0;
-    const totalSteps = 8;
-
-    const breakingInterval = setInterval(() => {
-      if (!this.nameElement) {
-        clearInterval(breakingInterval);
-        return;
-      }
-
-      currentStep++;
-      const destructionProgress = currentStep / totalSteps;
-
-      // Cria texto progressivamente mais destruído
-      const brokenText = this.createProgressivelyBrokenText(
-        letters,
-        destructionProgress
-      );
-      this.nameElement.innerHTML = brokenText;
-
-      // Muda cor progressivamente para vermelho
-      const redIntensity = Math.floor(255 * destructionProgress);
-      const blueIntensity = Math.floor(255 * (1 - destructionProgress));
-      this.nameElement.style.color = `rgb(${255}, ${blueIntensity}, ${blueIntensity})`;
-      this.nameElement.style.textShadow = `2px 2px 0 #000, 0 0 ${10 * destructionProgress}px #ff0000`;
-
-      if (currentStep >= totalSteps) {
-        clearInterval(breakingInterval);
-        console.log("💥 Nome completamente destruído!");
-        // Programa a regeneração após destruição completa
-        this.scheduleNameRegeneration();
-      }
-    }, 100); // Animação mais rápida
-  }
-
-  // Cria texto progressivamente quebrado
-  createProgressivelyBrokenText(letters, progress) {
-    const destructionChars = [
-      "█",
-      "▓",
-      "▒",
-      "░",
-      "▄",
-      "▀",
-      "■",
-      "□",
-      "▪",
-      "▫",
-    ];
-    const glitchChars = ["!", "@", "#", "$", "%", "^", "&", "*", "~", "`"];
-
-    return letters
-      .map((char, index) => {
-        if (char === " ") return " ";
-
-        // Probabilidade de quebrar baseada no progresso e posição
-        const letterProgress = Math.max(
-          0,
-          progress - (index / letters.length) * 0.2
-        );
-
-        if (letterProgress < 0.2) {
-          return char; // Letra original
-        } else if (letterProgress < 0.4) {
-          // Primeira fase: tremor ocasional
-          return Math.random() < 0.3
-            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-            : char;
-        } else if (letterProgress < 0.6) {
-          // Segunda fase: mais glitches
-          return Math.random() < 0.5
-            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-            : char;
-        } else if (letterProgress < 0.8) {
-          // Terceira fase: blocos aparecem
-          return Math.random() < 0.7
-            ? destructionChars[
-                Math.floor(Math.random() * destructionChars.length)
-              ]
-            : char;
-        } else {
-          // Fase final: principalmente caracteres de destruição
-          return Math.random() < 0.9
-            ? destructionChars[
-                Math.floor(Math.random() * destructionChars.length)
-              ]
-            : char;
-        }
-      })
-      .join("");
-  }
-
-  // Cria texto "destruído" com caracteres aleatórios
-  createDestroyedText(originalText) {
-    const chars = "█▓▒░!@#$%^&*()_+-=[]{}|;:,.<>?~`";
-    const plainText = originalText.replace(/<[^>]*>/g, ""); // Remove HTML tags
-
-    return plainText
-      .split("")
-      .map((char) => {
-        if (char === " ") return " ";
-        return Math.random() < 0.7
-          ? chars[Math.floor(Math.random() * chars.length)]
-          : char;
-      })
-      .join("");
-  }
-
-  // Agenda a regeneração do nome
-  scheduleNameRegeneration() {
-    console.log("⏳ Agendando regeneração do nome em 4 segundos...");
-    this.nameRegenerationTimer = setTimeout(() => {
-      this.regenerateName();
-    }, 4000); // Regenera após 4 segundos
-  }
-
-  // Regenera o nome gradualmente com animação aprimorada
-  regenerateName() {
-    if (!this.nameElement || !this.nameOriginalContent) return;
-
-    console.log("✨ Iniciando regeneração do nome...");
-
-    // Adiciona efeito de regeneração com brilho
-    this.nameElement.style.animation = "regenerate 0.5s ease-in-out";
-
-    const plainOriginal = this.nameOriginalContent.replace(/<[^>]*>/g, "");
-    let currentStep = 0;
-    const totalSteps = 15; // Mais etapas para suavizar
-
-    const regenerationInterval = setInterval(() => {
-      if (!this.nameElement) {
-        clearInterval(regenerationInterval);
-        return;
-      }
-
-      currentStep++;
-      const progress = currentStep / totalSteps;
-
-      // Gradualmente restaura o texto original
-      const regeneratedText = this.createRegeneratingText(
-        plainOriginal,
-        progress
-      );
-      this.nameElement.innerHTML = regeneratedText;
-
-      // Gradualmente restaura as cores (de vermelho para azul ciano)
-      const redValue = Math.floor(255 * (1 - progress));
-      const greenValue = Math.floor(180 * progress); // Um pouco de verde para o ciano
-      const blueValue = Math.floor(255 * progress);
-      this.nameElement.style.color = `rgb(${redValue}, ${greenValue}, ${blueValue})`;
-
-      // Diminui o brilho vermelho gradualmente
-      const glowIntensity = Math.floor(10 * (1 - progress));
-      this.nameElement.style.textShadow =
-        glowIntensity > 0
-          ? `2px 2px 0 #000, 0 0 ${glowIntensity}px #ff0000`
-          : "";
-
-      if (currentStep >= totalSteps) {
-        // Restauração completa
-        this.nameElement.innerHTML = this.nameOriginalContent;
-        this.nameElement.style.color = ""; // Volta à cor original
-        this.nameElement.style.textShadow = "";
-        this.nameElement.style.animation = "";
-        clearInterval(regenerationInterval);
-        console.log("✅ Nome completamente regenerado!");
-      }
-    }, 150); // Intervalo um pouco mais rápido
-  }
-
-  // Cria texto em processo de regeneração aprimorado
-  createRegeneratingText(originalText, progress) {
-    const destructionChars = ["█", "▓", "▒", "░", "▄", "▀", "■", "□"];
-    const transitionChars = [".", ":", ";", "'", '"', "-", "_"];
-
-    return originalText
-      .split("")
-      .map((char, index) => {
-        if (char === " ") return " ";
-
-        // Progresso individual por caractere com efeito cascata
-        const charProgress = Math.max(
-          0,
-          progress - (index / originalText.length) * 0.2
-        );
-
-        if (charProgress >= 0.9) {
-          return char; // Caractere original completamente restaurado
-        } else if (charProgress >= 0.7) {
-          // Transição suave para o caractere original
-          return Math.random() < 0.8
-            ? char
-            : transitionChars[
-                Math.floor(Math.random() * transitionChars.length)
-              ];
-        } else if (charProgress >= 0.5) {
-          // Mistura de caractere original e transição
-          return Math.random() < 0.6
-            ? char
-            : Math.random() < 0.5
-              ? transitionChars[
-                  Math.floor(Math.random() * transitionChars.length)
-                ]
-              : destructionChars[
-                  Math.floor(Math.random() * destructionChars.length)
-                ];
-        } else if (charProgress >= 0.3) {
-          // Mais blocos, menos lixo
-          return Math.random() < 0.3
-            ? char
-            : destructionChars[
-                Math.floor(Math.random() * destructionChars.length)
-              ];
-        } else {
-          // Início da regeneração - principalmente blocos
-          return destructionChars[
-            Math.floor(Math.random() * destructionChars.length)
-          ];
-        }
-      })
-      .join("");
   }
 }
 
