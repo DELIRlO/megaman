@@ -5,11 +5,18 @@
   <img src="https://img.shields.io/badge/COLOR-NEON-ff00ff?style=for-the-badge" alt="Neon colors">
 </p>
 
+<p align="center">
+  <a href="https://ibb.co/SwpmQkY" target="_blank">
+    <img src="https://i.ibb.co/N2zN10DR/Screenshot-1.png" alt="Preview do Portfólio 8-bit" style="border: 1px solid #2d2d2d; border-radius: 8px;">
+  </a>
+</p>
+
 ```diff
 + Um portfólio interativo com tema retro gamer 8-bit
 + Desenvolvido com HTML5, CSS3 e JavaScript vanilla
 
 🌟 Características
+
 🎨 Design Visual
 
 + 🖌️ Tema 8-bit: Cores neon (roxo, azul ciano), fonte Press Start 2P
@@ -108,8 +115,8 @@ http://localhost:8000
 - Não permite redistribuição comercial.
 
 🤖 Sistema Mega Man - Documentação
-🎮 Como Usar
-Comandos Básicos
+
+🎮 Como Usar Comandos Básicos
 
 megaman on - Ativa o Mega Man
 
@@ -125,8 +132,7 @@ megaman shoot - Força um tiro manual
 
 megaman move - Força um movimento manual
 
-⚙️ Configurações
-Timing Aleatório
+⚙️ Configurações Timing Aleatório
 
 ⏱️ Tiros: Entre 6-20 segundos (imprevisível)
 
@@ -134,8 +140,7 @@ Timing Aleatório
 
 💥 Duração do tiro: 1.5 segundos
 
-🎨 Recursos Visuais
-Animações CSS
+🎨 Recursos Visuais Animações CSS
 
 ✨ Efeito de entrada com rotação
 
@@ -147,8 +152,7 @@ Animações CSS
 
 🚀 Rastro de movimento (opcional)
 
-📊 Sistema de Estatísticas
-Métricas Coletadas
+📊 Sistema de Estatísticas Métricas Coletadas
 
 🔫 Total de tiros disparados
 
@@ -158,8 +162,7 @@ Métricas Coletadas
 
 📈 Média de tiros por minuto
 
-🛠️ Otimizações de Performance
-Throttling de Eventos
+🛠️ Otimizações de Performance Throttling de Eventos
 
 🖼️ Resize da janela: 250ms
 
@@ -167,8 +170,7 @@ Throttling de Eventos
 
 🎮 FPS limitado a 60fps
 
-🎨 Personalização
-Modificar Sprites
+🎨 Personalização Modificar Sprites
 
 this.sprites = {
 idle: "assets/sprites/seu-sprite-idle.gif",
@@ -193,9 +195,11 @@ this.moveInterval = { min: 2000, max: 6000 }; // 2-6 segundos
   !
 - # 4. Acessar no navegador
 - http://localhost:8000
+
   ! ----------------------------------------
 
 🐛 Solução de Problemas
+
 Problema Solução
 Mega Man não aparece Verifique se digitou megaman on corretamente
 Movimento muito rápido/lento Ajuste movementSpeed no código
