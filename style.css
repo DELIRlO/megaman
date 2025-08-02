@@ -90,6 +90,45 @@
     0 0 12px rgba(255, 0, 255, 0.6);
 }
 
+/* Estilo para os controles do Mega Man */
+.megaman-control {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+.megaman-control:hover {
+  background: var(--color-secondary);
+  color: var(--color-background);
+  box-shadow:
+    0 4px 0 var(--arcade-black),
+    0 0 12px rgba(0, 255, 255, 0.6);
+}
+
+/* Botão de estrela do Mega Man */
+#megaman-control-button {
+  background: var(--color-primary);
+}
+
+#megaman-control-button:hover {
+  background: var(--color-secondary);
+  box-shadow:
+    0 4px 0 var(--arcade-black),
+    0 0 12px rgba(0, 255, 255, 0.6);
+}
+
+#megaman-control-button.active {
+  background: var(--color-secondary);
+  color: var(--color-background);
+}
+
+/* Container dos controles do Mega Man */
+#megaman-controls-container {
+  border: 1px solid var(--color-primary);
+  border-radius: 5px;
+  padding: 5px;
+  background: rgba(138, 43, 226, 0.1);
+}
+
 /* Estilo para os itens do menu móvel */
 .mobile-menu-item {
   background: var(--pixel-green);
@@ -2569,4 +2608,184 @@ body::before {
 
 .page-content {
   background: rgba(138, 43, 226, 0.15); /* Quase transparente */
+}
+
+/* === MEGA MAN CHARACTER STYLES === */
+.megaman-character {
+  position: fixed;
+  width: 64px;
+  height: 64px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 800;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Animação suave de movimento */
+.megaman-character.moving {
+  transition:
+    left 0.1s linear,
+    top 0.1s linear;
+}
+
+/* Efeito de brilho quando ativo */
+.megaman-character.active {
+  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
+  animation: megamanGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes megamanGlow {
+  0% {
+    filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
+  }
+  100% {
+    filter: drop-shadow(0 0 12px rgba(138, 43, 226, 0.8));
+  }
+}
+
+/* Efeito de tiro - pulso rápido */
+.megaman-character.shooting {
+  animation: shootingPulse 0.3s ease-in-out 3;
+}
+
+@keyframes shootingPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Efeito de entrada/saída */
+.megaman-character.entering {
+  animation: megamanEnter 1s ease-out;
+}
+
+.megaman-character.leaving {
+  animation: megamanLeave 1s ease-in;
+}
+
+@keyframes megamanEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(180deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2) rotate(90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes megamanLeave {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2) rotate(-90deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-180deg);
+  }
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+  .megaman-character {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .megaman-character {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Efeito especial quando Mega Man está próximo do cursor */
+.megaman-character.near-cursor {
+  animation: nearCursorEffect 2s ease-in-out infinite;
+}
+
+@keyframes nearCursorEffect {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(255, 0, 255, 0.8));
+  }
+}
+
+/* Efeito de rastro de movimento (opcional) */
+.megaman-character.trail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  opacity: 0.3;
+  z-index: -1;
+  animation: trailFade 0.5s ease-out;
+}
+
+@keyframes trailFade {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+/* Debug mode - mostra informações do Mega Man */
+.megaman-debug {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--color-secondary);
+  padding: 10px;
+  font-family: var(--font-main);
+  font-size: 8px;
+  border: 1px solid var(--color-secondary);
+  z-index: 1001;
+  display: none;
+}
+
+.megaman-debug.active {
+  display: block;
+}
+
+.megaman-debug .debug-line {
+  margin-bottom: 5px;
+}
+
+/* Efeito especial para o modo speedrun */
+.speed-mode .megaman-character {
+  animation-duration: 0.1s !important;
+  transition-duration: 0.05s !important;
+}
+
+.speed-mode .megaman-character.shooting {
+  animation: shootingPulse 0.1s ease-in-out 5;
 }

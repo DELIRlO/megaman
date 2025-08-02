@@ -137,6 +137,62 @@
         >
           <div class="menu-icon"><i class="fab fa-instagram"></i></div>
         </a>
+
+        <!-- Botão de controle do Mega Man -->
+        <div
+          class="menu-item social-control"
+          id="megaman-control-button"
+          style="width: 48px; height: 40px; display: none"
+          title="Controles do Mega Man"
+          onclick="toggleMegamanControls()"
+        >
+          <div class="menu-icon"><i class="fas fa-star"></i></div>
+        </div>
+      </div>
+
+      <!-- Container dos controles do Mega Man (inicialmente escondido) -->
+      <div
+        id="megaman-controls-container"
+        style="
+          display: none;
+          flex-direction: column;
+          gap: 5px;
+          margin-left: -10px;
+          margin-top: 5px;
+        "
+      >
+        <div
+          class="menu-item megaman-control"
+          style="width: 48px; height: 40px"
+          title="Ativar Mega Man"
+          onclick="megamanControlAction('on')"
+        >
+          <div class="menu-icon"><i class="fas fa-play"></i></div>
+        </div>
+        <div
+          class="menu-item megaman-control"
+          style="width: 48px; height: 40px"
+          title="Desativar Mega Man"
+          onclick="megamanControlAction('off')"
+        >
+          <div class="menu-icon"><i class="fas fa-stop"></i></div>
+        </div>
+        <div
+          class="menu-item megaman-control"
+          style="width: 48px; height: 40px"
+          title="Forçar Tiro"
+          onclick="megamanControlAction('shoot')"
+        >
+          <div class="menu-icon"><i class="fas fa-crosshairs"></i></div>
+        </div>
+        <div
+          class="menu-item megaman-control"
+          style="width: 48px; height: 40px"
+          title="Forçar Movimento"
+          onclick="megamanControlAction('move')"
+        >
+          <div class="menu-icon"><i class="fas fa-running"></i></div>
+        </div>
       </div>
     </div>
 
@@ -390,7 +446,8 @@
                   type="text"
                   id="terminal-input"
                   class="terminal-input"
-                  placeholder="Digite 'help' para comandos"
+                  placeholder="Digite 'help' para comandos ou escreva megaman on ou off 
+                  para animacao"
                 />
               </div>
             </div>
@@ -438,6 +495,7 @@
 
     <script src="audio-system.js"></script>
     <script src="electric-lines.js"></script>
+    <script src="megaman-controller.js"></script>
     <script src="scripts.js"></script>
 
     <script>
@@ -536,13 +594,88 @@
       function toggleSocialMenu() {
         const container = document.getElementById("social-buttons-container");
         const button = document.getElementById("social-menu-button");
+        const megamanButton = document.getElementById("megaman-control-button");
 
         if (container.style.display === "none" || !container.style.display) {
           container.style.display = "flex";
-          button.classList.add("active"); // Adicione uma classe para estilo
+          button.classList.add("active");
+          // Mostra o botão do Mega Man quando o menu social é aberto
+          if (megamanButton) {
+            megamanButton.style.display = "flex";
+          }
         } else {
           container.style.display = "none";
           button.classList.remove("active");
+          // Esconde o botão do Mega Man e seus controles quando o menu social é fechado
+          if (megamanButton) {
+            megamanButton.style.display = "none";
+            const megamanControls = document.getElementById(
+              "megaman-controls-container"
+            );
+            if (megamanControls) {
+              megamanControls.style.display = "none";
+            }
+            megamanButton.classList.remove("active");
+          }
+        }
+
+        // Tocar efeito sonoro se disponível
+        if (window.audioSystem) {
+          window.audioSystem.play("click");
+        }
+      }
+
+      // Função para controlar o menu do Mega Man
+      function toggleMegamanControls() {
+        const container = document.getElementById("megaman-controls-container");
+        const button = document.getElementById("megaman-control-button");
+
+        if (container.style.display === "none" || !container.style.display) {
+          container.style.display = "flex";
+          button.classList.add("active");
+        } else {
+          container.style.display = "none";
+          button.classList.remove("active");
+        }
+
+        // Tocar efeito sonoro se disponível
+        if (window.audioSystem) {
+          window.audioSystem.play("click");
+        }
+      }
+
+      // Função para executar ações do Mega Man via botões
+      function megamanControlAction(action) {
+        if (!window.megamanController) {
+          console.log("❌ Controlador do Mega Man não encontrado.");
+          return;
+        }
+
+        switch (action) {
+          case "on":
+            window.megamanController.start();
+            console.log("🤖 Mega Man ativado via botão!");
+            break;
+          case "off":
+            window.megamanController.stop();
+            console.log("🤖 Mega Man desativado via botão!");
+            break;
+          case "shoot":
+            if (window.megamanController.isActive) {
+              window.megamanController.shoot();
+              console.log("💥 Mega Man atirou via botão!");
+            } else {
+              console.log("❌ Mega Man precisa estar ativo para atirar.");
+            }
+            break;
+          case "move":
+            if (window.megamanController.isActive) {
+              window.megamanController.moveToRandomPosition();
+              console.log("🏃 Mega Man se moveu via botão!");
+            } else {
+              console.log("❌ Mega Man precisa estar ativo para se mover.");
+            }
+            break;
         }
 
         // Tocar efeito sonoro se disponível

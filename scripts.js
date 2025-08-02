@@ -618,7 +618,7 @@ function initializeTerminal() {
   if (!terminalInput || !terminalOutput) return;
 
   const commands = {
-    help: "Comandos disponíveis: help, about, skills, projects, contact, clear, konami",
+    help: "Comandos disponíveis: help, about, skills, projects, contact, clear, konami, megaman",
     about:
       "Carlos Augusto Diniz Filho - Engenheiro da Computação especializado em desenvolvimento web e redes.",
     skills:
@@ -629,6 +629,69 @@ function initializeTerminal() {
       "E-mail: carlosaugustodiniz@outlook.com | LinkedIn: linkedin.com/in/ysneshy/",
     clear: "",
     konami: "↑↑↓↓←→←→BA - Código secreto para easter egg!",
+    megaman:
+      "Controla o Mega Man: 'megaman on/off', 'megaman status', 'megaman stats', 'megaman reset', 'megaman shoot', 'megaman move'",
+    "megaman on": () => {
+      if (window.megamanController) {
+        window.megamanController.start();
+        return "🤖 Mega Man ativado! Ele começará a se mover e atirar aleatoriamente.";
+      }
+      return "❌ Erro: Controlador do Mega Man não encontrado.";
+    },
+    "megaman off": () => {
+      if (window.megamanController) {
+        window.megamanController.stop();
+        return "🤖 Mega Man desativado.";
+      }
+      return "❌ Erro: Controlador do Mega Man não encontrado.";
+    },
+    "megaman status": () => {
+      if (window.megamanController) {
+        const status = window.megamanController.getStatus();
+        return `🤖 Status do Mega Man:
+Ativo: ${status.isActive ? "SIM" : "NÃO"}
+Pausado: ${status.isPaused ? "SIM" : "NÃO"}
+Movendo: ${status.isMoving ? "SIM" : "NÃO"}
+Atirando: ${status.isShooting ? "SIM" : "NÃO"}
+Sprite atual: ${status.currentSprite}
+Página atual: ${status.currentPage}
+Posição: X=${Math.round(status.position.x)}, Y=${Math.round(status.position.y)}`;
+      }
+      return "❌ Erro: Controlador do Mega Man não encontrado.";
+    },
+    "megaman stats": () => {
+      if (window.megamanController) {
+        const status = window.megamanController.getStatus();
+        const stats = status.stats;
+        return `📊 Estatísticas do Mega Man:
+Tiros disparados: ${stats.totalShots}
+Movimentos realizados: ${stats.totalMoves}
+Tempo ativo: ${stats.activeTime}s
+Média de tiros/min: ${stats.activeTime > 0 ? Math.round((stats.totalShots / stats.activeTime) * 60) : 0}`;
+      }
+      return "❌ Erro: Controlador do Mega Man não encontrado.";
+    },
+    "megaman reset": () => {
+      if (window.megamanController) {
+        window.megamanController.resetStats();
+        return "📊 Estatísticas do Mega Man resetadas!";
+      }
+      return "❌ Erro: Controlador do Mega Man não encontrado.";
+    },
+    "megaman shoot": () => {
+      if (window.megamanController && window.megamanController.isActive) {
+        window.megamanController.shoot();
+        return "💥 Mega Man atirou manualmente!";
+      }
+      return "❌ Mega Man não está ativo ou não foi encontrado.";
+    },
+    "megaman move": () => {
+      if (window.megamanController && window.megamanController.isActive) {
+        window.megamanController.moveToRandomPosition();
+        return "🏃 Mega Man se moveu para uma nova posição!";
+      }
+      return "❌ Mega Man não está ativo ou não foi encontrado.";
+    },
     "view projects": () => navigateToPage("projetos"),
   };
 
@@ -909,3 +972,6 @@ function generateHorizontalLines() {
 
 // Chamar a função ao carregar a página
 document.addEventListener("DOMContentLoaded", generateHorizontalLines);
+
+// Adicione no console para forçar início
+megamanController.start();
