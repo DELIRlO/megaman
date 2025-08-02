@@ -11,7 +11,7 @@
   </a>
 </p>
 
-```diff
+````diff
 + Um portfólio interativo com tema retro gamer 8-bit
 + Desenvolvido com HTML5, CSS3 e JavaScript vanilla
 
@@ -49,30 +49,82 @@
 + ⚙️ JavaScript: Vanilla JS, Web Audio API, DOM manipulation
 + 🖼️ Assets: Sprites do Megaman, fonte Press Start 2P, áudios 8-bit
 
+# 🕹️ MEGAMAN - Estrutura do Projeto
+
+## 📁 Diretórios Principais
+```diff
++ 📂 assets/            # Arquivos de mídia e recursos
++ 📂 audio/             # Efeitos sonoros e música (✓)
+- 📂 fonts/             # Fontes pixeladas (pendente)
++ 📂 images/            # Backgrounds e artes
++ 📂 sounds/            # Efeitos sonoros alternativos
++ 📂 sprites/           # Personagens e animações
++ 📂 node_modules/      # Dependências do Node.js
+
+⚙️ Arquivos de Configuração
+
++ ⚙️ .gitignore        # Arquivos ignorados pelo Git
++ 📦 package.json      # Configuração do projeto
++ 🔒 package-lock.json # Versões exatas de dependências
++ 🎨 vercel.json       # Configuração de deploy
+
+💻 Código Fonte
+
++ 🏠 index.html        # Página principal
++ 🎨 style.css         # Estilos CSS
++ 🧠 scripts.js        # Lógica principal
++ 🔊 audio-system.js   # Controle de áudio
++ ⚡ electric-lines.js # Efeitos visuais
++ 🤖 megaman-controller.js # Controle do personagem
+
+🌐 Arquivos Públicos
+
+public/
+├── 🖼️ favicon.png        # Ícone do site
+└── 📂 assets/
+    ├── 📂 fonts/
+    │   └── 🅿 press-start-2p.woff2  # Fonte 8-bit
+    ├── 📂 sprites/
+    │   ├── 🏃♂️ megaman-idle.gif
+    │   ├── 💨 megaman-running.gif
+    │   ├── 🖱️ cursor.png
+    │   └── ✋ cursor-hover.png
+    ├── 📂 images/
+    │   ├── 🌌 starfield-bg.jpg
+    │   └── 🌠 starfield-bg.webp
+    └── 📂 audio/
+        ├── 🎵 bg_music.mp3
+        ├── 💬 menu_select.mp3
+        ├── 👆 hover_bleep.mp3
+        └── ✨ teleport.mp3
+
+✅ Checklist de Implementação
+
+        🖌️ fonts/ - Adicionar fontes pixeladas
+
+🔊 audio/ - Efeitos sonoros implementados
+
+🖼️ sprites/ - Criar animações extras
+
+🧪 electric-lines.js - Finalizar efeitos
+
+```markdown
 portfolio_8bit/
-├── index.html              # Página principal
-├── style.css               # Estilos principais
-├── scripts.js              # JavaScript principal
-├── audio-system.js         # Sistema de áudio
-├── vercel.json             # Configuração do Vercel
-└── public/
-    ├── favicon.png         # Ícone do site
-    └── assets/
-        ├── fonts/
-        │   └── press-start-2p.woff2
-        ├── sprites/
-        │   ├── megaman-idle.gif
-        │   ├── megaman-running.gif
-        │   ├── cursor.png
-        │   └── cursor-hover.png
-        ├── images/
-        │   ├── starfield-bg.jpg
-        │   └── starfield-bg.webp
-        └── audio/
-            ├── bg_music.wav
-            ├── menu_select.wav
-            ├── hover_bleep.wav
-            └── teleport.wav
+├── 📄 index.html              # 🏠 Página principal
+├── 🎨 style.css               # ✨ Estilos principais
+├── 🧠 scripts.js              # ⚙️ JavaScript principal
+├── 🔊 audio-system.js         # 🔉 Sistema de áudio
+├── ⚡ electric-lines.js       # ⚡ Efeitos elétricos
+├── 🤖 megaman-controller.js  # 🎮 Controle do Megaman
+├── 📦 package.json           # 📦 Configuração do Node
+├── 🎨 vercel.json            # 🚀 Configuração do Vercel
+└── 📁 public/
+    ├── 🖼️ favicon.png        # 🔖 Ícone do site
+    └── 📁 assets/
+        ├── 📁 fonts/         # 🅿 Fontes pixeladas
+        ├── 📁 sprites/       # 🎮 Sprites do jogo
+        ├── 📁 images/        # 🌌 Backgrounds
+        └── 📁 audio/         # 🔊 Trilha sonora
 
             + ⚙️ Configuração: vercel.json com redirecionamentos e cleanUrls
 + ⚡ Otimizações: Imagens WebP, áudios comprimidos
@@ -118,19 +170,15 @@ http://localhost:8000
 
 🎮 Como Usar Comandos Básicos
 
-megaman on - Ativa o Mega Man
-
-megaman off - Desativa o Mega Man
-
-megaman status - Mostra o status atual
-
-megaman stats - Exibe estatísticas detalhadas
-
-megaman reset - Reseta as estatísticas
-
-megaman shoot - Força um tiro manual
-
-megaman move - Força um movimento manual
+| Comando               | Descrição                              |
+|-----------------------|----------------------------------------|
+| `🎮 megaman on`       | Ativa o Mega Man                       |
+| `🔴 megaman off`      | Desativa o Mega Man                    |
+| `📊 megaman status`   | Mostra o status atual                  |
+| `📈 megaman stats`    | Exibe estatísticas detalhadas          |
+| `🔄 megaman reset`    | Reseta as estatísticas                 |
+| `🔫 megaman shoot`    | Força um tiro manual                   |
+| `🏃 megaman move`     | Força um movimento manual              |
 
 ⚙️ Configurações Timing Aleatório
 
@@ -200,10 +248,24 @@ this.moveInterval = { min: 2000, max: 6000 }; // 2-6 segundos
 
 🐛 Solução de Problemas
 
-Problema Solução
-Mega Man não aparece Verifique se digitou megaman on corretamente
-Movimento muito rápido/lento Ajuste movementSpeed no código
-Não funciona no mobile Verifique se o terminal está acessível
-Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025 whatszap 91 88199828
+## 🛠️ Troubleshooting do Mega Man
 
-```
+| 🔴 **Problema**               | 🟢 **Solução**                          |
+|-------------------------------|----------------------------------------|
+| 🤖 Mega Man não aparece       | ✔️ Verifique se digitou `megaman on` corretamente |
+| 🏃♂️ Movimento muito rápido   | ⚙️ Ajuste `movementSpeed` no código    |
+| 📱 Não funciona no mobile     | 📲 Verifique se o terminal está acessível |
+
+---
+
+<p align="center">
+  <br>
+  <img src="https://img.shields.io/badge/Desenvolvido_com-❤️-ff0000?style=for-the-badge" alt="Feito com amor">
+  <br><br>
+  <strong>Carlos Augusto Diniz Filho</strong><br>
+  🎮 Portfólio 8-bit | 📅 2025<br>
+  📞 <a href="https://wa.me/558188199828" target="_blank">
+    <img src="https://img.shields.io/badge/WhatsApp-25D366?style=flat&logo=whatsapp&logoColor=white" alt="WhatsApp">
+  </a>
+</p>
+````
