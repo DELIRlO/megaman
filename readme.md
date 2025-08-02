@@ -54,7 +54,7 @@
 ```diff
 + 📂 assets/            # Arquivos de mídia e recursos
 + 📂 audio/             # Efeitos sonoros e música (✓)
-- 📂 fonts/             # Fontes pixeladas (pendente)
++ 📂 fonts/             # Fontes pixeladas (press-start-2p.woff2)
 + 📂 images/            # Backgrounds e artes
 + 📂 sounds/            # Efeitos sonoros alternativos
 + 📂 sprites/           # Personagens e animações
