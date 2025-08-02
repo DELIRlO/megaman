@@ -90,6 +90,7 @@ portfolio_8bit/
 + 👆 Touch: Suporte a gestos e toques
 + ⚡ Performance: Otimizado para dispositivos móveis
 
+```rust
 # Clonar o repositório
 git clone [url-do-repositorio]
 
@@ -101,10 +102,10 @@ python3 -m http.server 8000
 
 # Acessar no navegador
 http://localhost:8000
+````
 
 - Este projeto é de uso pessoal e educacional.
 - Não permite redistribuição comercial.
-
 
 🤖 Sistema Mega Man - Documentação
 🎮 Como Usar
@@ -170,36 +171,37 @@ Throttling de Eventos
 Modificar Sprites
 
 this.sprites = {
-  idle: "assets/sprites/seu-sprite-idle.gif",
-  shooting: "assets/sprites/seu-sprite-tiro.gif"
+idle: "assets/sprites/seu-sprite-idle.gif",
+shooting: "assets/sprites/seu-sprite-tiro.gif"
 };
 
 this.shootInterval = { min: 4000, max: 15000 }; // 4-15 segundos
 this.moveInterval = { min: 2000, max: 6000 }; // 2-6 segundos
 
 🔧 Desenvolvimento Local
-```diff
-! ----------------------------------------
-+ # 1. Clonar o repositório
-+ git clone [url-do-repositorio]
-!
-+ # 2. Entrar na pasta do projeto
-+ cd portfolio_8bit
-!
-+ # 3. Iniciar servidor Python
-+ python3 -m http.server 8000
-!
-+ # 4. Acessar no navegador
-+ http://localhost:8000
-! ----------------------------------------
-...
 
+! ----------------------------------------
+
+- # 1. Clonar o repositório
+- git clone [url-do-repositorio]
+  !
+- # 2. Entrar na pasta do projeto
+- cd portfolio_8bit
+  !
+- # 3. Iniciar servidor Python
+- python3 -m http.server 8000
+  !
+- # 4. Acessar no navegador
+- http://localhost:8000
+  ! ----------------------------------------
 
 🐛 Solução de Problemas
-Problema	Solução
-Mega Man não aparece	Verifique se digitou megaman on corretamente
-Movimento muito rápido/lento	Ajuste movementSpeed no código
-Não funciona no mobile	Verifique se o terminal está acessível
-Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025    whatszap 91 88199828
+Problema Solução
+Mega Man não aparece Verifique se digitou megaman on corretamente
+Movimento muito rápido/lento Ajuste movementSpeed no código
+Não funciona no mobile Verifique se o terminal está acessível
+Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025 whatszap 91 88199828
 
-````
+```
+
+```
