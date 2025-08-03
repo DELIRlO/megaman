@@ -1,0 +1,96 @@
+/* Reset e Variáveis */
+:root {
+    --electric-blue: #00f3ff;
+    --deep-space: #0a0a12;
+    --neon-glow: 0 0 10px rgba(0, 243, 255, 0.7);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--deep-space);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* Sistema de Carregamento */
+#loading-system {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(ellipse at center, #0a0a20 0%, #000000 100%);
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+    image-rendering: pixelated;
+}
+
+.loading-title {
+    font-size: 2.5rem;
+    color: var(--electric-blue);
+    text-shadow: var(--neon-glow);
+    margin-bottom: 0.5rem;
+    animation: pulse 2s infinite alternate;
+}
+
+.loading-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+}
+
+.loading-progress {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.progress-track {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    margin-top: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Conteúdo Principal */
+#main-content {
+    display: none;
+    padding: 2rem;
+}
+
+/* Animações */
+@keyframes pulse {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}

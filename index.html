@@ -41,11 +41,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
     <!-- Substitua esta seção -->
     <div
       class="audio-controls-top"
@@ -345,11 +340,22 @@
     </div>
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
-      <div class="loading-content">
-        <div class="loading-sprite"></div>
-        <div class="loading-text">Carregando...</div>
-        <div class="loading-bar">
-          <div class="loading-progress"></div>
+      <div class="loading-container">
+        <div class="loading-brand">
+          <img
+            src="assets/sprites/parado10.gif"
+            alt="Loading"
+            class="loading-image"
+          />
+          <h1 class="loading-title">CARREGANDO</h1>
+          <p class="loading-subtitle">Inicializando Portfolio...</p>
+        </div>
+
+        <div class="loading-progress">
+          <div class="progress-track">
+            <div class="progress-bar" id="progress-indicator"></div>
+          </div>
+          <div class="progress-text" id="progress-text">0%</div>
         </div>
       </div>
     </div>
@@ -497,6 +503,7 @@
     <script src="electric-lines.js"></script>
     <script src="megaman-controller.js"></script>
     <script src="scripts.js"></script>
+    <script src="loading-system.js"></script>
 
     <script>
       function updateAudioIcons() {

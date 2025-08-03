@@ -189,19 +189,4 @@ window.LOADING_CONFIG = {
   enableElectricLines: true, // Habilitar/desabilitar linhas elétricas
 };
 
-// Inicializar linhas elétricas quando o DOM estiver carregado
-document.addEventListener("DOMContentLoaded", function () {
-  if (window.LOADING_CONFIG.enableElectricLines) {
-    const electricLines = new ElectricLines();
-
-    // Inicializar após um pequeno delay para garantir que o loading screen esteja visível
-    setTimeout(() => {
-      electricLines.init();
-
-      // Destruir as linhas quando o loading terminar
-      setTimeout(() => {
-        electricLines.destroy();
-      }, window.LOADING_CONFIG.duration);
-    }, 100);
-  }
-});
+// A inicialização das linhas elétricas agora é gerenciada pelo loading-system.js

@@ -274,151 +274,73 @@ body::before {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--color-background);
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: radial-gradient(ellipse at center, #0a0a20 0%, #000000 100%);
   z-index: 9999;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease-out;
   overflow: hidden;
 }
 
-/* Efeito de energia elétrica no fundo */
-.loading-screen::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(0, 255, 255, 0.1) 0%,
-      transparent 50%
-    ),
-    linear-gradient(
-      90deg,
-      transparent 48%,
-      rgba(0, 255, 255, 0.3) 50%,
-      transparent 52%
-    );
-  animation: electricFlow 2s ease-in-out infinite;
-  z-index: -1;
-}
-
-/* Linhas de energia emanando do centro */
-.loading-screen::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 2px;
-  height: 2px;
-  background: rgba(0, 255, 255, 0.8);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow:
-    0 0 20px rgba(0, 255, 255, 0.5),
-    0 0 40px rgba(0, 255, 255, 0.3),
-    0 0 60px rgba(0, 255, 255, 0.1);
-  animation: energyPulse 1.5s ease-in-out infinite;
-  z-index: -1;
-}
-
-@keyframes electricFlow {
-  0% {
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-}
-
-@keyframes energyPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.5);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-}
-
-.loading-content {
+.loading-container {
   text-align: center;
+  padding: 2rem;
 }
 
-.loading-sprite {
-  width: 140px;
-  height: 140px;
-  background: url("https://delirlo.github.io/megaman/assets/sprites/carregando.gif")
-    no-repeat center;
-  background-size: contain;
-  margin: 0 auto 20px;
-  animation: bounce 1s infinite;
+.loading-image {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+  image-rendering: pixelated;
 }
 
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.loading-text {
-  font-size: 16px;
+.loading-title {
+  font-size: 2.5rem;
   color: var(--color-secondary);
-  margin-bottom: 20px;
-  animation: blink 1s infinite;
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.7);
+  margin-bottom: 0.5rem;
+  animation: pulse 2s infinite alternate;
 }
 
-@keyframes blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  51%,
-  100% {
-    opacity: 0;
-  }
-}
-
-.loading-bar {
-  width: 200px;
-  height: 20px;
-  border: 2px solid var(--color-secondary);
-  background: var(--color-background);
-  margin: 0 auto;
-  position: relative;
+.loading-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
 }
 
 .loading-progress {
-  height: 100%;
-  background: var(--color-secondary);
-  width: 0%;
-  animation: loading 3s ease-in-out forwards;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
-@keyframes loading {
-  to {
-    width: 100%;
+.progress-track {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
@@ -1965,80 +1887,6 @@ body::before {
 /* Efeito de clique (opcional) */
 #back-to-top:active {
   transform: scale(0.95) !important;
-}
-
-/* Loader Definitivo - Roxo Portfolio e Super Grossa */
-.loading-bar {
-  height: 18px; /* 60% maior que os 11.2px anteriores (total ~18px) */
-  background: #1a1a1a;
-  border-radius: 9px; /* Metade da altura */
-  box-shadow:
-    0 0 3px #000 inset,
-    0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra mais destacada */
-  overflow: hidden;
-  border: 1px solid #3a1a5f; /* Borda roxa sutil */
-}
-
-.loading-progress {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(
-    90deg,
-    #6a3093 0%,
-    /* Roxo mais escuro */ #44e9ff 50%,
-    /* Roxo vibrante do portfólio */ #6a3093 100%
-  ); /* Roxo mais escuro */
-  background-size: 200% 100%;
-  animation:
-    loading 2.3s cubic-bezier(0.65, 0, 0.35, 1) forwards,
-    pixel-pulse 0.4s steps(3) infinite;
-}
-
-@keyframes loading {
-  0% {
-    width: 0;
-    background-position: 0% 0;
-  }
-  100% {
-    width: 100%;
-    background-position: -200% 0;
-  }
-}
-
-@keyframes pixel-pulse {
-  0%,
-  100% {
-    transform: translateY(0) scaleY(1);
-  }
-  50% {
-    transform: translateY(-2px) scaleY(0.96);
-  }
-}
-
-/* Efeito de conclusão (opcional) */
-.loading-progress::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 10px;
-  background: rgba(255, 255, 255, 0.3);
-  animation: finish-glow 0.5s ease-out 2.1s forwards;
-}
-
-@keyframes finish-glow {
-  to {
-    width: 100%;
-    opacity: 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .loading-bar {
-    height: 14px;
-    border-radius: 7px;
-  }
 }
 
 /* Animação de linhas horizontais */
