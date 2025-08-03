@@ -1,6 +1,5 @@
 /**
- * Mega Man Controller - Sistema de movimento aleatório e tiros
- * Controla o comportamento do Mega Man na página
+ * Mega Man Controller - Sistema completo com efeitos de destruição e regeneração correta
  */
 class MegamanController {
   constructor() {
@@ -18,33 +17,37 @@ class MegamanController {
     this.currentPage = "home";
     this.isPaused = false;
 
-    // Propriedades para controle do nome
-    this.targetName = null;
+    // Controle do nome
     this.nameElement = null;
     this.isMovingToName = false;
-    this.nameOriginalContent = "";
+    this.nameOriginalContent = "Carlos Augusto Diniz Filho";
     this.nameRegenerationTimer = null;
+    this.destructionCooldown = false;
+    this.originalNameAttributes = {};
+    this.originalNameContainer = null;
+    this.originalNameNextSibling = null;
 
-    // Configurações de timing - mais movimento, menos tiro
-    this.shootInterval = { min: 12000, max: 30000 }; // 12-30 segundos (reduzido)
-    this.moveInterval = { min: 1500, max: 4000 }; // 1.5-4 segundos (aumentado)
-    this.shootDuration = 1000; // Duração do tiro em ms (reduzido)
+    // Configurações de tempo
+    this.shootInterval = { min: 12000, max: 30000 };
+    this.moveInterval = { min: 1500, max: 4000 };
+    this.shootDuration = 1000;
+    this.regenerationCooldown = 3000;
+    this.animationDuration = 800;
 
-    // Sprites disponíveis
+    // Sprites
     this.sprites = {
-      idle: "assets/sprites/parado10.gif", // Mudado para sprite parado inicial
+      idle: "assets/sprites/parado10.gif",
       idleLeft: "assets/sprites/megaman-pushing-esquerda.gif",
       stopped: "assets/sprites/parado10.gif",
       shooting: "assets/sprites/m2.gif",
-      running: "assets/sprites/megaman-pushing.gif", // Sprite para movimento
-      runningLeft: "assets/sprites/megaman-pushing-esquerda.gif", // Sprite para movimento à esquerda
+      running: "assets/sprites/megaman-pushing.gif",
+      runningLeft: "assets/sprites/megaman-pushing-esquerda.gif",
     };
 
-    // Controle de direção
-    this.direction = "right"; // 'left' ou 'right'
+    this.direction = "right";
     this.lastPosition = { x: 100, y: 100 };
 
-    // Limites da tela (serão atualizados dinamicamente)
+    // Limites da tela
     this.boundaries = {
       minX: 50,
       maxX: window.innerWidth - 100,
@@ -52,12 +55,14 @@ class MegamanController {
       maxY: window.innerHeight - 100,
     };
 
-    // Estatísticas para debug
+    // Estatísticas
     this.stats = {
       totalShots: 0,
       totalMoves: 0,
       timeActive: 0,
       startTime: null,
+      nameDestructions: 0,
+      successfulRegenerations: 0,
     };
 
     this.init();
@@ -67,20 +72,18 @@ class MegamanController {
     this.createMegamanElement();
     this.updateBoundaries();
     this.bindEvents();
+    this.findNameElement();
   }
 
   createMegamanElement() {
-    // Remove elemento existente se houver
     if (this.element) {
       this.element.remove();
     }
 
-    // Cria novo elemento
     this.element = document.createElement("div");
     this.element.id = "megaman-character";
     this.element.className = "megaman-character";
 
-    // Posicionamento inicial
     this.element.style.cssText = `
       position: fixed;
       width: 64px;
@@ -101,12 +104,10 @@ class MegamanController {
   }
 
   bindEvents() {
-    // Atualiza limites quando a janela é redimensionada
     window.addEventListener("resize", () => {
       this.updateBoundaries();
     });
 
-    // Pausa quando muda de página
     document.addEventListener("visibilitychange", () => {
       if (document.hidden && this.isActive) {
         this.pause();
@@ -134,7 +135,6 @@ class MegamanController {
     this.element.style.opacity = "1";
     this.element.classList.add("active", "entering");
 
-    // Remove classe de entrada após animação
     setTimeout(() => {
       if (this.element) {
         this.element.classList.remove("entering");
@@ -146,7 +146,6 @@ class MegamanController {
 
     console.log('🤖 Mega Man ativado! Use "megaman off" para desativar.');
 
-    // Som de ativação se disponível
     if (window.audioSystem) {
       window.audioSystem.play("achievement");
     }
@@ -158,7 +157,6 @@ class MegamanController {
     this.isActive = false;
     this.isPaused = false;
 
-    // Atualiza estatísticas
     if (this.stats.startTime) {
       this.stats.timeActive += Date.now() - this.stats.startTime;
       this.stats.startTime = null;
@@ -182,7 +180,6 @@ class MegamanController {
       `📊 Estatísticas: ${this.stats.totalShots} tiros, ${this.stats.totalMoves} movimentos`
     );
 
-    // Som de desativação se disponível
     if (window.audioSystem) {
       window.audioSystem.play("click");
     }
@@ -220,6 +217,10 @@ class MegamanController {
       clearTimeout(this.moveTimer);
       this.moveTimer = null;
     }
+    if (this.nameRegenerationTimer) {
+      clearTimeout(this.nameRegenerationTimer);
+      this.nameRegenerationTimer = null;
+    }
   }
 
   stopMovement() {
@@ -256,17 +257,14 @@ class MegamanController {
 
   scheduleNextShoot() {
     if (!this.isActive) return;
-    
-    // Verifica se está próximo do nome para ajustar o intervalo de tiro
+
     let delay = this.getRandomInterval(this.shootInterval);
-    
-    // Se estiver próximo do nome, reduz o intervalo para aumentar chance de destruição
+
     if (this.nameElement && this.isMovingToName) {
-      // Reduz o intervalo em 50% quando está se movendo para o nome
       delay = delay * 0.5;
       console.log("🎯 Megaman próximo ao nome: intervalo de tiro reduzido!");
     }
-    
+
     this.shootTimer = setTimeout(() => {
       this.shoot();
     }, delay);
@@ -278,23 +276,17 @@ class MegamanController {
       return;
     }
 
-    // Verifica se deve se mover para o nome ou posição aleatória
     this.findNameElement();
 
-    // Salva posição anterior para calcular direção
     this.lastPosition = { ...this.position };
 
-    // Se há um nome detectado, 60% de chance de ir até ele (aumentado de 40% para 60%)
     if (this.nameElement && Math.random() < 0.6) {
       this.moveToName();
       return;
     }
 
     this.targetPosition = this.getRandomPosition();
-
-    // Determina direção do movimento
     this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
-
     this.isMoving = true;
     this.isMovingToName = false;
     this.stats.totalMoves++;
@@ -303,7 +295,6 @@ class MegamanController {
       this.element.classList.add("moving");
     }
 
-    // Atualiza sprite baseado na direção
     this.updateMovementSprite();
     this.updateMovement();
   }
@@ -316,7 +307,6 @@ class MegamanController {
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance < this.movementSpeed) {
-      // Chegou ao destino
       this.position.x = this.targetPosition.x;
       this.position.y = this.targetPosition.y;
       this.isMoving = false;
@@ -325,14 +315,12 @@ class MegamanController {
         this.element.classList.remove("moving");
       }
 
-      // Muda para sprite parado quando para
       this.switchSprite("stopped");
       this.updateElementPosition();
       this.scheduleNextMove();
       return;
     }
 
-    // Move em direção ao alvo
     const moveX = (dx / distance) * this.movementSpeed;
     const moveY = (dy / distance) * this.movementSpeed;
 
@@ -354,12 +342,16 @@ class MegamanController {
   }
 
   shoot() {
-    if (!this.isActive || this.isPaused || this.isShooting) {
+    if (
+      !this.isActive ||
+      this.isPaused ||
+      this.isShooting ||
+      this.destructionCooldown
+    ) {
       this.scheduleNextShoot();
       return;
     }
 
-    // Para o movimento se estiver se movendo
     if (this.isMoving) {
       this.stopMovement();
     }
@@ -372,17 +364,14 @@ class MegamanController {
       this.element.classList.add("shooting");
     }
 
-    // Som de tiro se disponível
     if (window.audioSystem) {
       window.audioSystem.play("click");
     }
 
     console.log("💥 Mega Man atirando!");
 
-    // Verifica se está próximo do nome e o destrói
     this.checkNameDestruction();
 
-    // Volta ao sprite idle após a duração do tiro e agenda movimento rápido
     setTimeout(() => {
       if (this.isActive) {
         this.switchSprite("stopped");
@@ -394,13 +383,12 @@ class MegamanController {
 
         this.scheduleNextShoot();
 
-        // Agenda um movimento mais rápido após atirar (50% de chance)
         if (Math.random() < 0.5) {
           setTimeout(() => {
             if (this.isActive && !this.isMoving) {
               this.moveToRandomPosition();
             }
-          }, 500); // Move após 0.5 segundos
+          }, 500);
         }
       }
     }, this.shootDuration);
@@ -413,7 +401,6 @@ class MegamanController {
     }
   }
 
-  // Atualiza sprite baseado na direção do movimento
   updateMovementSprite() {
     if (this.direction === "left") {
       this.switchSprite("runningLeft");
@@ -422,7 +409,6 @@ class MegamanController {
     }
   }
 
-  // Método para debug
   getStatus() {
     const currentTime = Date.now();
     const activeTime = this.stats.startTime
@@ -440,12 +426,11 @@ class MegamanController {
       boundaries: { ...this.boundaries },
       stats: {
         ...this.stats,
-        activeTime: Math.round(activeTime / 1000), // em segundos
+        activeTime: Math.round(activeTime / 1000),
       },
     };
   }
 
-  // Método para resetar estatísticas
   resetStats() {
     this.stats = {
       totalShots: 0,
@@ -456,14 +441,12 @@ class MegamanController {
     console.log("📊 Estatísticas do Mega Man resetadas!");
   }
 
-  // Encontra o elemento com o nome na página home
   findNameElement() {
     if (this.currentPage !== "home") {
       this.nameElement = null;
       return;
     }
 
-    // Procura pelo título principal que contém o nome
     const titleElement = document.querySelector(".hero-title");
     if (
       titleElement &&
@@ -475,26 +458,29 @@ class MegamanController {
       if (!this.nameOriginalContent) {
         this.nameOriginalContent = titleElement.innerHTML;
       }
+
+      // Guarda os atributos e posição original do nome
+      this.originalNameAttributes = {};
+      for (const attr of titleElement.attributes) {
+        this.originalNameAttributes[attr.name] = attr.value;
+      }
+      this.originalNameContainer = titleElement.parentNode;
+      this.originalNameNextSibling = titleElement.nextSibling;
     } else {
       this.nameElement = null;
     }
   }
 
-  // Move o Megaman para próximo do nome
   moveToName() {
     if (!this.nameElement) return;
 
     const rect = this.nameElement.getBoundingClientRect();
-
-    // Posição próxima ao nome (um pouco à esquerda para não cobrir)
     this.targetPosition = {
       x: Math.max(50, rect.left - 100),
-      y: Math.max(50, rect.top + rect.height / 2 - 32), // Centraliza verticalmente
+      y: Math.max(50, rect.top + rect.height / 2 - 32),
     };
 
-    // Determina direção do movimento
     this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
-
     this.isMoving = true;
     this.isMovingToName = true;
     this.stats.totalMoves++;
@@ -505,14 +491,14 @@ class MegamanController {
 
     console.log("🎯 Mega Man se movendo em direção ao nome!");
 
-    // Atualiza sprite baseado na direção
     this.updateMovementSprite();
     this.updateMovement();
   }
 
-  // Verifica se está próximo do nome e o destrói quando atirar
   checkNameDestruction() {
-    if (!this.nameElement || !this.isActive) return;
+    if (!this.nameElement || !this.isActive || this.destructionCooldown) {
+      return;
+    }
 
     const nameRect = this.nameElement.getBoundingClientRect();
     const megamanRect = {
@@ -522,87 +508,73 @@ class MegamanController {
       bottom: this.position.y + 64,
     };
 
-    // Calcula distância entre Megaman e o nome
     const distance = Math.sqrt(
       Math.pow(nameRect.left - megamanRect.left, 2) +
         Math.pow(nameRect.top - megamanRect.top, 2)
     );
 
-    // Aumenta a probabilidade de destruição baseada na distância
-    // Quanto mais próximo, maior a chance de destruir
     let destructionChance = 0;
-    
-    if (distance < 150) {
-      // Muito próximo: 90% de chance
-      destructionChance = 0.9;
-    } else if (distance < 250) {
-      // Próximo: 80% de chance
-      destructionChance = 0.8;
-    } else if (distance < 350) {
-      // Médio: 70% de chance
-      destructionChance = 0.7;
-    } else if (distance < 450) {
-      // Distante: 50% de chance
-      destructionChance = 0.5;
-    } else if (distance < 550) {
-      // Muito distante: 30% de chance
-      destructionChance = 0.3;
-    }
-    
-    // Aplica a chance de destruição
+
+    if (distance < 150) destructionChance = 0.9;
+    else if (distance < 250) destructionChance = 0.8;
+    else if (distance < 350) destructionChance = 0.7;
+    else if (distance < 450) destructionChance = 0.5;
+    else if (distance < 550) destructionChance = 0.3;
+
     if (destructionChance > 0 && Math.random() < destructionChance) {
-      this.destroyName();
-      console.log(`💥 Nome destruído pelo Mega Man! (Distância: ${Math.round(distance)}px, Chance: ${Math.round(destructionChance * 100)}%)`);
+      this.handleDestruction();
+      console.log(
+        `💥 Nome destruído pelo Mega Man! (Distância: ${Math.round(distance)}px, Chance: ${Math.round(destructionChance * 100)}%)`
+      );
     }
   }
 
-  // Destrói o nome com efeito visual aprimorado de cinzas e garante regeneração
-  destroyName() {
-    if (!this.nameElement || !this.nameOriginalContent) return;
+  handleDestruction() {
+    if (!this.nameElement) return;
 
-    // Limpa timer de regeneração anterior se existir
-    if (this.nameRegenerationTimer) {
-      clearTimeout(this.nameRegenerationTimer);
-      this.nameRegenerationTimer = null;
+    // Guarda referências do container e próximo irmão
+    const container = this.nameElement.parentNode;
+    const nextSibling = this.nameElement.nextSibling;
+
+    if (this.element) {
+      this.element.classList.add("attack");
     }
-
-    console.log("💥 Iniciando destruição do nome...");
 
     // Adiciona efeito de tremor
     this.nameElement.style.animation = "shake 0.3s ease-in-out";
 
-    // Animação de quebra das letras em etapas
+    // Animação de quebra das letras
     this.animateLetterBreaking();
-    
-    // Adiciona efeito de cinzas após a destruição
+
+    // Efeito de cinzas após destruição
     setTimeout(() => {
       if (this.nameElement) {
-        // Adiciona efeito de cinzas com partículas caindo
         this.nameElement.style.animation = "ash-fall 1.5s ease-in-out";
-        
-        // Cria efeito de cinzas com caracteres especiais
         const ashText = this.createAshEffect(this.nameOriginalContent);
         this.nameElement.innerHTML = ashText;
-        
-        // Muda cor para cinza escuro com gradiente
         this.nameElement.style.color = "#333";
         this.nameElement.style.textShadow = "0 0 5px rgba(100, 100, 100, 0.5)";
       }
-    }, 800); // Aplica efeito de cinzas após a animação de quebra
-    
-    // Garante que o nome será regenerado mesmo se o Megaman for desativado
-    // durante o processo de destruição
-    this.nameRegenerationTimer = setTimeout(() => {
-      // Verifica se o nome ainda não foi regenerado
-      if (this.nameElement && 
-          this.nameElement.innerHTML !== this.nameOriginalContent) {
-        console.log("🔄 Garantindo regeneração do nome...");
-        this.regenerateName();
+    }, 800);
+
+    this.destructionCooldown = true;
+
+    setTimeout(() => {
+      if (this.nameElement && this.nameElement.parentNode) {
+        this.nameElement.remove();
       }
-    }, 8000); // Tempo de segurança para garantir regeneração
+
+      if (this.element) {
+        this.element.classList.remove("attack");
+      }
+
+      setTimeout(() => {
+        this.regenerateName(container, nextSibling);
+        this.destructionCooldown = false;
+      }, this.regenerationCooldown);
+    }, this.animationDuration);
   }
 
-  // Animação de quebra das letras
   animateLetterBreaking() {
     if (!this.nameElement || !this.nameOriginalContent) return;
 
@@ -620,14 +592,12 @@ class MegamanController {
       currentStep++;
       const destructionProgress = currentStep / totalSteps;
 
-      // Cria texto progressivamente mais destruído
       const brokenText = this.createProgressivelyBrokenText(
         letters,
         destructionProgress
       );
       this.nameElement.innerHTML = brokenText;
 
-      // Muda cor progressivamente para vermelho
       const redIntensity = Math.floor(255 * destructionProgress);
       const blueIntensity = Math.floor(255 * (1 - destructionProgress));
       this.nameElement.style.color = `rgb(${255}, ${blueIntensity}, ${blueIntensity})`;
@@ -635,14 +605,10 @@ class MegamanController {
 
       if (currentStep >= totalSteps) {
         clearInterval(breakingInterval);
-        console.log("💥 Nome completamente destruído!");
-        // Programa a regeneração após destruição completa
-        this.scheduleNameRegeneration();
       }
-    }, 100); // Animação mais rápida
+    }, 100);
   }
 
-  // Cria texto progressivamente quebrado
   createProgressivelyBrokenText(letters, progress) {
     const destructionChars = [
       "█",
@@ -662,33 +628,27 @@ class MegamanController {
       .map((char, index) => {
         if (char === " ") return " ";
 
-        // Probabilidade de quebrar baseada no progresso e posição
         const letterProgress = Math.max(
           0,
           progress - (index / letters.length) * 0.2
         );
 
-        if (letterProgress < 0.2) {
-          return char; // Letra original
-        } else if (letterProgress < 0.4) {
-          // Primeira fase: tremor ocasional
+        if (letterProgress < 0.2) return char;
+        else if (letterProgress < 0.4) {
           return Math.random() < 0.3
             ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
             : char;
         } else if (letterProgress < 0.6) {
-          // Segunda fase: mais glitches
           return Math.random() < 0.5
             ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
             : char;
         } else if (letterProgress < 0.8) {
-          // Terceira fase: blocos aparecem
           return Math.random() < 0.7
             ? destructionChars[
                 Math.floor(Math.random() * destructionChars.length)
               ]
             : char;
         } else {
-          // Fase final: principalmente caracteres de destruição
           return Math.random() < 0.9
             ? destructionChars[
                 Math.floor(Math.random() * destructionChars.length)
@@ -699,10 +659,9 @@ class MegamanController {
       .join("");
   }
 
-  // Cria texto "destruído" com caracteres aleatórios
-  createDestroyedText(originalText) {
+  createAshEffect(originalText) {
     const chars = "█▓▒░!@#$%^&*()_+-=[]{}|;:,.<>?~`";
-    const plainText = originalText.replace(/<[^>]*>/g, ""); // Remove HTML tags
+    const plainText = originalText.replace(/<[^>]*>/g, "");
 
     return plainText
       .split("")
@@ -714,227 +673,81 @@ class MegamanController {
       })
       .join("");
   }
-  
-  // Cria efeito de cinzas com caracteres especiais
-  createAshEffect(originalText) {
-    const ashChars = "·°•○☼♦♠♣♥▪▫■□▬▲►▼◄◊●◦◘◙◦∙⋅⊙⊚⊗⊛⊝⊠⊡⊢⊣⊤⊥⊿⋆⋄⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⌀⌁⌂⌃⌄⌅⌆⌇⌈⌉⌊⌋⌌⌍⌎⌏⌐⌑⌒⌓⌔⌕⌖⌗⌘⌙⌚⌛⌜⌝⌞⌟⌠⌡⌢⌣⌤⌥⌦⌧⌨⌫⌬⌭⌮⌯⌰⌱⌲⌳⌴⌵⌶⌷⌸⌹⌺⌻⌼⌽⌾⌿⍀⍁⍂⍃⍄⍅⍆⍇⍈⍉⍊⍋⍌⍍⍎⍏⍐⍑⍒⍓⍔⍕⍖⍗⍘⍙⍚⍛⍜⍝⍞⍟⍠⍡⍢⍣⍤⍥⍦⍧⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲⍳⍴⍵⍶⍷⍸⍹⍺⍻⍼⍽⍾⍿⎀⎁⎂⎃⎄⎅⎆⎇⎈⎉⎊⎋⎌⎍⎎⎏⎐⎑⎒⎓⎔⎕⎖⎗⎘⎙⎚⎛⎜⎝⎞⎟⎠⎡⎢⎣⎤⎥⎦⎧⎨⎩⎪⎫⎬⎭⎮⎯⎰⎱⎲⎳⎴⎵⎶⎷⎸⎹⎺⎻⎼⎽⎾⎿⏀⏁⏂⏃⏄⏅⏆⏇⏈⏉⏊⏋⏌⏍⏎⏏⏐⏑⏒⏓⏔⏕⏖⏗⏘⏙⏚⏛⏜⏝⏞⏟⏠⏡⏢⏣⏤⏥⏦⏧⏨⏩⏪⏫⏬⏭⏮⏯⏰⏱⏲⏳⏴⏵⏶⏷⏸⏹⏺⏻⏼⏽⏾⏿";
-    const plainText = originalText.replace(/<[^>]*>/g, ""); // Remove HTML tags
 
-    return plainText
-      .split("")
-      .map((char, index) => {
-        if (char === " ") return " ";
-        
-        // Cria efeito de cinzas com diferentes caracteres e opacidades
-        const ashChar = ashChars[Math.floor(Math.random() * ashChars.length)];
-        const opacity = Math.random() * 0.7 + 0.3; // Opacidade entre 0.3 e 1.0
-        const size = Math.random() * 0.5 + 0.5; // Tamanho entre 0.5 e 1.0
-        
-        // Adiciona efeito de queda com atraso baseado na posição
-        const delay = Math.random() * 1.5;
-        const fallSpeed = Math.random() * 1.5 + 0.5;
-        
-        return `<span style="opacity:${opacity};font-size:${size}em;animation:ash-particle ${fallSpeed}s ease-in-out ${delay}s;display:inline-block;">${ashChar}</span>`;
-      })
-      .join("");
-  }
-
-  // Agenda a regeneração do nome com suporte a regeneração infinita
-  scheduleNameRegeneration() {
-    // Limpa qualquer timer de regeneração anterior para evitar múltiplas regenerações
-    if (this.nameRegenerationTimer) {
-      clearTimeout(this.nameRegenerationTimer);
-      this.nameRegenerationTimer = null;
-    }
-    
-    console.log("⏳ Agendando regeneração do nome em 4 segundos...");
-    this.nameRegenerationTimer = setTimeout(() => {
-      this.regenerateName();
-    }, 4000); // Regenera após 4 segundos
-    
-    // Timer de segurança para garantir que a regeneração aconteça mesmo em caso de erros
-    setTimeout(() => {
-      // Verifica se o nome ainda não foi regenerado
-      if (this.nameElement && 
-          this.nameOriginalContent &&
-          this.nameElement.innerHTML !== this.nameOriginalContent) {
-        console.log("⚠️ Detectado problema na regeneração. Forçando regeneração...");
-        this.regenerateName();
-      }
-    }, 8000); // Tempo de segurança (8 segundos)
-  }
-
-  // Regenera o nome gradualmente com animação aprimorada e suporte a regeneração infinita
-  regenerateName() {
-    if (!this.nameElement || !this.nameOriginalContent) return;
-
-    console.log("✨ Iniciando regeneração do nome...");
-
-    // Adiciona efeito de regeneração com brilho
-    this.nameElement.style.animation = "regenerate 0.5s ease-in-out";
-
-    const plainOriginal = this.nameOriginalContent.replace(/<[^>]*>/g, "");
-    let currentStep = 0;
-    const totalSteps = 15; // Mais etapas para suavizar
-
-    // Limpa qualquer timer de regeneração anterior
-    if (this.nameRegenerationTimer) {
-      clearTimeout(this.nameRegenerationTimer);
-      this.nameRegenerationTimer = null;
+  regenerateName(container, nextSibling) {
+    if (!container) {
+      console.error("Container para regeneração do nome não encontrado!");
+      return;
     }
 
-    const regenerationInterval = setInterval(() => {
-      if (!this.nameElement) {
-        clearInterval(regenerationInterval);
-        return;
-      }
+    // Cria novo elemento com todas as propriedades originais
+    const newNameElement = document.createElement("h1");
+    newNameElement.className = "hero-title";
+    newNameElement.innerHTML = this.nameOriginalContent;
 
-      currentStep++;
-      const progress = currentStep / totalSteps;
+    // Restaura todos os atributos originais
+    for (const [name, value] of Object.entries(this.originalNameAttributes)) {
+      newNameElement.setAttribute(name, value);
+    }
 
-      // Gradualmente restaura o texto original
-      const regeneratedText = this.createRegeneratingText(
-        plainOriginal,
-        progress
-      );
-      this.nameElement.innerHTML = regeneratedText;
-
-      // Gradualmente restaura as cores (de vermelho para azul ciano)
-      const redValue = Math.floor(255 * (1 - progress));
-      const greenValue = Math.floor(180 * progress); // Um pouco de verde para o ciano
-      const blueValue = Math.floor(255 * progress);
-      this.nameElement.style.color = `rgb(${redValue}, ${greenValue}, ${blueValue})`;
-
-      // Diminui o brilho vermelho gradualmente
-      const glowIntensity = Math.floor(10 * (1 - progress));
-      this.nameElement.style.textShadow =
-        glowIntensity > 0
-          ? `2px 2px 0 #000, 0 0 ${glowIntensity}px #ff0000`
-          : "";
-
-      if (currentStep >= totalSteps) {
-        // Restauração completa
-        this.nameElement.innerHTML = this.nameOriginalContent;
-        this.nameElement.style.color = ""; // Volta à cor original
-        this.nameElement.style.textShadow = "";
-        this.nameElement.style.animation = "";
-        clearInterval(regenerationInterval);
-        console.log("✅ Nome completamente regenerado!");
-        
-        // Se o Megaman ainda estiver ativo, programa uma nova verificação para possível destruição
-        if (this.isActive) {
-          // Chance aleatória de o Megaman se mover para o nome após regeneração
-          // Aumentada para 60% para garantir mais interações
-          setTimeout(() => {
-            if (this.isActive && Math.random() < 0.6) {
-              console.log("🎯 Megaman vai tentar destruir o nome novamente!");
-              this.findNameElement(); // Atualiza referência ao elemento do nome
-              this.moveToName(); // Move para o nome regenerado
-            }
-          }, 1500 + Math.random() * 2000); // Espera entre 1.5-3.5 segundos antes de tentar se mover para o nome
-        }
-      }
-    }, 120); // Intervalo mais rápido para regeneração mais dinâmica
-  }
-
-  // Cria texto em processo de regeneração aprimorado
-  createRegeneratingText(originalText, progress) {
-    const destructionChars = ["█", "▓", "▒", "░", "▄", "▀", "■", "□"];
-    const transitionChars = [".", ":", ";", "'", '"', "-", "_"];
-
-    return originalText
-      .split("")
-      .map((char, index) => {
-        if (char === " ") return " ";
-
-        // Progresso individual por caractere com efeito cascata
-        const charProgress = Math.max(
-          0,
-          progress - (index / originalText.length) * 0.2
-        );
-
-        if (charProgress >= 0.9) {
-          return char; // Caractere original completamente restaurado
-        } else if (charProgress >= 0.7) {
-          // Transição suave para o caractere original
-          return Math.random() < 0.8
-            ? char
-            : transitionChars[
-                Math.floor(Math.random() * transitionChars.length)
-              ];
-        } else if (charProgress >= 0.5) {
-          // Mistura de caractere original e transição
-          return Math.random() < 0.6
-            ? char
-            : Math.random() < 0.5
-              ? transitionChars[
-                  Math.floor(Math.random() * transitionChars.length)
-                ]
-              : destructionChars[
-                  Math.floor(Math.random() * destructionChars.length)
-                ];
-        } else if (charProgress >= 0.3) {
-          // Mais blocos, menos lixo
-          return Math.random() < 0.3
-            ? char
-            : destructionChars[
-                Math.floor(Math.random() * destructionChars.length)
-              ];
-        } else {
-          // Início da regeneração - principalmente blocos
-          return destructionChars[
-            Math.floor(Math.random() * destructionChars.length)
-          ];
-        }
-      })
-      .join("");
-  }
-}
-
-// Otimizações de performance
-const PERFORMANCE_CONFIG = {
-  maxFPS: 60,
-  throttleResize: 250,
-  throttleVisibility: 100,
-};
-
-// Função para throttle de eventos
-function throttle(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
-// Instância global com inicialização segura
-function initMegamanController() {
-  if (typeof window !== "undefined") {
-    // Aguarda o DOM estar pronto
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () => {
-        window.megamanController = new MegamanController();
-        console.log(
-          '🤖 Mega Man Controller inicializado! Digite "megaman on" no terminal para ativar.'
-        );
-      });
+    // Insere na posição original
+    if (nextSibling) {
+      container.insertBefore(newNameElement, nextSibling);
     } else {
-      window.megamanController = new MegamanController();
-      console.log(
-        '🤖 Mega Man Controller inicializado! Digite "megaman on" no terminal para ativar.'
+      container.appendChild(newNameElement);
+    }
+
+    this.nameElement = newNameElement;
+    this.isRegenerating = false;
+    this.stats.successfulRegenerations++;
+    this.nameRegenerationTimer = null;
+    this.setupClickListener();
+
+    // 60% de chance de ir para o nome após regeneração
+    if (this.isActive && Math.random() < 0.6) {
+      setTimeout(
+        () => {
+          if (this.isActive) this.moveToName();
+        },
+        1500 + Math.random() * 2000
+      );
+    }
+  }
+
+  setupClickListener() {
+    if (this.nameElement) {
+      this.nameElement.addEventListener(
+        "click",
+        () => this.handleDestruction(),
+        {
+          once: true,
+        }
       );
     }
   }
 }
 
-// Inicializa o controlador
-initMegamanController();
+// Inicialização automática quando o DOM estiver pronto
+document.addEventListener("DOMContentLoaded", () => {
+  window.megamanController = new MegamanController();
+  console.log(
+    '🎮 Mega Man Controller carregado! Digite "megaman.start()" no console para iniciar.'
+  );
+});
 
-// Exporta para uso em outros módulos se necessário
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = MegamanController;
-}
+// Interface para controle pelo console
+window.megaman = {
+  start: () => window.megamanController?.start(),
+  stop: () => window.megamanController?.stop(),
+  status: () => {
+    const controller = window.megamanController;
+    if (!controller) return "Mega Man Controller não encontrado";
+    return {
+      active: controller.isActive,
+      position: controller.position,
+      stats: controller.stats,
+      nameExists: !!controller.nameElement,
+      isRegenerating: controller.isRegenerating,
+    };
+  },
+};
