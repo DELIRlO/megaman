@@ -57,48 +57,6 @@
     0 0 8px var(--glow-yellow);
 }
 
-/* Animações para o efeito de cinzas do nome */
-@keyframes ash-fall {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0.3;
-    transform: translateY(10px);
-  }
-}
-
-@keyframes ash-particle {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateY(20px) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-/* Animação para regeneração do nome */
-@keyframes regenerate {
-  0% {
-    filter: brightness(0.5) blur(2px);
-    transform: scale(0.95);
-  }
-  50% {
-    filter: brightness(1.5) blur(0);
-    transform: scale(1.05);
-  }
-  100% {
-    filter: brightness(1) blur(0);
-    transform: scale(1);
-  }
-}
-
 /* Efeito nos ícones */
 .menu-icon {
   transition: transform 0.2s ease;
@@ -237,35 +195,69 @@ body:hover {
     url("https://delirlo.github.io/megaman/assets/sprites/cursor-hover.png"),
     auto;
 }
+/* Adicione isso APÓS o CSS principal do portfólio */
+.stars-container {
+  --star-color-primary: #d63c4d !important;
+  --star-color-bright: #1d92d5 !important;
+  --star-glow-color: rgba(100, 255, 255, 0.7) !important;
+}
 
-/* Animação de fundo starfield */
-body::before {
-  content: "";
+.star {
+  background-color: var(--star-color-primary) !important;
+}
+
+.star.bright {
+  background-color: var(--star-color-bright) !important;
+  box-shadow: 0 0 15px var(--star-glow-color) !important;
+}
+
+.stars-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background:
-    radial-gradient(2px 2px at 20px 30px, var(--color-secondary), transparent),
-    radial-gradient(2px 2px at 40px 70px, var(--color-primary), transparent),
-    radial-gradient(1px 1px at 90px 40px, var(--color-accent), transparent),
-    radial-gradient(1px 1px at 130px 80px, var(--color-secondary), transparent),
-    radial-gradient(2px 2px at 160px 30px, var(--color-primary), transparent);
-  background-repeat: repeat;
-  background-size: 200px 100px;
-  animation: starfield 7s linear infinite;
   z-index: -1;
-  will-change: transform;
-  transform: translateZ(0);
+  pointer-events: none;
 }
 
-@keyframes starfield {
-  from {
-    transform: translateY(0);
-  }
+.star {
+  position: absolute;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+
+.star.bright {
+  background-color: var(--color-bright);
+  box-shadow: 0 0 15px var(--glow-color);
+  animation:
+    float linear infinite,
+    pulse 2s ease-in-out infinite;
+}
+
+@keyframes float {
   to {
-    transform: translateY(-100px);
+    transform: translateY(-100vh);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes spark {
+  to {
+    opacity: 0;
+    transform: scale(2);
   }
 }
 
@@ -2795,6 +2787,22 @@ body::before {
   }
 }
 
+/* Efeito de pulsação para regeneração */
+@keyframes regeneratePulse {
+  0% {
+    transform: scale(1);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: hue-rotate(30deg);
+  }
+  100% {
+    transform: scale(1);
+    filter: hue-rotate(0deg);
+  }
+}
+
 /* Classe auxiliar para aplicar efeito de quebra */
 .breaking-text {
   animation: letterBreaking 0.1s ease-in-out infinite;
@@ -2803,13 +2811,6 @@ body::before {
 /* Classe auxiliar para texto sendo destruído */
 .destroying-text {
   animation: shake 0.3s ease-in-out;
-}
-
-/* Classe auxiliar para texto sendo regenerado */
-.regenerating-text {
-  animation:
-    regenerate 0.5s ease-in-out,
-    regeneratePulse 0.15s ease-in-out infinite;
 }
 
 /* Efeito especial para o título quando está sendo atacado */
@@ -2902,4 +2903,37 @@ body::before {
 /* Posicionamento relativo ao nome */
 .hero-title {
   position: relative;
+}
+
+.golden-particles-container {
+  position: absolute;
+  top: 0;
+  right: -100px;
+  width: 100px;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.temporary-gold {
+  display: inline-block;
+}
+
+.golden-letter {
+  display: inline-block;
+  animation: golden-letter-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes golden-letter-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
 }

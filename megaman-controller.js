@@ -1,8 +1,11 @@
 /**
- * Mega Man Controller - Sistema completo com efeitos de destruição e regeneração correta
+ * MEGA MAN CONTROLLER - SISTEMA COMPLETO (1000+ linhas)
+ * Com partículas que nascem abaixo do nome e fazem movimento espiral
  */
+
 class MegamanController {
   constructor() {
+    // Configurações iniciais
     this.isActive = false;
     this.element = null;
     this.currentSprite = "idle";
@@ -27,6 +30,7 @@ class MegamanController {
     this.originalNameContainer = null;
     this.originalNameNextSibling = null;
     this.isRegenerating = false;
+    this.particleSystems = [];
 
     // Configurações de tempo
     this.shootInterval = { min: 12000, max: 30000 };
@@ -69,13 +73,629 @@ class MegamanController {
     this.init();
   }
 
+  /* ========== INICIALIZAÇÃO ========== */
   init() {
     this.createMegamanElement();
     this.updateBoundaries();
     this.bindEvents();
     this.findNameElement();
+    this.injectStyles();
   }
 
+  injectStyles() {
+    const style = document.createElement("style");
+    style.textContent = `
+      /* ========== EFEITOS DE REGENERAÇÃO ========== */
+      .regenerating-letter {
+        display: inline-block;
+        animation: letterRegen 0.6s cubic-bezier(0.2, 0.8, 0.4, 1) both;
+        color: #ffd700;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+      }
+      
+      @keyframes letterRegen {
+        0% {
+          transform: scale(0.3) translateY(20px);
+          opacity: 0;
+          text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+        70% {
+          transform: scale(1.2);
+          text-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+          text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+      }
+      
+      /* ========== SISTEMA DE PARTÍCULAS ========== */
+      .particles-container {
+        position: absolute;
+        bottom: -50px;
+        left: 0;
+        width: 100%;
+        height: 150px;
+        pointer-events: none;
+        overflow: visible;
+        z-index: 100;
+      }
+      
+      .golden-particle {
+        position: absolute;
+        background: linear-gradient(135deg, #ffd700 0%, #ffcc00 100%);
+        border-radius: 50%;
+        box-shadow: 0 0 10px #ffd700;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0;
+        transform-origin: center;
+      }
+      
+      /* ========== EFEITOS DE DESTRUIÇÃO ========== */
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+      
+      @keyframes ash-fall {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(20px); opacity: 0; }
+      }
+      
+      /* ========== ESTILOS DO MEGA MAN ========== */
+      .megaman-character {
+        position: fixed;
+        width: 64px;
+        height: 64px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 800;
+        pointer-events: none;
+        transition: none;
+      }
+      
+      .megaman-character.active {
+        opacity: 1;
+      }
+      
+      .megaman-character.entering {
+        animation: megaman-enter 1s ease-out;
+      }
+      
+      .megaman-character.leaving {
+        animation: megaman-leave 1s ease-in;
+      }
+      
+      @keyframes megaman-enter {
+        0% { transform: scale(0.5); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      
+      @keyframes megaman-leave {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(0.5); opacity: 0; }
+      }
+      
+      .megaman-character.moving {
+        animation: megaman-move 0.5s infinite alternate;
+      }
+      
+      @keyframes megaman-move {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-5px); }
+      }
+      
+      .megaman-character.shooting {
+        animation: megaman-shoot 0.3s;
+      }
+      
+      @keyframes megaman-shoot {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+      }
+      
+      .megaman-character.attack {
+        animation: megaman-attack 0.5s;
+      }
+      
+      @keyframes megaman-attack {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+      }
+      
+      /* ========== EFEITOS DE TEXTO ========== */
+      .hero-title {
+        position: relative;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  /* ========== SISTEMA DE PARTÍCULAS ========== */
+  createParticleSystem(container) {
+    const particleContainer = document.createElement("div");
+    particleContainer.className = "particles-container";
+    container.appendChild(particleContainer);
+
+    const particleCount = 100;
+    const particles = [];
+    const nameRect = container.getBoundingClientRect();
+    const startY = nameRect.height + 20;
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement("div");
+      particle.className = "golden-particle";
+
+      // Configuração visual
+      const size = 4 + Math.random() * 6;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.opacity = "0";
+
+      // Posição inicial abaixo do nome
+      const x = Math.random() * nameRect.width;
+      particle.style.left = `${x}px`;
+      particle.style.bottom = "0";
+      particleContainer.appendChild(particle);
+
+      particles.push({
+        element: particle,
+        x: x,
+        startY: startY,
+        angle: Math.random() * Math.PI * 2,
+        speed: 0.5 + Math.random(),
+        size: size,
+        delay: i * 10,
+        time: 0,
+        life: 0,
+        maxLife: 2 + Math.random() * 2,
+        spiralRadius: 10 + Math.random() * 40,
+      });
+    }
+
+    const particleSystem = {
+      container: particleContainer,
+      particles: particles,
+      animationId: null,
+      startTime: Date.now(),
+    };
+
+    this.particleSystems.push(particleSystem);
+    this.animateParticles(particleSystem);
+  }
+
+  animateParticles(system) {
+    const animate = () => {
+      if (!this.isRegenerating) {
+        this.cleanupParticleSystem(system);
+        return;
+      }
+
+      const currentTime = Date.now();
+      const elapsed = (currentTime - system.startTime) / 1000;
+
+      system.particles.forEach((particle) => {
+        // Aplica delay inicial
+        if (elapsed * 1000 < particle.delay) return;
+
+        particle.time = elapsed - particle.delay / 1000;
+        particle.life = particle.time / particle.maxLife;
+
+        if (particle.life > 1) {
+          particle.element.style.opacity = "0";
+          return;
+        }
+
+        // Atualiza movimento espiral
+        particle.angle += 0.05 * particle.speed;
+
+        // Calcula posição
+        const spiralX = Math.cos(particle.angle) * particle.spiralRadius;
+        const spiralY = Math.sin(particle.angle) * particle.spiralRadius;
+
+        const y = particle.startY - particle.time * 100;
+        const x = particle.x + spiralX;
+
+        // Atualiza opacidade e escala
+        const opacity = Math.min(1, particle.time * 2) * (1 - particle.life);
+        const scale = 0.5 + Math.min(0.5, particle.time) * 1.5;
+
+        // Aplica transformações
+        particle.element.style.transform = `translate(${x}px, ${-y}px) scale(${scale})`;
+        particle.element.style.opacity = opacity;
+      });
+
+      system.animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+  }
+
+  cleanupParticleSystem(system) {
+    cancelAnimationFrame(system.animationId);
+    system.container.remove();
+    this.particleSystems = this.particleSystems.filter((ps) => ps !== system);
+  }
+
+  /* ========== SISTEMA DE REGENERAÇÃO ========== */
+  regenerateName(container, nextSibling) {
+    if (!container || !this.isRegenerating) {
+      console.error("Container para regeneração não encontrado!");
+      return;
+    }
+
+    const newNameElement = document.createElement("h1");
+    newNameElement.className = "hero-title";
+
+    // Cria versão com letras animadas
+    const letters = this.nameOriginalContent
+      .split("")
+      .map((char, idx) => {
+        if (char === " ") return " ";
+        const delay = idx * 0.07;
+        return `<span class="regenerating-letter" style="animation-delay: ${delay}s">${char}</span>`;
+      })
+      .join("");
+
+    newNameElement.innerHTML = letters;
+
+    // Restaura atributos originais
+    for (const [name, value] of Object.entries(this.originalNameAttributes)) {
+      newNameElement.setAttribute(name, value);
+    }
+
+    // Adiciona partículas
+    this.createParticleSystem(newNameElement);
+
+    // Insere na posição original
+    if (nextSibling) {
+      container.insertBefore(newNameElement, nextSibling);
+    } else {
+      container.appendChild(newNameElement);
+    }
+
+    this.nameElement = newNameElement;
+    this.stats.successfulRegenerations++;
+    this.setupClickListener();
+
+    // Remove efeitos após animação e restaura estilo original
+    setTimeout(() => {
+      this.restoreOriginalStyles(newNameElement);
+    }, 2500);
+  }
+
+  restoreOriginalStyles(element) {
+    if (!element || !this.nameOriginalContent) return;
+
+    // Restaura conteúdo original
+    element.innerHTML = this.nameOriginalContent;
+
+    // Restaura todos os atributos e estilos originais
+    for (const [name, value] of Object.entries(this.originalNameAttributes)) {
+      if (name === "style") {
+        element.style.cssText = value;
+      } else {
+        element.setAttribute(name, value);
+      }
+    }
+
+    // Limpa partículas
+    this.particleSystems.forEach((sys) => this.cleanupParticleSystem(sys));
+    this.particleSystems = [];
+    this.isRegenerating = false;
+  }
+
+  /* ========== SISTEMA DE DESTRUIÇÃO ========== */
+  handleDestruction() {
+    if (!this.nameElement || this.isRegenerating) return;
+
+    const container = this.nameElement.parentNode;
+    const nextSibling = this.nameElement.nextSibling;
+
+    // Efeito visual de ataque
+    this.element?.classList.add("attack");
+    this.nameElement.style.animation = "shake 0.3s ease-in-out";
+
+    // Animação de destruição
+    this.animateLetterBreaking();
+
+    // Efeito de cinzas
+    setTimeout(() => {
+      if (this.nameElement) {
+        this.nameElement.style.animation = "ash-fall 1.5s ease-in-out";
+        this.nameElement.innerHTML = this.createAshEffect(
+          this.nameOriginalContent
+        );
+        this.nameElement.style.color = "#333";
+        this.nameElement.style.textShadow = "0 0 5px rgba(100, 100, 100, 0.5)";
+      }
+    }, 800);
+
+    this.destructionCooldown = true;
+    this.stats.nameDestructions++;
+
+    // Inicia regeneração após delay
+    setTimeout(() => {
+      if (this.nameElement?.parentNode) {
+        this.nameElement.remove();
+      }
+
+      this.element?.classList.remove("attack");
+      this.isRegenerating = true;
+
+      setTimeout(() => {
+        this.regenerateName(container, nextSibling);
+        this.destructionCooldown = false;
+      }, this.regenerationCooldown);
+    }, this.animationDuration);
+  }
+
+  animateLetterBreaking() {
+    if (!this.nameElement || !this.nameOriginalContent) return;
+
+    const plainText = this.nameOriginalContent.replace(/<[^>]*>/g, "");
+    const letters = plainText.split("");
+    const totalSteps = 10;
+    let currentStep = 0;
+
+    const breakingEffect = setInterval(() => {
+      if (!this.nameElement || currentStep >= totalSteps) {
+        clearInterval(breakingEffect);
+        return;
+      }
+
+      currentStep++;
+      const progress = currentStep / totalSteps;
+
+      // Cria texto com efeito de quebra
+      const brokenText = letters
+        .map((char, idx) => {
+          if (char === " ") return " ";
+
+          const charProgress = progress - (idx / letters.length) * 0.3;
+          if (charProgress <= 0) return char;
+
+          if (charProgress > 0.7) {
+            return Math.random() > 0.3 ? "✧" : char;
+          } else if (charProgress > 0.4) {
+            return Math.random() > 0.5 ? "�" : char;
+          }
+          return char;
+        })
+        .join("");
+
+      this.nameElement.innerHTML = brokenText;
+
+      // Efeito de cor
+      const red = Math.min(255, Math.floor(255 * progress));
+      const blue = Math.max(0, Math.floor(255 * (1 - progress)));
+      this.nameElement.style.color = `rgb(${red}, 0, ${blue})`;
+      this.nameElement.style.textShadow = `0 0 ${Math.floor(10 * progress)}px rgba(255, 0, 0, 0.7)`;
+    }, 80);
+  }
+
+  createAshEffect(originalText) {
+    const chars = "✧✦∗�✵✹";
+    const plainText = originalText.replace(/<[^>]*>/g, "");
+
+    return plainText
+      .split("")
+      .map((char) =>
+        char === " "
+          ? " "
+          : Math.random() < 0.7
+            ? chars[Math.floor(Math.random() * chars.length)]
+            : char
+      )
+      .join("");
+  }
+
+  /* ========== CONTROLE PRINCIPAL ========== */
+  start() {
+    if (this.isActive) return;
+
+    this.isActive = true;
+    this.isPaused = false;
+    this.stats.startTime = Date.now();
+
+    // Animação de entrada
+    this.element.style.opacity = "1";
+    this.element.classList.add("active", "entering");
+
+    setTimeout(() => {
+      this.element?.classList.remove("entering");
+    }, 1000);
+
+    this.scheduleNextMove();
+    this.scheduleNextShoot();
+
+    if (window.audioSystem) {
+      window.audioSystem.play("achievement");
+    }
+  }
+
+  stop() {
+    if (!this.isActive) return;
+
+    this.isActive = false;
+    this.isPaused = false;
+
+    // Atualiza estatísticas
+    if (this.stats.startTime) {
+      this.stats.timeActive += Date.now() - this.stats.startTime;
+      this.stats.startTime = null;
+    }
+
+    // Animação de saída
+    this.element.classList.add("leaving");
+    setTimeout(() => {
+      this.element.style.opacity = "0";
+      this.element.classList.remove("leaving", "active");
+    }, 1000);
+
+    this.clearTimers();
+    this.stopMovement();
+
+    if (window.audioSystem) {
+      window.audioSystem.play("click");
+    }
+  }
+
+  /* ========== SISTEMA DE MOVIMENTO ========== */
+  moveToRandomPosition() {
+    if (!this.isActive || this.isPaused || this.isMoving || this.isShooting) {
+      this.scheduleNextMove();
+      return;
+    }
+
+    this.findNameElement();
+    this.lastPosition = { ...this.position };
+
+    // 60% de chance de ir para o nome se estiver visível
+    if (this.nameElement && Math.random() < 0.6) {
+      this.moveToName();
+      return;
+    }
+
+    // Move para posição aleatória
+    this.targetPosition = this.getRandomPosition();
+    this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
+    this.isMoving = true;
+    this.isMovingToName = false;
+    this.stats.totalMoves++;
+
+    this.element.classList.add("moving");
+    this.updateMovementSprite();
+    this.updateMovement();
+  }
+
+  updateMovement() {
+    if (!this.isActive || !this.isMoving) return;
+
+    const dx = this.targetPosition.x - this.position.x;
+    const dy = this.targetPosition.y - this.position.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < this.movementSpeed) {
+      this.position = { ...this.targetPosition };
+      this.isMoving = false;
+      this.element.classList.remove("moving");
+      this.switchSprite("stopped");
+      this.updateElementPosition();
+      this.scheduleNextMove();
+      return;
+    }
+
+    const moveX = (dx / distance) * this.movementSpeed;
+    const moveY = (dy / distance) * this.movementSpeed;
+
+    this.position.x += moveX;
+    this.position.y += moveY;
+    this.updateElementPosition();
+
+    this.animationFrame = requestAnimationFrame(() => this.updateMovement());
+  }
+
+  moveToName() {
+    if (!this.nameElement) return;
+
+    const rect = this.nameElement.getBoundingClientRect();
+    this.targetPosition = {
+      x: Math.max(50, rect.left - 100),
+      y: Math.max(50, rect.top + rect.height / 2 - 32),
+    };
+
+    this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
+    this.isMoving = true;
+    this.isMovingToName = true;
+    this.stats.totalMoves++;
+
+    this.element.classList.add("moving");
+    this.updateMovementSprite();
+    this.updateMovement();
+  }
+
+  /* ========== SISTEMA DE TIRO ========== */
+  shoot() {
+    if (
+      !this.isActive ||
+      this.isPaused ||
+      this.isShooting ||
+      this.destructionCooldown
+    ) {
+      this.scheduleNextShoot();
+      return;
+    }
+
+    if (this.isMoving) this.stopMovement();
+
+    this.isShooting = true;
+    this.stats.totalShots++;
+    this.switchSprite("shooting");
+    this.element.classList.add("shooting");
+
+    if (window.audioSystem) {
+      window.audioSystem.play("click");
+    }
+
+    this.checkNameDestruction();
+
+    setTimeout(() => {
+      if (this.isActive) {
+        this.switchSprite("stopped");
+        this.isShooting = false;
+        this.element.classList.remove("shooting");
+        this.scheduleNextShoot();
+
+        // 50% de chance de se mover após atirar
+        if (Math.random() < 0.5) {
+          setTimeout(() => {
+            if (this.isActive && !this.isMoving) {
+              this.moveToRandomPosition();
+            }
+          }, 500);
+        }
+      }
+    }, this.shootDuration);
+  }
+
+  checkNameDestruction() {
+    if (!this.nameElement || !this.isActive || this.destructionCooldown) return;
+
+    const nameRect = this.nameElement.getBoundingClientRect();
+    const megamanRect = {
+      left: this.position.x,
+      top: this.position.y,
+      right: this.position.x + 64,
+      bottom: this.position.y + 64,
+    };
+
+    const distance = Math.sqrt(
+      Math.pow(nameRect.left - megamanRect.left, 2) +
+        Math.pow(nameRect.top - megamanRect.top, 2)
+    );
+
+    let destructionChance = 0;
+    if (distance < 150) destructionChance = 0.9;
+    else if (distance < 250) destructionChance = 0.8;
+    else if (distance < 350) destructionChance = 0.7;
+    else if (distance < 450) destructionChance = 0.5;
+    else if (distance < 550) destructionChance = 0.3;
+
+    if (destructionChance > 0 && Math.random() < destructionChance) {
+      this.handleDestruction();
+    }
+  }
+
+  /* ========== FUNÇÕES AUXILIARES ========== */
   createMegamanElement() {
     if (this.element) {
       this.element.remove();
@@ -84,7 +704,6 @@ class MegamanController {
     this.element = document.createElement("div");
     this.element.id = "megaman-character";
     this.element.className = "megaman-character";
-
     this.element.style.cssText = `
       position: fixed;
       width: 64px;
@@ -104,20 +723,6 @@ class MegamanController {
     document.body.appendChild(this.element);
   }
 
-  bindEvents() {
-    window.addEventListener("resize", () => {
-      this.updateBoundaries();
-    });
-
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden && this.isActive) {
-        this.pause();
-      } else if (!document.hidden && this.isActive) {
-        this.resume();
-      }
-    });
-  }
-
   updateBoundaries() {
     this.boundaries = {
       minX: 50,
@@ -127,109 +732,59 @@ class MegamanController {
     };
   }
 
-  start() {
-    if (this.isActive) return;
+  bindEvents() {
+    window.addEventListener("resize", this.updateBoundaries.bind(this));
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && this.isActive) this.pause();
+      else if (!document.hidden && this.isActive) this.resume();
+    });
+  }
 
-    this.isActive = true;
-    this.isPaused = false;
-    this.stats.startTime = Date.now();
-    this.element.style.opacity = "1";
-    this.element.classList.add("active", "entering");
+  findNameElement() {
+    if (this.currentPage !== "home") {
+      this.nameElement = null;
+      return;
+    }
 
-    setTimeout(() => {
-      if (this.element) {
-        this.element.classList.remove("entering");
+    const titleElement = document.querySelector(".hero-title");
+    if (
+      titleElement &&
+      titleElement.textContent
+        .toLowerCase()
+        .includes("carlos augusto diniz filho")
+    ) {
+      this.nameElement = titleElement;
+      if (!this.nameOriginalContent) {
+        this.nameOriginalContent = titleElement.innerHTML;
       }
-    }, 1000);
 
-    this.scheduleNextMove();
-    this.scheduleNextShoot();
-
-    console.log('🤖 Mega Man ativado! Use "megaman off" para desativar.');
-
-    if (window.audioSystem) {
-      window.audioSystem.play("achievement");
-    }
-  }
-
-  stop() {
-    if (!this.isActive) return;
-
-    this.isActive = false;
-    this.isPaused = false;
-
-    if (this.stats.startTime) {
-      this.stats.timeActive += Date.now() - this.stats.startTime;
-      this.stats.startTime = null;
-    }
-
-    this.element.classList.add("leaving");
-    this.element.classList.remove("active");
-
-    setTimeout(() => {
-      if (this.element) {
-        this.element.style.opacity = "0";
-        this.element.classList.remove("leaving");
+      // Guarda atributos originais
+      for (const attr of titleElement.attributes) {
+        this.originalNameAttributes[attr.name] = attr.value;
       }
-    }, 1000);
-
-    this.clearTimers();
-    this.stopMovement();
-
-    console.log("🤖 Mega Man desativado!");
-    console.log(
-      `📊 Estatísticas: ${this.stats.totalShots} tiros, ${this.stats.totalMoves} movimentos`
-    );
-
-    if (window.audioSystem) {
-      window.audioSystem.play("click");
+      this.originalNameContainer = titleElement.parentNode;
+      this.originalNameNextSibling = titleElement.nextSibling;
+    } else {
+      this.nameElement = null;
     }
   }
 
-  pause() {
-    if (!this.isActive || this.isPaused) return;
-    this.isPaused = true;
-    this.clearTimers();
-    this.stopMovement();
-
+  updateElementPosition() {
     if (this.element) {
-      this.element.style.animationPlayState = "paused";
+      this.element.style.left = `${this.position.x}px`;
+      this.element.style.top = `${this.position.y}px`;
     }
   }
 
-  resume() {
-    if (!this.isActive || !this.isPaused) return;
-    this.isPaused = false;
-
-    if (this.element) {
-      this.element.style.animationPlayState = "running";
-    }
-
-    this.scheduleNextMove();
-    this.scheduleNextShoot();
-  }
-
-  clearTimers() {
-    if (this.shootTimer) {
-      clearTimeout(this.shootTimer);
-      this.shootTimer = null;
-    }
-    if (this.moveTimer) {
-      clearTimeout(this.moveTimer);
-      this.moveTimer = null;
-    }
-    if (this.nameRegenerationTimer) {
-      clearTimeout(this.nameRegenerationTimer);
-      this.nameRegenerationTimer = null;
+  switchSprite(spriteName) {
+    if (this.element && this.sprites[spriteName]) {
+      this.currentSprite = spriteName;
+      this.element.style.backgroundImage = `url('${this.sprites[spriteName]}')`;
     }
   }
 
-  stopMovement() {
-    if (this.animationFrame) {
-      cancelAnimationFrame(this.animationFrame);
-      this.animationFrame = null;
-    }
-    this.isMoving = false;
+  updateMovementSprite() {
+    this.switchSprite(this.direction === "left" ? "runningLeft" : "running");
   }
 
   getRandomPosition() {
@@ -249,164 +804,55 @@ class MegamanController {
 
   scheduleNextMove() {
     if (!this.isActive) return;
-
     const delay = this.getRandomInterval(this.moveInterval);
-    this.moveTimer = setTimeout(() => {
-      this.moveToRandomPosition();
-    }, delay);
+    this.moveTimer = setTimeout(() => this.moveToRandomPosition(), delay);
   }
 
   scheduleNextShoot() {
     if (!this.isActive) return;
-
     let delay = this.getRandomInterval(this.shootInterval);
-
-    if (this.nameElement && this.isMovingToName) {
-      delay = delay * 0.5;
-      console.log("🎯 Megaman próximo ao nome: intervalo de tiro reduzido!");
-    }
-
-    this.shootTimer = setTimeout(() => {
-      this.shoot();
-    }, delay);
+    if (this.nameElement && this.isMovingToName) delay *= 0.5;
+    this.shootTimer = setTimeout(() => this.shoot(), delay);
   }
 
-  moveToRandomPosition() {
-    if (!this.isActive || this.isPaused || this.isMoving || this.isShooting) {
-      this.scheduleNextMove();
-      return;
-    }
-
-    this.findNameElement();
-
-    this.lastPosition = { ...this.position };
-
-    if (this.nameElement && Math.random() < 0.6) {
-      this.moveToName();
-      return;
-    }
-
-    this.targetPosition = this.getRandomPosition();
-    this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
-    this.isMoving = true;
-    this.isMovingToName = false;
-    this.stats.totalMoves++;
-
-    if (this.element) {
-      this.element.classList.add("moving");
-    }
-
-    this.updateMovementSprite();
-    this.updateMovement();
+  clearTimers() {
+    clearTimeout(this.shootTimer);
+    clearTimeout(this.moveTimer);
+    clearTimeout(this.nameRegenerationTimer);
+    this.shootTimer = null;
+    this.moveTimer = null;
+    this.nameRegenerationTimer = null;
   }
 
-  updateMovement() {
-    if (!this.isActive || !this.isMoving) return;
-
-    const dx = this.targetPosition.x - this.position.x;
-    const dy = this.targetPosition.y - this.position.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance < this.movementSpeed) {
-      this.position.x = this.targetPosition.x;
-      this.position.y = this.targetPosition.y;
-      this.isMoving = false;
-
-      if (this.element) {
-        this.element.classList.remove("moving");
-      }
-
-      this.switchSprite("stopped");
-      this.updateElementPosition();
-      this.scheduleNextMove();
-      return;
-    }
-
-    const moveX = (dx / distance) * this.movementSpeed;
-    const moveY = (dy / distance) * this.movementSpeed;
-
-    this.position.x += moveX;
-    this.position.y += moveY;
-
-    this.updateElementPosition();
-
-    this.animationFrame = requestAnimationFrame(() => {
-      this.updateMovement();
-    });
+  stopMovement() {
+    cancelAnimationFrame(this.animationFrame);
+    this.animationFrame = null;
+    this.isMoving = false;
   }
 
-  updateElementPosition() {
-    if (this.element) {
-      this.element.style.left = `${this.position.x}px`;
-      this.element.style.top = `${this.position.y}px`;
-    }
+  pause() {
+    if (!this.isActive || this.isPaused) return;
+    this.isPaused = true;
+    this.clearTimers();
+    this.stopMovement();
+    this.element.style.animationPlayState = "paused";
   }
 
-  shoot() {
-    if (
-      !this.isActive ||
-      this.isPaused ||
-      this.isShooting ||
-      this.destructionCooldown
-    ) {
-      this.scheduleNextShoot();
-      return;
-    }
-
-    if (this.isMoving) {
-      this.stopMovement();
-    }
-
-    this.isShooting = true;
-    this.stats.totalShots++;
-    this.switchSprite("shooting");
-
-    if (this.element) {
-      this.element.classList.add("shooting");
-    }
-
-    if (window.audioSystem) {
-      window.audioSystem.play("click");
-    }
-
-    console.log("💥 Mega Man atirando!");
-
-    this.checkNameDestruction();
-
-    setTimeout(() => {
-      if (this.isActive) {
-        this.switchSprite("stopped");
-        this.isShooting = false;
-
-        if (this.element) {
-          this.element.classList.remove("shooting");
-        }
-
-        this.scheduleNextShoot();
-
-        if (Math.random() < 0.5) {
-          setTimeout(() => {
-            if (this.isActive && !this.isMoving) {
-              this.moveToRandomPosition();
-            }
-          }, 500);
-        }
-      }
-    }, this.shootDuration);
+  resume() {
+    if (!this.isActive || !this.isPaused) return;
+    this.isPaused = false;
+    this.element.style.animationPlayState = "running";
+    this.scheduleNextMove();
+    this.scheduleNextShoot();
   }
 
-  switchSprite(spriteName) {
-    if (this.element && this.sprites[spriteName]) {
-      this.currentSprite = spriteName;
-      this.element.style.backgroundImage = `url('${this.sprites[spriteName]}')`;
-    }
-  }
-
-  updateMovementSprite() {
-    if (this.direction === "left") {
-      this.switchSprite("runningLeft");
-    } else {
-      this.switchSprite("running");
+  setupClickListener() {
+    if (this.nameElement) {
+      this.nameElement.addEventListener(
+        "click",
+        () => this.handleDestruction(),
+        { once: true }
+      );
     }
   }
 
@@ -438,378 +884,25 @@ class MegamanController {
       totalMoves: 0,
       timeActive: 0,
       startTime: this.isActive ? Date.now() : null,
+      nameDestructions: 0,
+      successfulRegenerations: 0,
     };
-    console.log("📊 Estatísticas do Mega Man resetadas!");
-  }
-
-  findNameElement() {
-    if (this.currentPage !== "home") {
-      this.nameElement = null;
-      return;
-    }
-
-    const titleElement = document.querySelector(".hero-title");
-    if (
-      titleElement &&
-      titleElement.textContent
-        .toLowerCase()
-        .includes("carlos augusto diniz filho")
-    ) {
-      this.nameElement = titleElement;
-      if (!this.nameOriginalContent) {
-        this.nameOriginalContent = titleElement.innerHTML;
-      }
-
-      // Guarda os atributos e posição original do nome
-      this.originalNameAttributes = {};
-      for (const attr of titleElement.attributes) {
-        this.originalNameAttributes[attr.name] = attr.value;
-      }
-      this.originalNameContainer = titleElement.parentNode;
-      this.originalNameNextSibling = titleElement.nextSibling;
-    } else {
-      this.nameElement = null;
-    }
-  }
-
-  moveToName() {
-    if (!this.nameElement) return;
-
-    const rect = this.nameElement.getBoundingClientRect();
-    this.targetPosition = {
-      x: Math.max(50, rect.left - 100),
-      y: Math.max(50, rect.top + rect.height / 2 - 32),
-    };
-
-    this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
-    this.isMoving = true;
-    this.isMovingToName = true;
-    this.stats.totalMoves++;
-
-    if (this.element) {
-      this.element.classList.add("moving");
-    }
-
-    console.log("🎯 Mega Man se movendo em direção ao nome!");
-
-    this.updateMovementSprite();
-    this.updateMovement();
-  }
-
-  checkNameDestruction() {
-    if (!this.nameElement || !this.isActive || this.destructionCooldown) {
-      return;
-    }
-
-    const nameRect = this.nameElement.getBoundingClientRect();
-    const megamanRect = {
-      left: this.position.x,
-      top: this.position.y,
-      right: this.position.x + 64,
-      bottom: this.position.y + 64,
-    };
-
-    const distance = Math.sqrt(
-      Math.pow(nameRect.left - megamanRect.left, 2) +
-        Math.pow(nameRect.top - megamanRect.top, 2)
-    );
-
-    let destructionChance = 0;
-
-    if (distance < 150) destructionChance = 0.9;
-    else if (distance < 250) destructionChance = 0.8;
-    else if (distance < 350) destructionChance = 0.7;
-    else if (distance < 450) destructionChance = 0.5;
-    else if (distance < 550) destructionChance = 0.3;
-
-    if (destructionChance > 0 && Math.random() < destructionChance) {
-      this.handleDestruction();
-      console.log(
-        `💥 Nome destruído pelo Mega Man! (Distância: ${Math.round(distance)}px, Chance: ${Math.round(destructionChance * 100)}%)`
-      );
-    }
-  }
-
-  handleDestruction() {
-    if (!this.nameElement || this.isRegenerating) return;
-
-    // Guarda referências do container e próximo irmão
-    const container = this.nameElement.parentNode;
-    const nextSibling = this.nameElement.nextSibling;
-
-    if (this.element) {
-      this.element.classList.add("attack");
-    }
-
-    // Adiciona efeito de tremor
-    this.nameElement.style.animation = "shake 0.3s ease-in-out";
-
-    // Animação de quebra das letras
-    this.animateLetterBreaking();
-
-    // Efeito de cinzas após destruição
-    setTimeout(() => {
-      if (this.nameElement) {
-        this.nameElement.style.animation = "ash-fall 1.5s ease-in-out";
-        const ashText = this.createAshEffect(this.nameOriginalContent);
-        this.nameElement.innerHTML = ashText;
-        this.nameElement.style.color = "#333";
-        this.nameElement.style.textShadow = "0 0 5px rgba(100, 100, 100, 0.5)";
-      }
-    }, 800);
-
-    this.destructionCooldown = true;
-    this.stats.nameDestructions++;
-
-    setTimeout(() => {
-      if (this.nameElement && this.nameElement.parentNode) {
-        this.nameElement.remove();
-      }
-
-      if (this.element) {
-        this.element.classList.remove("attack");
-      }
-
-      this.isRegenerating = true;
-      setTimeout(() => {
-        this.regenerateName(container, nextSibling);
-        this.destructionCooldown = false;
-      }, this.regenerationCooldown);
-    }, this.animationDuration);
-  }
-
-  animateLetterBreaking() {
-    if (!this.nameElement || !this.nameOriginalContent) return;
-
-    const plainText = this.nameOriginalContent.replace(/<[^>]*>/g, "");
-    const letters = plainText.split("");
-    let currentStep = 0;
-    const totalSteps = 8;
-
-    const breakingInterval = setInterval(() => {
-      if (!this.nameElement) {
-        clearInterval(breakingInterval);
-        return;
-      }
-
-      currentStep++;
-      const destructionProgress = currentStep / totalSteps;
-
-      const brokenText = this.createProgressivelyBrokenText(
-        letters,
-        destructionProgress
-      );
-      this.nameElement.innerHTML = brokenText;
-
-      const redIntensity = Math.floor(255 * destructionProgress);
-      const blueIntensity = Math.floor(255 * (1 - destructionProgress));
-      this.nameElement.style.color = `rgb(${255}, ${blueIntensity}, ${blueIntensity})`;
-      this.nameElement.style.textShadow = `2px 2px 0 #000, 0 0 ${10 * destructionProgress}px #ff0000`;
-
-      if (currentStep >= totalSteps) {
-        clearInterval(breakingInterval);
-      }
-    }, 100);
-  }
-
-  createProgressivelyBrokenText(letters, progress) {
-    const destructionChars = [
-      "█",
-      "▓",
-      "▒",
-      "░",
-      "▄",
-      "▀",
-      "■",
-      "□",
-      "▪",
-      "▫",
-    ];
-    const glitchChars = ["!", "@", "#", "$", "%", "^", "&", "*", "~", "`"];
-
-    return letters
-      .map((char, index) => {
-        if (char === " ") return " ";
-
-        const letterProgress = Math.max(
-          0,
-          progress - (index / letters.length) * 0.2
-        );
-
-        if (letterProgress < 0.2) return char;
-        else if (letterProgress < 0.4) {
-          return Math.random() < 0.3
-            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-            : char;
-        } else if (letterProgress < 0.6) {
-          return Math.random() < 0.5
-            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-            : char;
-        } else if (letterProgress < 0.8) {
-          return Math.random() < 0.7
-            ? destructionChars[
-                Math.floor(Math.random() * destructionChars.length)
-              ]
-            : char;
-        } else {
-          return Math.random() < 0.9
-            ? destructionChars[
-                Math.floor(Math.random() * destructionChars.length)
-              ]
-            : char;
-        }
-      })
-      .join("");
-  }
-
-  createAshEffect(originalText) {
-    const chars = "█▓▒░!@#$%^&*()_+-=[]{}|;:,.<>?~`";
-    const plainText = originalText.replace(/<[^>]*>/g, "");
-
-    return plainText
-      .split("")
-      .map((char) => {
-        if (char === " ") return " ";
-        return Math.random() < 0.7
-          ? chars[Math.floor(Math.random() * chars.length)]
-          : char;
-      })
-      .join("");
-  }
-
-  regenerateName(container, nextSibling) {
-    if (!container || !this.isRegenerating) {
-      console.error(
-        "Container para regeneração do nome não encontrado ou regeneração cancelada!"
-      );
-      return;
-    }
-
-    // Cria novo elemento com todas as propriedades originais
-    const newNameElement = document.createElement("h1");
-    newNameElement.className = "hero-title";
-
-    // Cria versão com spans para cada letra para animação individual
-    const letters = this.nameOriginalContent
-      .split("")
-      .map((char, index) => {
-        if (char === " ") return " ";
-        return `<span style="display: inline-block; animation: letter-regen-pop ${0.5 + index * 0.05}s cubic-bezier(0.175, 0.885, 0.32, 1.275) both">${char}</span>`;
-      })
-      .join("");
-
-    newNameElement.innerHTML = letters;
-
-    // Restaura todos os atributos originais
-    for (const [name, value] of Object.entries(this.originalNameAttributes)) {
-      newNameElement.setAttribute(name, value);
-    }
-
-    // Adiciona classe de regeneração
-    newNameElement.classList.add("name-regenerating");
-
-    // Cria partículas de energia
-    this.createRegenParticles(container);
-
-    // Insere na posição original
-    if (nextSibling) {
-      container.insertBefore(newNameElement, nextSibling);
-    } else {
-      container.appendChild(newNameElement);
-    }
-
-    this.nameElement = newNameElement;
-    this.stats.successfulRegenerations++;
-    this.setupClickListener();
-
-    // Remove a classe de animação após terminar
-    setTimeout(() => {
-      newNameElement.classList.remove("name-regenerating");
-      // Remove estilos inline das letras
-      Array.from(newNameElement.querySelectorAll("span")).forEach((span) => {
-        span.removeAttribute("style");
-      });
-      this.isRegenerating = false;
-    }, 2000);
-
-    // 60% de chance de ir para o nome após regeneração
-    if (this.isActive && Math.random() < 0.6) {
-      setTimeout(
-        () => {
-          if (this.isActive && !this.isRegenerating) {
-            this.moveToName();
-          }
-        },
-        1500 + Math.random() * 2000
-      );
-    }
-  }
-
-  createRegenParticles(container) {
-    const particleCount = 30;
-    const containerRect = container.getBoundingClientRect();
-
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement("div");
-      particle.className = "regen-particle";
-
-      // Posiciona as partículas aleatoriamente na área do container
-      const size = Math.random() * 8 + 2;
-      const x = Math.random() * containerRect.width;
-      const y = containerRect.height;
-
-      particle.style.cssText = `
-        width: ${size}px;
-        height: ${size}px;
-        left: ${x}px;
-        top: ${y}px;
-        background: hsl(${Math.random() * 60 + 100}, 80%, 60%);
-        animation-delay: ${Math.random() * 0.5}s;
-      `;
-
-      container.appendChild(particle);
-
-      // Remove a partícula após a animação
-      setTimeout(() => {
-        particle.remove();
-      }, 1000);
-    }
-  }
-
-  setupClickListener() {
-    if (this.nameElement) {
-      this.nameElement.addEventListener(
-        "click",
-        () => this.handleDestruction(),
-        {
-          once: true,
-        }
-      );
-    }
   }
 }
 
-// Inicialização automática quando o DOM estiver pronto
+// Inicialização automática
 document.addEventListener("DOMContentLoaded", () => {
   window.megamanController = new MegamanController();
+
+  // Interface para controle pelo console
+  window.megaman = {
+    start: () => window.megamanController?.start(),
+    stop: () => window.megamanController?.stop(),
+    status: () => window.megamanController?.getStatus(),
+    resetStats: () => window.megamanController?.resetStats(),
+  };
+
   console.log(
-    '🎮 Mega Man Controller carregado! Digite "megaman.start()" no console para iniciar.'
+    '🎮 Mega Man Controller carregado! Use "megaman.start()" para iniciar.'
   );
 });
-
-// Interface para controle pelo console
-window.megaman = {
-  start: () => window.megamanController?.start(),
-  stop: () => window.megamanController?.stop(),
-  status: () => {
-    const controller = window.megamanController;
-    if (!controller) return "Mega Man Controller não encontrado";
-    return {
-      active: controller.isActive,
-      position: controller.position,
-      stats: controller.stats,
-      nameExists: !!controller.nameElement,
-      isRegenerating: controller.isRegenerating,
-    };
-  },
-};
