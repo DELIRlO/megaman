@@ -26,6 +26,7 @@ class MegamanController {
     this.originalNameAttributes = {};
     this.originalNameContainer = null;
     this.originalNameNextSibling = null;
+    this.isRegenerating = false;
 
     // Configurações de tempo
     this.shootInterval = { min: 12000, max: 30000 };
@@ -530,7 +531,7 @@ class MegamanController {
   }
 
   handleDestruction() {
-    if (!this.nameElement) return;
+    if (!this.nameElement || this.isRegenerating) return;
 
     // Guarda referências do container e próximo irmão
     const container = this.nameElement.parentNode;
@@ -558,6 +559,7 @@ class MegamanController {
     }, 800);
 
     this.destructionCooldown = true;
+    this.stats.nameDestructions++;
 
     setTimeout(() => {
       if (this.nameElement && this.nameElement.parentNode) {
@@ -568,6 +570,7 @@ class MegamanController {
         this.element.classList.remove("attack");
       }
 
+      this.isRegenerating = true;
       setTimeout(() => {
         this.regenerateName(container, nextSibling);
         this.destructionCooldown = false;
@@ -675,20 +678,38 @@ class MegamanController {
   }
 
   regenerateName(container, nextSibling) {
-    if (!container) {
-      console.error("Container para regeneração do nome não encontrado!");
+    if (!container || !this.isRegenerating) {
+      console.error(
+        "Container para regeneração do nome não encontrado ou regeneração cancelada!"
+      );
       return;
     }
 
     // Cria novo elemento com todas as propriedades originais
     const newNameElement = document.createElement("h1");
     newNameElement.className = "hero-title";
-    newNameElement.innerHTML = this.nameOriginalContent;
+
+    // Cria versão com spans para cada letra para animação individual
+    const letters = this.nameOriginalContent
+      .split("")
+      .map((char, index) => {
+        if (char === " ") return " ";
+        return `<span style="display: inline-block; animation: letter-regen-pop ${0.5 + index * 0.05}s cubic-bezier(0.175, 0.885, 0.32, 1.275) both">${char}</span>`;
+      })
+      .join("");
+
+    newNameElement.innerHTML = letters;
 
     // Restaura todos os atributos originais
     for (const [name, value] of Object.entries(this.originalNameAttributes)) {
       newNameElement.setAttribute(name, value);
     }
+
+    // Adiciona classe de regeneração
+    newNameElement.classList.add("name-regenerating");
+
+    // Cria partículas de energia
+    this.createRegenParticles(container);
 
     // Insere na posição original
     if (nextSibling) {
@@ -698,19 +719,60 @@ class MegamanController {
     }
 
     this.nameElement = newNameElement;
-    this.isRegenerating = false;
     this.stats.successfulRegenerations++;
-    this.nameRegenerationTimer = null;
     this.setupClickListener();
+
+    // Remove a classe de animação após terminar
+    setTimeout(() => {
+      newNameElement.classList.remove("name-regenerating");
+      // Remove estilos inline das letras
+      Array.from(newNameElement.querySelectorAll("span")).forEach((span) => {
+        span.removeAttribute("style");
+      });
+      this.isRegenerating = false;
+    }, 2000);
 
     // 60% de chance de ir para o nome após regeneração
     if (this.isActive && Math.random() < 0.6) {
       setTimeout(
         () => {
-          if (this.isActive) this.moveToName();
+          if (this.isActive && !this.isRegenerating) {
+            this.moveToName();
+          }
         },
         1500 + Math.random() * 2000
       );
+    }
+  }
+
+  createRegenParticles(container) {
+    const particleCount = 30;
+    const containerRect = container.getBoundingClientRect();
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement("div");
+      particle.className = "regen-particle";
+
+      // Posiciona as partículas aleatoriamente na área do container
+      const size = Math.random() * 8 + 2;
+      const x = Math.random() * containerRect.width;
+      const y = containerRect.height;
+
+      particle.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x}px;
+        top: ${y}px;
+        background: hsl(${Math.random() * 60 + 100}, 80%, 60%);
+        animation-delay: ${Math.random() * 0.5}s;
+      `;
+
+      container.appendChild(particle);
+
+      // Remove a partícula após a animação
+      setTimeout(() => {
+        particle.remove();
+      }, 1000);
     }
   }
 

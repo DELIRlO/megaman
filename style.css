@@ -2795,22 +2795,6 @@ body::before {
   }
 }
 
-/* Efeito de pulsação para regeneração */
-@keyframes regeneratePulse {
-  0% {
-    transform: scale(1);
-    filter: hue-rotate(0deg);
-  }
-  50% {
-    transform: scale(1.02);
-    filter: hue-rotate(30deg);
-  }
-  100% {
-    transform: scale(1);
-    filter: hue-rotate(0deg);
-  }
-}
-
 /* Classe auxiliar para aplicar efeito de quebra */
 .breaking-text {
   animation: letterBreaking 0.1s ease-in-out infinite;
@@ -2834,83 +2818,88 @@ body::before {
   z-index: 1;
 }
 
-.hero-title.under-attack::before {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  background:
-    linear-gradient(
-      45deg,
-      transparent 30%,
-      rgba(255, 0, 0, 0.1) 35%,
-      rgba(255, 0, 0, 0.2) 40%,
-      transparent 45%
-    ),
-    linear-gradient(
-      -45deg,
-      transparent 30%,
-      rgba(255, 0, 0, 0.1) 35%,
-      rgba(255, 0, 0, 0.2) 40%,
-      transparent 45%
-    );
-  animation: dangerField 0.3s ease-in-out infinite;
-  z-index: -1;
-  border-radius: 3px;
-}
-
-@keyframes dangerField {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: scale(1);
+/* Efeitos de regeneração - Partículas douradas */
+@keyframes letter-regen-pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
   }
   50% {
-    opacity: 0.7;
-    transform: scale(1.05);
+    transform: scale(1.2);
+    opacity: 0.8;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
   }
 }
 
-/* Efeito para quando o nome está sendo regenerado */
-.hero-title.regenerating {
-  animation:
-    regenerate 0.5s ease-in-out,
-    titleGlow 1s ease-in-out infinite;
-}
-
-/* Animação para nome sendo destruído */
-#destroyable-name.destroyed {
-  animation: destroy 0.8s forwards;
-  pointer-events: none;
-}
-
-/* Animação de destruição do nome */
-@keyframes destroy {
+@keyframes name-regen-glow {
   0% {
-    opacity: 1;
-    transform: scale(1);
-    text-shadow: 0 0 0 transparent;
+    opacity: 0.2;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.1);
+  }
+  20% {
+    opacity: 0.8;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
   }
   40% {
-    opacity: 1;
-    transform: scale(1);
-    text-shadow: 0 0 0 transparent;
+    opacity: 0.4;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
   }
-  50% {
+  60% {
     opacity: 1;
-    transform: scale(1.05) skew(-5deg);
-    color: #ff5555;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 1);
+  }
+  80% {
+    opacity: 0.6;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
   }
   100% {
-    opacity: 0;
-    transform: scale(0.5) rotate(10deg);
-    text-shadow:
-      -10px 10px 0px #ff00ff,
-      10px -10px 0px #00ffff,
-      -10px -10px 0px #ffff00,
-      10px 10px 0px #ff0000;
-    color: transparent;
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
   }
+}
+
+@keyframes regen-particle {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: translateY(-100px) translateX(calc(var(--random-x) * 50px));
+    opacity: 0;
+    filter: brightness(0.8);
+  }
+}
+
+.name-regenerating {
+  animation:
+    name-regen-glow 1.5s ease-in-out,
+    letter-regen-pop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: #ffd700 !important;
+}
+
+.regen-particle {
+  position: absolute;
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 50%, #ffd700 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: regen-particle 1.2s ease-out forwards;
+  box-shadow: 0 0 10px #ffd700;
+  z-index: 100;
+  --random-x: 0;
+  --random-y: 0;
+}
+
+/* Posicionamento relativo ao nome */
+.hero-title {
+  position: relative;
 }
