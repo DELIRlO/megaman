@@ -530,58 +530,97 @@ class MegamanController {
 
     const plainText = this.nameOriginalContent.replace(/<[^>]*>/g, "");
     const letters = plainText.split("");
-    const totalSteps = 10;
     let currentStep = 0;
+    const totalSteps = 8;
 
-    const breakingEffect = setInterval(() => {
-      if (!this.nameElement || currentStep >= totalSteps) {
-        clearInterval(breakingEffect);
+    const breakingInterval = setInterval(() => {
+      if (!this.nameElement) {
+        clearInterval(breakingInterval);
         return;
       }
 
       currentStep++;
-      const progress = currentStep / totalSteps;
+      const destructionProgress = currentStep / totalSteps;
 
-      // Cria texto com efeito de quebra
-      const brokenText = letters
-        .map((char, idx) => {
-          if (char === " ") return " ";
-
-          const charProgress = progress - (idx / letters.length) * 0.3;
-          if (charProgress <= 0) return char;
-
-          if (charProgress > 0.7) {
-            return Math.random() > 0.3 ? "✧" : char;
-          } else if (charProgress > 0.4) {
-            return Math.random() > 0.5 ? "�" : char;
-          }
-          return char;
-        })
-        .join("");
-
+      const brokenText = this.createProgressivelyBrokenText(
+        letters,
+        destructionProgress
+      );
       this.nameElement.innerHTML = brokenText;
 
-      // Efeito de cor
-      const red = Math.min(255, Math.floor(255 * progress));
-      const blue = Math.max(0, Math.floor(255 * (1 - progress)));
-      this.nameElement.style.color = `rgb(${red}, 0, ${blue})`;
-      this.nameElement.style.textShadow = `0 0 ${Math.floor(10 * progress)}px rgba(255, 0, 0, 0.7)`;
-    }, 80);
+      const redIntensity = Math.floor(255 * destructionProgress);
+      const blueIntensity = Math.floor(255 * (1 - destructionProgress));
+      this.nameElement.style.color = `rgb(${255}, ${blueIntensity}, ${blueIntensity})`;
+      this.nameElement.style.textShadow = `2px 2px 0 #000, 0 0 ${10 * destructionProgress}px #ff0000`;
+
+      if (currentStep >= totalSteps) {
+        clearInterval(breakingInterval);
+      }
+    }, 100);
+  }
+
+  createProgressivelyBrokenText(letters, progress) {
+    const destructionChars = [
+      "█",
+      "▓",
+      "▒",
+      "░",
+      "▄",
+      "▀",
+      "■",
+      "□",
+      "▪",
+      "▫",
+    ];
+    const glitchChars = ["!", "@", "#", "$", "%", "^", "&", "*", "~", "`"];
+
+    return letters
+      .map((char, index) => {
+        if (char === " ") return " ";
+
+        const letterProgress = Math.max(
+          0,
+          progress - (index / letters.length) * 0.2
+        );
+
+        if (letterProgress < 0.2) return char;
+        else if (letterProgress < 0.4) {
+          return Math.random() < 0.3
+            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+            : char;
+        } else if (letterProgress < 0.6) {
+          return Math.random() < 0.5
+            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+            : char;
+        } else if (letterProgress < 0.8) {
+          return Math.random() < 0.7
+            ? destructionChars[
+                Math.floor(Math.random() * destructionChars.length)
+              ]
+            : char;
+        } else {
+          return Math.random() < 0.9
+            ? destructionChars[
+                Math.floor(Math.random() * destructionChars.length)
+              ]
+            : char;
+        }
+      })
+      .join("");
   }
 
   createAshEffect(originalText) {
-    const chars = "✧✦∗�✵✹";
+    const chars = "█▓▒░!@#$%^&*()_+-=[]{}|;:,.<>?~`";
     const plainText = originalText.replace(/<[^>]*>/g, "");
 
     return plainText
       .split("")
-      .map((char) =>
-        char === " "
-          ? " "
-          : Math.random() < 0.7
-            ? chars[Math.floor(Math.random() * chars.length)]
-            : char
-      )
+      .map((char) => {
+        if (char === " ") return " ";
+        return Math.random() < 0.7
+          ? chars[Math.floor(Math.random() * chars.length)]
+          : char;
+      })
       .join("");
   }
 

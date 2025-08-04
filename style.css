@@ -12,6 +12,28 @@
   box-sizing: border-box;
 }
 
+/* Adicione esta regra @font-face no início do seu CSS */
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("assets/fonts/press-start-2p.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Aplique a fonte aos elementos do terminal */
+.terminal {
+  font-family: "Press Start 2P", monospace;
+  /* mantém o restante do seu estilo */
+}
+
+/* Se quiser aplicar apenas a elementos específicos: */
+.terminal-title,
+.terminal-prompt,
+.terminal-input {
+  font-family: "Press Start 2P", monospace;
+}
+
 :root {
   --color-primary: #8a2be2; /* Roxo */
   --color-secondary: #00ffff; /* Azul Neon */
