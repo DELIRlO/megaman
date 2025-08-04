@@ -473,7 +473,7 @@ class MegamanController {
         maxLife: 1.5 + Math.random() * 2,
         spiralRadius: 5 + Math.random() * 30,
         targetLetter: Math.floor(
-          Math.random() * this.nameOriginalContent.replace(/ /g, "").length
+          Math.random() * (this.nameOriginalContent ? this.nameOriginalContent.replace(/ /g, "").length : 10)
         ),
         pathRandomness: Math.random() * 0.3 + 0.7,
       });
@@ -594,11 +594,14 @@ class MegamanController {
   regenerateName(container, nextSibling) {
     if (!container || !this.isRegenerating) return;
 
+    // Guarda o conteúdo original atual para garantir consistência
+    const currentOriginalContent = this.nameOriginalContent;
+    
     const newNameElement = document.createElement("h1");
     newNameElement.className = "hero-title";
 
     // Cria versão com letras animadas
-    const letters = this.nameOriginalContent
+    const letters = currentOriginalContent
       .split("")
       .map((char, idx) => {
         if (char === " ") return " ";
@@ -641,11 +644,14 @@ class MegamanController {
   restoreOriginalStyles(element) {
     if (!element || !this.nameOriginalContent) return;
 
+    // Guarda o conteúdo original atual para garantir consistência
+    const currentOriginalContent = this.nameOriginalContent;
+    
     // Adiciona transição suave para a cor original
     element.style.transition = "color 0.5s ease, text-shadow 0.5s ease";
 
     // Restaura conteúdo original
-    element.innerHTML = this.nameOriginalContent;
+    element.innerHTML = currentOriginalContent;
 
     // Restaura atributos e estilos
     for (const [name, value] of Object.entries(this.originalNameAttributes)) {
@@ -673,6 +679,11 @@ class MegamanController {
 
     const container = this.nameElement.parentNode;
     const nextSibling = this.nameElement.nextSibling;
+    
+    // Guarda o conteúdo original do título atual se ainda não tiver sido guardado
+    if (!this.nameOriginalContent) {
+      this.nameOriginalContent = this.nameElement.innerHTML;
+    }
 
     // Efeito visual de ataque
     this.element?.classList.add("attack");
@@ -718,7 +729,9 @@ class MegamanController {
   animateLetterBreaking() {
     if (!this.nameElement || !this.nameOriginalContent) return;
 
-    const plainText = this.nameOriginalContent.replace(/<[^>]*>/g, "");
+    // Guarda o conteúdo original atual para garantir consistência
+    const currentOriginalContent = this.nameOriginalContent;
+    const plainText = currentOriginalContent.replace(/<[^>]*>/g, "");
     const letters = plainText.split("");
     let currentStep = 0;
     const totalSteps = 8;
@@ -800,8 +813,10 @@ class MegamanController {
   }
 
   createAshEffect(originalText) {
+    // Garante que estamos usando o conteúdo original correto
+    const currentContent = originalText || this.nameOriginalContent;
     const chars = "█▓▒░!@#$%^&*()_+-=[]{}|;:,.<>?~`";
-    const plainText = originalText.replace(/<[^>]*>/g, "");
+    const plainText = currentContent.replace(/<[^>]*>/g, "");
 
     return plainText
       .split("")
@@ -822,6 +837,9 @@ class MegamanController {
     this.isPaused = false;
     this.stats.startTime = Date.now();
 
+    // Detecta a página atual
+    this.detectCurrentPage();
+    
     // Animação de entrada
     this.element.style.opacity = "1";
     this.element.classList.add("active", "entering");
@@ -1012,6 +1030,17 @@ class MegamanController {
   }
 
   /* ========== FUNÇÕES AUXILIARES ========== */
+  detectCurrentPage() {
+    // Detecta a página atual baseado nas seções ativas
+    const activeSection = document.querySelector(".page.active");
+    if (activeSection) {
+      this.currentPage = activeSection.id || "home";
+      console.log("Megaman está na página:", this.currentPage);
+      // Após detectar a página, procura pelo título
+      this.findNameElement();
+    }
+  }
+  
   createMegamanElement() {
     if (this.element) {
       this.element.remove();
@@ -1054,32 +1083,107 @@ class MegamanController {
       if (document.hidden && this.isActive) this.pause();
       else if (!document.hidden && this.isActive) this.resume();
     });
+    
+    // Observa mudanças na DOM para detectar navegação entre páginas
+    this.setupPageChangeObserver();
+  }
+  
+  setupPageChangeObserver() {
+    // Configura um MutationObserver para detectar mudanças nas páginas
+    const mainContent = document.getElementById("main-content");
+    if (mainContent) {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === "childList" || mutation.type === "attributes") {
+            // Verifica se houve mudança na página ativa
+            const activeSection = document.querySelector(".page.active");
+            if (activeSection && activeSection.id !== this.currentPage) {
+              this.currentPage = activeSection.id;
+              console.log("Página mudou para:", this.currentPage);
+              // Procura pelo título na nova página
+              this.findNameElement();
+            }
+          }
+        });
+      });
+      
+      // Observa mudanças nos filhos e atributos
+      observer.observe(mainContent, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+    }
   }
 
   findNameElement() {
-    if (this.currentPage !== "home") {
+    // Procura por títulos em qualquer página
+    let titleElement = null;
+    
+    // Limpa o conteúdo original ao mudar de página
+    this.nameOriginalContent = null;
+    
+    // Verifica se estamos na página inicial
+    if (this.currentPage === "home") {
+      titleElement = document.querySelector(".hero-title");
+      if (titleElement && titleElement.textContent.toLowerCase().includes("carlos augusto diniz filho")) {
+        this.nameElement = titleElement;
+      }
+    } 
+    // Verifica se estamos na página Sobre
+    else if (this.currentPage === "sobre") {
+      titleElement = document.querySelector(".header-container h1");
+      if (titleElement && titleElement.textContent.toLowerCase().includes("sobre mim")) {
+        this.nameElement = titleElement;
+      }
+    }
+    // Verifica se estamos na página Currículo
+    else if (this.currentPage === "curriculo") {
+      titleElement = document.querySelector(".header-container h1, .page-content h1");
+      if (titleElement) {
+        this.nameElement = titleElement;
+      }
+    }
+    // Verifica se estamos na página Projetos
+    else if (this.currentPage === "projetos") {
+      titleElement = document.querySelector(".header-container h1, .page-content h1");
+      if (titleElement) {
+        this.nameElement = titleElement;
+      }
+    }
+    // Verifica se estamos na página Skills
+    else if (this.currentPage === "skills") {
+      titleElement = document.querySelector(".header-container h1, .page-content h1");
+      if (titleElement) {
+        this.nameElement = titleElement;
+      }
+    }
+    // Verifica se estamos na página Blog
+    else if (this.currentPage === "blog") {
+      titleElement = document.querySelector(".header-container h1, .page-content h1");
+      if (titleElement) {
+        this.nameElement = titleElement;
+      }
+    }
+    // Verifica se estamos na página Contato
+    else if (this.currentPage === "contato") {
+      titleElement = document.querySelector(".header-container h1, .page-content h1");
+      if (titleElement) {
+        this.nameElement = titleElement;
+      }
+    } else {
       this.nameElement = null;
       return;
     }
-
-    const titleElement = document.querySelector(".hero-title");
-    if (
-      titleElement &&
-      titleElement.textContent
-        .toLowerCase()
-        .includes("carlos augusto diniz filho")
-    ) {
-      this.nameElement = titleElement;
-      if (!this.nameOriginalContent) {
-        this.nameOriginalContent = titleElement.innerHTML;
-      }
-
+    
+    // Se encontrou um título, guarda seus atributos originais
+    if (this.nameElement) {
+      // Guarda o conteúdo original do título atual
+      this.nameOriginalContent = this.nameElement.innerHTML;
+      
       // Guarda atributos originais
-      for (const attr of titleElement.attributes) {
+      this.originalNameAttributes = {}; // Limpa atributos anteriores
+      for (const attr of this.nameElement.attributes) {
         this.originalNameAttributes[attr.name] = attr.value;
       }
-      this.originalNameContainer = titleElement.parentNode;
-      this.originalNameNextSibling = titleElement.nextSibling;
+      this.originalNameContainer = this.nameElement.parentNode;
+      this.originalNameNextSibling = this.nameElement.nextSibling;
     } else {
       this.nameElement = null;
     }
