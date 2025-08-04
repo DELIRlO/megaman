@@ -171,6 +171,103 @@ function initializeAudioControls() {
   }
 }
 
+//efeito starfield modifica ultra-realista
+class Starfield {
+  constructor() {
+    this.container = document.createElement("div");
+    this.container.className = "stars-container";
+    document.body.appendChild(this.container);
+
+    this.stars = [];
+    this.setup();
+  }
+
+  setup() {
+    // Criar estrelas iniciais
+    this.createStars();
+
+    // Reposicionar estrelas periodicamente
+    setInterval(() => this.recycleStars(), 1000);
+
+    // Redimensionar
+    window.addEventListener("resize", () => this.handleResize());
+  }
+
+  createStars() {
+    const starsCount = Math.floor(window.innerWidth / 3);
+
+    for (let i = 0; i < starsCount; i++) {
+      const isBright = Math.random() < 0.15;
+      this.createStar(isBright);
+    }
+  }
+
+  createStar(isBright) {
+    const star = document.createElement("div");
+    star.className = `star ${isBright ? "bright" : ""}`;
+
+    // Configuração inicial
+    this.updateStarPosition(star, true);
+
+    // Animação personalizada para estrelas brilhantes
+    if (isBright) {
+      const duration = 20 + Math.random() * 30;
+      star.style.animationDuration = `${duration}s`;
+
+      // Efeitos especiais ocasionais
+      setInterval(() => {
+        if (Math.random() < 0.03) {
+          star.style.animation = `float ${duration}s linear infinite, spark 0.5s forwards`;
+          setTimeout(() => {
+            star.style.animation = `float ${duration}s linear infinite, pulse ${2 + Math.random() * 3}s ease-in-out infinite`;
+          }, 500);
+        }
+      }, 1000);
+    } else {
+      star.style.animationDuration = `${30 + Math.random() * 50}s`;
+    }
+
+    this.container.appendChild(star);
+    this.stars.push(star);
+  }
+
+  updateStarPosition(star, initial = false) {
+    const size = star.classList.contains("bright")
+      ? Math.random() * 3 + 2
+      : Math.random() * 1 + 0.5;
+
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.top = initial ? `${Math.random() * 100}%` : "100%";
+  }
+
+  recycleStars() {
+    this.stars.forEach((star) => {
+      const rect = star.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        this.updateStarPosition(star);
+      }
+    });
+  }
+
+  handleResize() {
+    this.stars.forEach((star) => {
+      const rect = star.getBoundingClientRect();
+      if (rect.right < 0 || rect.left > window.innerWidth) {
+        this.updateStarPosition(star, true);
+      }
+    });
+  }
+
+  destroy() {
+    this.container.remove();
+  }
+}
+
+// Uso no seu código principal
+const starfield = new Starfield();
+
 // Loading screen é gerenciado pelo loading-system.js
 
 function initializeMenu() {
@@ -954,103 +1051,3 @@ function generateHorizontalLines() {
 
 // Chamar a função ao carregar a página
 document.addEventListener("DOMContentLoaded", generateHorizontalLines);
-
-//efeito starfield modifica ultra-realista
-class Starfield {
-  constructor() {
-    this.container = document.createElement("div");
-    this.container.className = "stars-container";
-    document.body.appendChild(this.container);
-
-    this.stars = [];
-    this.setup();
-  }
-
-  setup() {
-    // Criar estrelas iniciais
-    this.createStars();
-
-    // Reposicionar estrelas periodicamente
-    setInterval(() => this.recycleStars(), 1000);
-
-    // Redimensionar
-    window.addEventListener("resize", () => this.handleResize());
-  }
-
-  createStars() {
-    const starsCount = Math.floor(window.innerWidth / 3);
-
-    for (let i = 0; i < starsCount; i++) {
-      const isBright = Math.random() < 0.15;
-      this.createStar(isBright);
-    }
-  }
-
-  createStar(isBright) {
-    const star = document.createElement("div");
-    star.className = `star ${isBright ? "bright" : ""}`;
-
-    // Configuração inicial
-    this.updateStarPosition(star, true);
-
-    // Animação personalizada para estrelas brilhantes
-    if (isBright) {
-      const duration = 20 + Math.random() * 30;
-      star.style.animationDuration = `${duration}s`;
-
-      // Efeitos especiais ocasionais
-      setInterval(() => {
-        if (Math.random() < 0.03) {
-          star.style.animation = `float ${duration}s linear infinite, spark 0.5s forwards`;
-          setTimeout(() => {
-            star.style.animation = `float ${duration}s linear infinite, pulse ${2 + Math.random() * 3}s ease-in-out infinite`;
-          }, 500);
-        }
-      }, 1000);
-    } else {
-      star.style.animationDuration = `${30 + Math.random() * 50}s`;
-    }
-
-    this.container.appendChild(star);
-    this.stars.push(star);
-  }
-
-  updateStarPosition(star, initial = false) {
-    const size = star.classList.contains("bright")
-      ? Math.random() * 3 + 2
-      : Math.random() * 1 + 0.5;
-
-    star.style.width = `${size}px`;
-    star.style.height = `${size}px`;
-    star.style.left = `${Math.random() * 100}%`;
-    star.style.top = initial ? `${Math.random() * 100}%` : "100%";
-  }
-
-  recycleStars() {
-    this.stars.forEach((star) => {
-      const rect = star.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) {
-        this.updateStarPosition(star);
-      }
-    });
-  }
-
-  handleResize() {
-    this.stars.forEach((star) => {
-      const rect = star.getBoundingClientRect();
-      if (rect.right < 0 || rect.left > window.innerWidth) {
-        this.updateStarPosition(star, true);
-      }
-    });
-  }
-
-  destroy() {
-    this.container.remove();
-  }
-}
-
-// Uso no seu código principal
-const starfield = new Starfield();
-
-// Quando precisar remover (ex: ao sair da tela de loading)
-// starfield.destroy();

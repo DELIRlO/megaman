@@ -195,11 +195,11 @@ body:hover {
     url("https://delirlo.github.io/megaman/assets/sprites/cursor-hover.png"),
     auto;
 }
-/* Adicione isso APÓS o CSS principal do portfólio */
+/* Adicione isso APÓS o CSS do portfólio efeito starfield melhorada */
 .stars-container {
   --star-color-primary: #d63c4d !important;
   --star-color-bright: #1d92d5 !important;
-  --star-glow-color: rgba(100, 255, 255, 0.7) !important;
+  --star-glow-color: #7111f5 !important;
 }
 
 .star {
