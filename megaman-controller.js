@@ -244,6 +244,31 @@ class MegamanController {
         }
       }
       
+      /* Configuração adicional para telas menores (300px até 405px) */
+      @media (min-width: 300px) and (max-width: 405px) {
+        .megaman-score {
+          top: 60px;
+          left: 10px;
+          right: auto;
+          padding: 0 3px;
+          width: 90px;
+          height: 35px;
+          border-width: 2px;
+        }
+        
+        .score-container {
+          gap: 3px;
+        }
+        
+        .score-label {
+          font-size: 7px;
+        }
+        
+        .score-value {
+          font-size: 9px;
+        }
+      }
+      
       /* ========== EFEITOS DE REGENERAÇÃO DOURADA ========== */
       .regenerating-letter {
         display: inline-block;
