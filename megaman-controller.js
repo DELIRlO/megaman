@@ -1,6 +1,6 @@
 /**
  * MEGA MAN CONTROLLER - SISTEMA COMPLETO
- * Com animação de regeneração dourada e partículas espirais
+ * Com efeitos de destruição e regeneração dourada com partículas
  */
 
 class MegamanController {

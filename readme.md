@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://ibb.co/SwpmQkY" target="_blank">
-    <img src="https://i.ibb.co/N2zN10DR/Screenshot-1.png" alt="Preview do Portfólio 8-bit" style="border: 1px solid #2d2d2d; border-radius: 8px;">
+    <img src="https://i.ibb.co/ycHVYWYc/1.png" alt="Preview do Portfólio 8-bit" style="border: 1px solid #2d2d2d; border-radius: 8px;">
   </a>
 </p>
 
