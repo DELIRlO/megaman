@@ -69,7 +69,11 @@ class MegamanController {
       startTime: null,
       nameDestructions: 0,
       successfulRegenerations: 0,
+      score: 0,
     };
+
+    // Elemento de pontuação
+    this.scoreElement = null;
 
     this.init();
   }
@@ -77,15 +81,87 @@ class MegamanController {
   /* ========== INICIALIZAÇÃO ========== */
   init() {
     this.createMegamanElement();
+    this.createScoreElement();
     this.updateBoundaries();
     this.bindEvents();
     this.findNameElement();
     this.injectStyles();
   }
 
+  createScoreElement() {
+    // Cria o elemento de pontuação com estilo retro 8-bits
+    this.scoreElement = document.createElement("div");
+    this.scoreElement.className = "megaman-score";
+    this.scoreElement.innerHTML = `
+      <div class="score-label">SCORE</div>
+      <div class="score-value">0000000</div>
+    `;
+    document.body.appendChild(this.scoreElement);
+    this.updateScore(0);
+  }
+
+  updateScore(points) {
+    // Atualiza a pontuação
+    this.stats.score += points;
+
+    // Atualiza o elemento visual
+    if (this.scoreElement) {
+      const scoreValueElement = this.scoreElement.querySelector(".score-value");
+      if (scoreValueElement) {
+        // Formata o score com zeros à esquerda para manter 7 dígitos
+        const formattedScore = this.stats.score.toString().padStart(7, "0");
+        scoreValueElement.textContent = formattedScore;
+
+        // Adiciona efeito de flash quando a pontuação muda
+        scoreValueElement.classList.remove("score-flash");
+        void scoreValueElement.offsetWidth; // Força reflow para reiniciar a animação
+        scoreValueElement.classList.add("score-flash");
+      }
+    }
+  }
+
   injectStyles() {
     const style = document.createElement("style");
     style.textContent = `
+      /* ========== SISTEMA DE PONTUAÇÃO RETRO 8-BITS ========== */
+      .megaman-score {
+        position: fixed;
+        top: 10px;
+        right: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        border: 1px solid #0080ff;
+        border-radius: 4px;
+        padding: 10px;
+        color: #ffffff;
+        font-family: 'Press Start 2P', monospace;
+        text-align: center;
+        z-index: 1000;
+        box-shadow: 0 0 10px rgba(0, 128, 255, 0.7), inset 0 0 5px rgba(0, 128, 255, 0.5);
+      }
+      
+      .score-label {
+        font-size: 12px;
+        color: #ffcc00;
+        margin-bottom: 5px;
+        text-shadow: 2px 2px 0 #000;
+      }
+      
+      .score-value {
+        font-size: 18px;
+        color: #00ff00;
+        text-shadow: 2px 2px 0 #000;
+      }
+      
+      .score-flash {
+        animation: score-flash-animation 0.3s ease-in-out;
+      }
+      
+      @keyframes score-flash-animation {
+        0% { transform: scale(1); color: #00ff00; }
+        50% { transform: scale(1.2); color: #ffffff; }
+        100% { transform: scale(1); color: #00ff00; }
+      }
+      
       /* ========== EFEITOS DE REGENERAÇÃO DOURADA ========== */
       .regenerating-letter {
         display: inline-block;
@@ -443,6 +519,10 @@ class MegamanController {
 
     this.nameElement = newNameElement;
     this.stats.successfulRegenerations++;
+
+    // Adiciona 5 pontos por regeneração
+    this.updateScore(5);
+
     this.setupClickListener();
 
     // Remove efeitos após animação
@@ -508,6 +588,9 @@ class MegamanController {
 
     this.destructionCooldown = true;
     this.stats.nameDestructions++;
+
+    // Adiciona 10 pontos por destruição
+    this.updateScore(10);
 
     // Inicia regeneração após delay
     setTimeout(() => {
