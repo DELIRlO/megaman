@@ -98,6 +98,23 @@ class MegamanController {
     `;
     document.body.appendChild(this.scoreElement);
     this.updateScore(0);
+
+    // Verifica se é um dispositivo móvel para ajustar o posicionamento
+    this.checkMobileDevice();
+
+    // Adiciona listener para redimensionamento da janela
+    window.addEventListener("resize", () => this.checkMobileDevice());
+  }
+
+  checkMobileDevice() {
+    // Verifica se é um dispositivo móvel baseado na largura da tela
+    const isMobile = window.innerWidth <= 768;
+
+    // Oculta a barra de debug de áudio em dispositivos móveis
+    const audioDebug = document.getElementById("audio-debug");
+    if (audioDebug) {
+      audioDebug.style.display = isMobile ? "none" : "flex";
+    }
   }
 
   updateScore(points) {
@@ -125,7 +142,7 @@ class MegamanController {
     style.textContent = `
       /* ========== SISTEMA DE PONTUAÇÃO RETRO 8-BITS ========== */
       .megaman-score {
-        position: fixed;
+        position: absolute;
         top: 10px;
         right: 20px;
         background-color: rgba(0, 0, 0, 0.7);
@@ -160,6 +177,38 @@ class MegamanController {
         0% { transform: scale(1); color: #00ff00; }
         50% { transform: scale(1.2); color: #ffffff; }
         100% { transform: scale(1); color: #00ff00; }
+      }
+      
+      /* Responsividade para dispositivos móveis */
+      @media (max-width: 768px) {
+        .megaman-score {
+          top: 5px;
+          right: 5px;
+          padding: 5px;
+          border-width: 2px;
+        }
+        
+        .score-label {
+          font-size: 8px;
+          margin-bottom: 2px;
+        }
+        
+        .score-value {
+          font-size: 12px;
+        }
+        
+        #audio-debug {
+          display: none !important;
+        }
+      }
+      
+      /* Para telas muito pequenas */
+      @media (max-width: 480px) {
+        .megaman-score {
+          top: 2px;
+          right: 2px;
+          padding: 3px;
+        }
       }
       
       /* ========== EFEITOS DE REGENERAÇÃO DOURADA ========== */
