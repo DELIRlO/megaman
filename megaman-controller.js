@@ -93,8 +93,10 @@ class MegamanController {
     this.scoreElement = document.createElement("div");
     this.scoreElement.className = "megaman-score";
     this.scoreElement.innerHTML = `
-      <div class="score-label">SCORE</div>
-      <div class="score-value">0000000</div>
+      <div class="score-container">
+        <span class="score-label">SCORE:</span>
+        <span class="score-value">0000</span>
+      </div>
     `;
     document.body.appendChild(this.scoreElement);
     this.updateScore(0);
@@ -125,8 +127,8 @@ class MegamanController {
     if (this.scoreElement) {
       const scoreValueElement = this.scoreElement.querySelector(".score-value");
       if (scoreValueElement) {
-        // Formata o score com zeros à esquerda para manter 7 dígitos
-        const formattedScore = this.stats.score.toString().padStart(7, "0");
+        // Formata o score com zeros à esquerda para manter 4 dígitos
+        const formattedScore = this.stats.score.toString().padStart(4, "0");
         scoreValueElement.textContent = formattedScore;
 
         // Adiciona efeito de flash quando a pontuação muda
@@ -142,29 +144,40 @@ class MegamanController {
     style.textContent = `
       /* ========== SISTEMA DE PONTUAÇÃO RETRO 8-BITS ========== */
       .megaman-score {
-        position: absolute;
+        position: fixed;
         top: 10px;
         right: 20px;
         background-color: rgba(0, 0, 0, 0.7);
-        border: 1px solid #0080ff;
+        border: 4px solid #0080ff;
         border-radius: 4px;
-        padding: 10px;
+        padding: 8px 12px;
         color: #ffffff;
         font-family: 'Press Start 2P', monospace;
         text-align: center;
         z-index: 1000;
         box-shadow: 0 0 10px rgba(0, 128, 255, 0.7), inset 0 0 5px rgba(0, 128, 255, 0.5);
+        width: 200px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .score-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
       }
       
       .score-label {
-        font-size: 12px;
+        font-size: 14px;
         color: #ffcc00;
-        margin-bottom: 5px;
         text-shadow: 2px 2px 0 #000;
       }
       
       .score-value {
-        font-size: 18px;
+        font-size: 20px;
         color: #00ff00;
         text-shadow: 2px 2px 0 #000;
       }
@@ -182,19 +195,25 @@ class MegamanController {
       /* Responsividade para dispositivos móveis */
       @media (max-width: 768px) {
         .megaman-score {
-          top: 5px;
-          right: 5px;
-          padding: 5px;
+          top: 10px;
+          left: 170px;
+          right: auto;
+          padding: 0 5px;
           border-width: 2px;
+          width: 120px;
+          height: 40px;
+        }
+        
+        .score-container {
+          gap: 4px;
         }
         
         .score-label {
           font-size: 8px;
-          margin-bottom: 2px;
         }
         
         .score-value {
-          font-size: 12px;
+          font-size: 10px;
         }
         
         #audio-debug {
@@ -205,9 +224,11 @@ class MegamanController {
       /* Para telas muito pequenas */
       @media (max-width: 480px) {
         .megaman-score {
-          top: 2px;
-          right: 2px;
-          padding: 3px;
+          top: 10px;
+          left: 130px;
+          padding: 0 3px;
+          width: 100px;
+          height: 40px;
         }
       }
       
