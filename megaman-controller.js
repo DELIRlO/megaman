@@ -144,11 +144,11 @@ class MegamanController {
     style.textContent = `
       /* ========== SISTEMA DE PONTUAÇÃO RETRO 8-BITS ========== */
       .megaman-score {
-        position: fixed;
+        position: absolute;
         top: 10px;
         right: 20px;
         background-color: rgba(0, 0, 0, 0.7);
-        border: 4px solid #0080ff;
+        border: 1px solid #0080ff;
         border-radius: 4px;
         padding: 8px 12px;
         color: #ffffff;

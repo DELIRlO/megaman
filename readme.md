@@ -73,7 +73,7 @@
 + 🎨 style.css         # Estilos CSS
 + 🧠 scripts.js        # Lógica principal
 + 🔊 audio-system.js   # Controle de áudio
-+ ⚡ electric-lines.js # Efeitos visuais
++ ⚡  Loading-system.js  # Efeitos visuais
 + 🤖 megaman-controller.js # Controle do personagem
 
 🌐 Arquivos Públicos
@@ -113,7 +113,7 @@ portfolio_8bit/
 ├── 🎨 style.css               # ✨ Estilos principais
 ├── 🧠 scripts.js              # ⚙️ JavaScript principal
 ├── 🔊 audio-system.js         # 🔉 Sistema de áudio
-├── ⚡ electric-lines.js       # ⚡ Efeitos elétricos
+├── ⚡  Loading-system.js       # ⚡ Efeitos elétricos
 ├── 🤖 megaman-controller.js  # 🎮 Controle do Megaman
 ├── 📦 package.json           # 📦 Configuração do Node
 ├── 🎨 vercel.json            # 🚀 Configuração do Vercel
