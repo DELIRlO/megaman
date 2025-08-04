@@ -232,6 +232,18 @@ class MegamanController {
         }
       }
       
+      /* Específico para Samsung Galaxy A51/A71 (412 x 914) */
+      @media (min-width: 410px) and (max-width: 415px) and (min-height: 900px) and (max-height: 920px) {
+        .megaman-score {
+          top: 60px;
+          left: 10px;
+          right: auto;
+          padding: 0 3px;
+          width: 100px;
+          height: 40px;
+        }
+      }
+      
       /* ========== EFEITOS DE REGENERAÇÃO DOURADA ========== */
       .regenerating-letter {
         display: inline-block;
