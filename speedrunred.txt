@@ -1,0 +1,41 @@
+/* Animação do Speedrun */
+.megaman-transition.speedrun-active {
+    animation: speedrunAnimation 2s linear forwards;
+    left: -100px;
+    transform: none;
+}
+
+@keyframes speedrunAnimation {
+    0% {
+        left: -100px;
+        transform: translateX(0);
+    }
+    100% {
+        left: 100%;
+        transform: translateX(0);
+    }
+}
+
+/* Estilo do modo speedrun */
+.speed-mode {
+    filter: hue-rotate(90deg) saturate(1.5);
+    transition: filter 0.3s ease;
+}
+
+/* Posicionamento do Mega Man */
+#megaman-transition {
+    position: fixed;
+    bottom: 20px;
+    z-index: 1000;
+    width: 100px;
+    height: 100px;
+    background-image: url('assets/sprites/megaman-run.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: none;
+}
+
+#megaman-transition.active,
+#megaman-transition.speedrun-active {
+    display: block;
+}
