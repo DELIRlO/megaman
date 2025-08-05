@@ -1,3 +1,48 @@
+/* Estilos para a barra de score (#audio-debug) */
+#audio-debug {
+  position: absolute;
+  top: 10px;
+  left: 170px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  padding: 5px 10px;
+  font-family: "Press Start 2P", cursive;
+  font-size: 10px;
+  border-radius: 4px;
+  z-index: 1000;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  border: 1px solid #8a2be2;
+  backdrop-filter: blur(2px);
+  max-width: 80%;
+  white-space: nowrap;
+}
+
+/* Ocultar a barra de score em telas muito pequenas */
+@media (max-width: 299px) {
+  #audio-debug {
+    display: none;
+  }
+}
+
+/* Centralizar a barra de score em telas de 300px a 405px */
+@media (min-width: 300px) and (max-width: 405px) {
+  #audio-debug {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 65px; /* Ajuste para não sobrepor outros elementos */
+    width: auto;
+    max-width: 90%;
+  }
+}
+
+/* Ocultar a barra de score em outras resoluções de celular para não cobrir o título */
+@media (min-width: 406px) and (max-width: 768px) {
+  #audio-debug {
+    display: none;
+  }
+}
 /* Importação da fonte Press Start 2P */
 @font-face {
   font-family: "Press Start 2P";
