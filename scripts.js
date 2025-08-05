@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeSpeedrun();
   initializeAudioControls();
   initializeBackToTop();
+  initializeCarousel();
 });
 
 function initializeMobileMenus() {
@@ -1051,3 +1052,110 @@ function generateHorizontalLines() {
 
 // Chamar a função ao carregar a página
 document.addEventListener("DOMContentLoaded", generateHorizontalLines);
+
+function initializeCarousel() {
+  const container = document.querySelector(".carousel-container");
+  const track = document.querySelector(".carousel-track");
+  const prevButton = document.querySelector(".carousel-button.prev");
+  const nextButton = document.querySelector(".carousel-button.next");
+
+  if (!container || !track || !prevButton || !nextButton) {
+    return;
+  }
+
+  const courses = [
+    {
+      src: "https://img.youtube.com/vi/r-h20K-g-oI/sddefault.jpg",
+      title: "Curso de Redes",
+    },
+    {
+      src: "https://img.youtube.com/vi/PWu2-b_4L4I/sddefault.jpg",
+      title: "JavaScript Avançado",
+    },
+    {
+      src: "https://i.ytimg.com/vi/tBweoUiMsDg/sddefault.jpg",
+      title: "React para Iniciantes",
+    },
+    {
+      src: "https://i.ytimg.com/vi/2zG_Z8g_s9E/sddefault.jpg",
+      title: "Segurança Cibernética",
+    },
+    {
+      src: "https://i.ytimg.com/vi/QdkEnqG24yY/sddefault.jpg",
+      title: "UX/UI Design",
+    },
+  ];
+
+  courses.forEach((course) => {
+    const slide = document.createElement("div");
+    slide.className = "carousel-slide";
+
+    const img = document.createElement("img");
+    img.src = course.src;
+    img.alt = course.title;
+
+    const caption = document.createElement("div");
+    caption.className = "carousel-caption";
+    caption.textContent = course.title;
+
+    slide.appendChild(img);
+    slide.appendChild(caption);
+    track.appendChild(slide);
+  });
+
+  const slideWidth = track.querySelector(".carousel-slide").clientWidth;
+  let currentIndex = 0;
+  let autoplayInterval = null;
+
+  function updateCarousel() {
+    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+  }
+
+  function startAutoplay() {
+    stopAutoplay(); // Evita múltiplos intervalos
+    autoplayInterval = setInterval(() => {
+      moveNext();
+    }, 3000); // Muda a cada 3 segundos
+  }
+
+  function stopAutoplay() {
+    clearInterval(autoplayInterval);
+  }
+
+  function moveNext() {
+    if (currentIndex < courses.length - 1) {
+      currentIndex++;
+    } else {
+      currentIndex = 0;
+    }
+    updateCarousel();
+  }
+
+  function movePrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+    } else {
+      currentIndex = courses.length - 1;
+    }
+    updateCarousel();
+  }
+
+  nextButton.addEventListener("click", () => {
+    moveNext();
+    if (window.audioSystem) {
+      window.audioSystem.play("click");
+    }
+  });
+
+  prevButton.addEventListener("click", () => {
+    movePrev();
+    if (window.audioSystem) {
+      window.audioSystem.play("click");
+    }
+  });
+
+  container.addEventListener("mouseenter", stopAutoplay);
+  container.addEventListener("mouseleave", startAutoplay);
+
+  startAutoplay();
+}
