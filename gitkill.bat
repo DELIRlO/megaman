@@ -15,7 +15,11 @@ if "%confirm%"=="s" (
     
     echo.
     echo Executando git commit...
+<<<<<<< HEAD
     git commit -m ":white_check_mark: :bug: :rocket: :alien: :robot: RECOLVER"
+=======
+    git commit -m ":white_check_mark: :bug: :rocket: :alien: :robot: ATT backend RESPONSIVO"
+>>>>>>> 3e0a275fa3837b3a15d07c5b073679ae6dc8ae28
     if !errorlevel! neq 0 (
         echo Erro no git commit.
         pause
