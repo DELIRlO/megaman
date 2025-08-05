@@ -73,11 +73,7 @@
 + 🎨 style.css         # Estilos CSS
 + 🧠 scripts.js        # Lógica principal
 + 🔊 audio-system.js   # Controle de áudio
-<<<<<<< HEAD
 + ⚡ electric-lines.js # Efeitos visuais
-=======
-+ ⚡  Loading-system.js  # Efeitos visuais
->>>>>>> 3e0a275fa3837b3a15d07c5b073679ae6dc8ae28
 + 🤖 megaman-controller.js # Controle do personagem
 
 🌐 Arquivos Públicos
@@ -117,11 +113,7 @@ portfolio_8bit/
 ├── 🎨 style.css               # ✨ Estilos principais
 ├── 🧠 scripts.js              # ⚙️ JavaScript principal
 ├── 🔊 audio-system.js         # 🔉 Sistema de áudio
-<<<<<<< HEAD
 ├── ⚡ electric-lines.js       # ⚡ Efeitos elétricos
-=======
-├── ⚡  Loading-system.js       # ⚡ Efeitos elétricos
->>>>>>> 3e0a275fa3837b3a15d07c5b073679ae6dc8ae28
 ├── 🤖 megaman-controller.js  # 🎮 Controle do Megaman
 ├── 📦 package.json           # 📦 Configuração do Node
 ├── 🎨 vercel.json            # 🚀 Configuração do Vercel
@@ -257,9 +249,74 @@ this.moveInterval = { min: 2000, max: 6000 }; // 2-6 segundos
 
 Problema Solução
 
+````
+
+`````diff
+# CHANGELOG - Projeto Megaman Atualizado
+
+## Versão 2.0 - Efeitos de Destruição e Regeneração Universais
+
+- ### ✨ Novas Funcionalidades
+
+- #### 🎯 Sistema de Destruição e Regeneração Universal
+- - **Aplicado em TODAS as páginas**: O efeito de destruição e regeneração agora funciona em todas as páginas do portfólio
+- - **Detecção automática de títulos**: Identifica automaticamente o título principal de cada página
+- - **Mapeamento inteligente**: Cada página tem seu título específico mapeado
+
+- #### 🎮 Melhorias no Sistema Megaman
+- - **Navegação entre páginas**: Detecta automaticamente mudanças de página
+- - **Observer de mudanças**: Sistema de observação da DOM em tempo real
+- - **Busca inteligente**: Algoritmo aprimorado para encontrar títulos
+
+- #### 🎯 Sistema de Pontuação
+- - **Score visual**: Contador de pontos no canto superior direito
+- - **Pontuação por ação**: 10pts por destruição, 5pts por regeneração
+- - **Estilo retro**: Design 8-bit com fonte Press Start 2P
+
+- ### 🔧 Melhorias Técnicas
+
+- #### 📱 Compatibilidade
+- - **Responsivo**: Funciona em desktop e mobile
+- - **Cross-browser**: Compatível com navegadores modernos
+- - **Performance**: Sistema de limpeza automática
+
+- #### 🎨 Estilos CSS Aprimorados
+- - **Animações keyframe**: Novas animações para regeneração
+- - **Efeitos de partículas**: CSS para partículas douradas
+- - **Transições suaves**: Melhor feedback visual
+
+- ### 🎮 Controles e Comandos
+
+- #### Terminal
+
+- megaman.on() // Ativa o Megaman
+- megaman.off() // Desativa o Megaman
+-
+- ### 📊 Estatísticas
+- - Tempo ativo | Total de tiros | Movimentos
+- - Destruições | Regenerações | Score total
+
+- ### 🔄 Arquivos Modificados
+-
+
+- index.html
+- megaman-controller-updated.js
+-
+- ### 🎯 Como Usar
+- 1. Abra o projeto em servidor local
+- 2. Digite `megaman.on()` no console
+- 3. Navegue entre páginas
+- 4. Clique nos títulos para efeito manual
+
+- ### 🚀 Benefícios
+- - Experiência consistente em todas páginas
+- - Interatividade aumentada
+- - Gamificação com sistema de pontuação
+- - Totalmente responsivo.
+
 Mega Man não aparece Verifique se digitou megaman on corretamente
 Movimento muito rápido/lento Ajuste movementSpeed no código
 Não funciona no mobile Verifique se o terminal está acessível
 Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025 whatszap 91 88199828
-
-````
+- ````
+`````
