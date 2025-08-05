@@ -1261,6 +1261,15 @@ body:hover {
   text-align: center;
   margin-bottom: 40px;
   text-shadow: 2px 2px 0 var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.page-content h1 .fa-graduation-cap {
+  font-size: 0.8em; /* Ajusta o tamanho do ícone em relação ao h1 */
+  color: var(--color-secondary);
 }
 
 .page-content h2 {
@@ -2805,6 +2814,33 @@ body:hover {
   background: rgba(138, 43, 226, 0.1);
   padding: 20px;
   overflow: hidden;
+  /* Estilos para os Indicadores (Dots) */
+  .carousel-dots-container {
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  .carousel-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-secondary);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .carousel-dot.active {
+    background-color: var(--color-secondary);
+    transform: scale(1.2);
+  }
+
+  .carousel-dot:hover {
+    background-color: var(--color-secondary);
+  }
+  z-index: 2; /* Garante que o carrossel fique acima das linhas */
 }
 
 .carousel-track {
@@ -2816,6 +2852,7 @@ body:hover {
   width: 200px;
   height: 150px;
   object-fit: cover;
+  object-position: top; /* Garante que a miniatura mostre o topo da imagem */
   margin: 0 10px;
   border: 2px solid var(--color-primary);
   image-rendering: pixelated;
@@ -2825,8 +2862,9 @@ body:hover {
 }
 
 .carousel-track img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px var(--color-secondary);
+  transform: scale(1.1); /* Aumenta o zoom no hover */
+  box-shadow: 0 0 20px var(--color-secondary);
+  z-index: 3; /* Garante que a imagem com zoom fique na frente */
 }
 
 .carousel-button {

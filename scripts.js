@@ -14,6 +14,8 @@ const konamiSequence = [
   "KeyA",
 ];
 
+let carouselInitialized = false;
+
 document.addEventListener("DOMContentLoaded", function () {
   initializeMenu();
   initializeMobileMenus();
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeSpeedrun();
   initializeAudioControls();
   initializeBackToTop();
-  initializeCarousel();
+  populateCarouselHTML();
 });
 
 function initializeMobileMenus() {
@@ -172,7 +174,6 @@ function initializeAudioControls() {
   }
 }
 
-//efeito starfield modifica ultra-realista
 class Starfield {
   constructor() {
     this.container = document.createElement("div");
@@ -184,19 +185,13 @@ class Starfield {
   }
 
   setup() {
-    // Criar estrelas iniciais
     this.createStars();
-
-    // Reposicionar estrelas periodicamente
     setInterval(() => this.recycleStars(), 1000);
-
-    // Redimensionar
     window.addEventListener("resize", () => this.handleResize());
   }
 
   createStars() {
     const starsCount = Math.floor(window.innerWidth / 3);
-
     for (let i = 0; i < starsCount; i++) {
       const isBright = Math.random() < 0.15;
       this.createStar(isBright);
@@ -206,16 +201,10 @@ class Starfield {
   createStar(isBright) {
     const star = document.createElement("div");
     star.className = `star ${isBright ? "bright" : ""}`;
-
-    // Configuração inicial
     this.updateStarPosition(star, true);
-
-    // Animação personalizada para estrelas brilhantes
     if (isBright) {
       const duration = 20 + Math.random() * 30;
       star.style.animationDuration = `${duration}s`;
-
-      // Efeitos especiais ocasionais
       setInterval(() => {
         if (Math.random() < 0.03) {
           star.style.animation = `float ${duration}s linear infinite, spark 0.5s forwards`;
@@ -227,7 +216,6 @@ class Starfield {
     } else {
       star.style.animationDuration = `${30 + Math.random() * 50}s`;
     }
-
     this.container.appendChild(star);
     this.stars.push(star);
   }
@@ -236,7 +224,6 @@ class Starfield {
     const size = star.classList.contains("bright")
       ? Math.random() * 3 + 2
       : Math.random() * 1 + 0.5;
-
     star.style.width = `${size}px`;
     star.style.height = `${size}px`;
     star.style.left = `${Math.random() * 100}%`;
@@ -265,11 +252,7 @@ class Starfield {
     this.container.remove();
   }
 }
-
-// Uso no seu código principal
 const starfield = new Starfield();
-
-// Loading screen é gerenciado pelo loading-system.js
 
 function initializeMenu() {
   const menuItems = document.querySelectorAll(".menu-item");
@@ -279,7 +262,6 @@ function initializeMenu() {
         window.audioSystem.play("menuHover");
       }
     });
-
     item.addEventListener("click", () => {
       if (window.audioSystem) {
         window.audioSystem.play("menuSelect");
@@ -298,7 +280,6 @@ function initializeMenu() {
         window.audioSystem.play("menuHover");
       }
     });
-
     link.addEventListener("click", () => {
       if (window.audioSystem) {
         window.audioSystem.play("click");
@@ -321,6 +302,10 @@ function navigateToPage(pageName) {
       targetPage = createPage(pageName);
     }
     targetPage.classList.add("active");
+
+    if (pageName === "cursos") {
+      startCarousel();
+    }
 
     if (window.audioSystem) {
       window.audioSystem.play("teleport");
@@ -364,7 +349,6 @@ function createPage(pageName) {
 
 function createSobrePage() {
   return `<div class="page-content">
-  <!-- Cabeçalho com avatar e título -->
   <div class="header-container">
     <div class="avatar-title-wrapper">
       <div class="about-avatar">
@@ -374,18 +358,14 @@ function createSobrePage() {
     </div>
     <h2><i class="fas fa-code red-icon" style="font-size: 15px;"></i> Desenvolvedor Full-Stack | <i class="fas fa-network-wired red-icon" style="font-size: 15px;"></i> Redes | <i class="fas fa-paint-brush red-icon" style="font-size: 15px;"></i> UX/UI</h2>
   </div>
-
-  <!-- Conteúdo principal -->
   <div class="content-overlay">
     <div class="about-text">
       <p><i class="fas fa-briefcase green-icon" style="font-size: 15px;"></i> Profissional multidisciplinar com 5+ anos de experiência em desenvolvimento de software e infraestrutura de redes. Autodidata com certificações em:</p>
-      
       <ul class="certifications">
         <li><i class="fab fa-js-square green-icon" style="font-size: 15px;"></i> Desenvolvimento Web (JavaScript, React, Node.js)</li>
         <li><i class="fas fa-cloud green-icon" style="font-size: 15px;"></i> Cloud Computing (AWS, Google Cloud)</li>
         <li><i class="fas fa-shield-alt green-icon" style="font-size: 15px;"></i> Segurança de Redes (Cisco CCNA)</li>
       </ul>
-
       <h3><i class="fas fa-star yellow-icon" style="font-size: 15px;"></i> Destaques:</h3>
       <ul class="highlights">
         <li><i class="fas fa-rocket yellow-icon" style="font-size: 15px;"></i> Especialista em soluções que combinam eficiência técnica com UX</li>
@@ -393,7 +373,6 @@ function createSobrePage() {
         <li><i class="fas fa-chart-line yellow-icon" style="font-size: 15px;"></i> +40% de performance em otimizações de sistemas</li>
         <li><i class="fas fa-globe yellow-icon" style="font-size: 15px;"></i> Expertise em arquiteturas de rede (TCP/IP, DNS, HTTP/2)</li>
       </ul>
-
       <h3><i class="fas fa-tasks orange-icon" style="font-size: 15px;"></i> Metodologia:</h3>
       <p>"Desenvolvimento orientado a resultados" - foco em:</p>
       <ul class="methodology">
@@ -403,7 +382,6 @@ function createSobrePage() {
         <li><i class="fas fa-sync-alt orange-icon" style="font-size: 15px;"></i> CI/CD</li>
         <li><i class="fas fa-clipboard-check orange-icon" style="font-size: 15px;"></i> Gestão de Qualidade</li>
       </ul>
-
       <h3><i class="fas fa-bullseye red-icon" style="font-size: 15px;"></i> Objetivo Atual:</h3>
       <p>Liderar projetos inovadores que integrem:</p>
       <ul class="goals">
@@ -411,7 +389,6 @@ function createSobrePage() {
         <li><i class="fas fa-robot red-icon" style="font-size: 15px;"></i> DevOps</li>
         <li><i class="fas fa-universal-access red-icon" style="font-size: 15px;"></i> Acessibilidade (WCAG 2.1)</li>
       </ul>
-
       <h3><i class="fas fa-handshake red-icon" style="font-size: 15px;"></i> Disponível para:</h3>
       <ul class="availability">
         <li><i class="fas fa-laptop-code red-icon" style="font-size: 15px;"></i> Projetos desafiadores</li>
@@ -420,8 +397,6 @@ function createSobrePage() {
       </ul>
     </div>
   </div>
-
-  <!-- Seção de estatísticas -->
   <div class="stats-section">
     <div class="stat-item">
       <div class="stat-value"><i class="fas fa-calendar-alt green-icon" style="font-size: 15px;"></i> 10+</div>
@@ -437,25 +412,13 @@ function createSobrePage() {
     </div>
   </div>
 </div>
-
-<!-- CSS Customizado -->
 <style>
-  /* Configuração base dos ícones */
-  i.fas, i.fab {
-    margin-right: 8px;
-    width: 20px;
-    text-align: center;
-    position: relative;
-  }
-  
-  /* Cores por categoria */
+  i.fas, i.fab { margin-right: 8px; width: 20px; text-align: center; position: relative; }
   .red-icon { color: #dc3545; }
   .green-icon { color: #28a745; }
   .yellow-icon { color: #ffc107; }
   .orange-icon { color: #fd7e14; }
 </style>
-
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">`;
 }
 
@@ -463,8 +426,6 @@ function createCurriculoPage() {
   return `
   <div class="page-content">
     <h1>CURRÍCULO</h1>
-    
-    <!-- Miniatura do currículo -->
     <div class="cv-thumbnail-container">
       <img src="https://i.ibb.co/Xrrx3kS2/CARLOS-AUGUSTO-DINIZ-FILHO-2025.png" 
            alt="Miniatura do Currículo" 
@@ -475,8 +436,6 @@ function createCurriculoPage() {
         ⬇️ Baixar Currículo (PDF)
       </button>
     </div>
-    
-    <!-- Conteúdo completo do currículo -->
     <div class="cv-section">
       <h2>FORMAÇÃO ACADÊMICA</h2>
       <div class="cv-item">
@@ -497,7 +456,6 @@ function createCurriculoPage() {
         </ul>
       </div>
     </div>
-    
     <div class="cv-section">
       <h2>EXPERIÊNCIA PROFISSIONAL</h2>
       <div class="cv-item">
@@ -524,7 +482,6 @@ function createCurriculoPage() {
   `;
 }
 
-// Mantenha as funções auxiliares
 function abrirCurriculoCompleto() {
   window.open(
     "https://i.ibb.co/Xrrx3kS2/CARLOS-AUGUSTO-DINIZ-FILHO-2025.png",
@@ -546,130 +503,35 @@ function createProjetosPage() {
 
 function createSkillsPage() {
   return `<div class="page-content">
-  <h1>
-    <i class="fas fa-laptop-code" style="font-size: 26px; color: red; margin-right: 10px; position: relative; top: -5px;"></i>
-    HABILIDADES
-  </h1>
+  <h1><i class="fas fa-laptop-code" style="font-size: 26px; color: red; margin-right: 10px; position: relative; top: -5px;"></i> HABILIDADES</h1>
   <div class="skills-section">
     <div class="skill-category">
-      <h2>
-        <i class="fas fa-code" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i>
-        LINGUAGENS DE PROGRAMAÇÃO
-      </h2>
+      <h2><i class="fas fa-code" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i> LINGUAGENS DE PROGRAMAÇÃO</h2>
       <div class="skill-bars">
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="18" style="position: relative; top: 2px;"/>
-            JavaScript
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:90%"></div>
-          </div>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="18" style="position: relative; top: 2px;"/>
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="18" style="position: relative; top: 2px;"/>
-            HTML5/CSS3
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:95%"></div>
-          </div>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="18" style="position: relative; top: 2px;"/>
-            Python
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:80%"></div>
-          </div>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="18" style="position: relative; top: 2px;"/>
-            Java
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:75%"></div>
-          </div>
-        </div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="18" style="position: relative; top: 2px;"/> JavaScript</div><div class="skill-progress"><div class="skill-fill" style="width:90%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="18" style="position: relative; top: 2px;"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="18" style="position: relative; top: 2px;"/> HTML5/CSS3</div><div class="skill-progress"><div class="skill-fill" style="width:95%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="18" style="position: relative; top: 2px;"/> Python</div><div class="skill-progress"><div class="skill-fill" style="width:80%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="18" style="position: relative; top: 2px;"/> Java</div><div class="skill-progress"><div class="skill-fill" style="width:75%"></div></div></div>
       </div>
     </div>
     <div class="skill-category">
-      <h2>
-        <i class="fas fa-cubes" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i>
-        FRAMEWORKS & TECNOLOGIAS
-      </h2>
+      <h2><i class="fas fa-cubes" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i> FRAMEWORKS & TECNOLOGIAS</h2>
       <div class="skill-bars">
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="18" style="position: relative; top: 2px;"/>
-            React
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:85%"></div>
-          </div>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="18" style="position: relative; top: 2px;"/>
-            Node.js
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:80%"></div>
-          </div>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="18" style="position: relative; top: 2px;"/>
-            TypeScript
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:75%"></div>
-          </div>
-        </div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="18" style="position: relative; top: 2px;"/> React</div><div class="skill-progress"><div class="skill-fill" style="width:85%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="18" style="position: relative; top: 2px;"/> Node.js</div><div class="skill-progress"><div class="skill-fill" style="width:80%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="18" style="position: relative; top: 2px;"/> TypeScript</div><div class="skill-progress"><div class="skill-fill" style="width:75%"></div></div></div>
       </div>
     </div>
     <div class="skill-category">
-      <h2>
-        <i class="fas fa-network-wired" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i>
-        SISTEMAS & REDES
-      </h2>
+      <h2><i class="fas fa-network-wired" style="font-size: 22px; color: red; margin-right: 10px; position: relative; top: 2px;"></i> SISTEMAS & REDES</h2>
       <div class="skill-bars">
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="18" style="position: relative; top: 2px;"/>
-            Linux
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:90%"></div>
-          </div>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" width="18" style="position: relative; top: 2px;"/>
-            Windows Server
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:85%"></div>
-          </div>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-name">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="18" style="position: relative; top: 2px;"/>
-            Redes TCP/IP
-          </div>
-          <div class="skill-progress">
-            <div class="skill-fill" style="width:88%"></div>
-          </div>
-        </div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="18" style="position: relative; top: 2px;"/> Linux</div><div class="skill-progress"><div class="skill-fill" style="width:90%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" width="18" style="position: relative; top: 2px;"/> Windows Server</div><div class="skill-progress"><div class="skill-fill" style="width:85%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="18" style="position: relative; top: 2px;"/> Redes TCP/IP</div><div class="skill-progress"><div class="skill-fill" style="width:88%"></div></div></div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">`;
 }
 
@@ -728,14 +590,7 @@ function initializeTerminal() {
     "megaman status": () => {
       if (window.megamanController) {
         const status = window.megamanController.getStatus();
-        return `🤖 Status do Mega Man:
-Ativo: ${status.isActive ? "SIM" : "NÃO"}
-Pausado: ${status.isPaused ? "SIM" : "NÃO"}
-Movendo: ${status.isMoving ? "SIM" : "NÃO"}
-Atirando: ${status.isShooting ? "SIM" : "NÃO"}
-Sprite atual: ${status.currentSprite}
-Página atual: ${status.currentPage}
-Posição: X=${Math.round(status.position.x)}, Y=${Math.round(status.position.y)}`;
+        return `🤖 Status do Mega Man:\nAtivo: ${status.isActive ? "SIM" : "NÃO"}\nPausado: ${status.isPaused ? "SIM" : "NÃO"}\nMovendo: ${status.isMoving ? "SIM" : "NÃO"}\nAtirando: ${status.isShooting ? "SIM" : "NÃO"}\nSprite atual: ${status.currentSprite}\nPágina atual: ${status.currentPage}\nPosição: X=${Math.round(status.position.x)}, Y=${Math.round(status.position.y)}`;
       }
       return "❌ Erro: Controlador do Mega Man não encontrado.";
     },
@@ -743,11 +598,7 @@ Posição: X=${Math.round(status.position.x)}, Y=${Math.round(status.position.y)
       if (window.megamanController) {
         const status = window.megamanController.getStatus();
         const stats = status.stats;
-        return `📊 Estatísticas do Mega Man:
-Tiros disparados: ${stats.totalShots}
-Movimentos realizados: ${stats.totalMoves}
-Tempo ativo: ${stats.activeTime}s
-Média de tiros/min: ${stats.activeTime > 0 ? Math.round((stats.totalShots / stats.activeTime) * 60) : 0}`;
+        return `📊 Estatísticas do Mega Man:\nTiros disparados: ${stats.totalShots}\nMovimentos realizados: ${stats.totalMoves}\nTempo ativo: ${stats.activeTime}s\nMédia de tiros/min: ${stats.activeTime > 0 ? Math.round((stats.totalShots / stats.activeTime) * 60) : 0}`;
       }
       return "❌ Erro: Controlador do Mega Man não encontrado.";
     },
@@ -783,8 +634,8 @@ Média de tiros/min: ${stats.activeTime > 0 ? Math.round((stats.totalShots / sta
 
       if (commands[command]) {
         if (typeof commands[command] === "function") {
-          commands[command]();
-          output.innerHTML += "<br>Executando comando...";
+          const result = commands[command]();
+          output.innerHTML += `<br>${result}`;
         } else if (command === "clear") {
           terminalOutput.innerHTML = "";
           this.value = "";
@@ -811,15 +662,10 @@ Média de tiros/min: ${stats.activeTime > 0 ? Math.round((stats.totalShots / sta
 function initializeEasterEggs() {
   document.addEventListener("keydown", function (e) {
     konamiCode.push(e.code);
-
     if (konamiCode.length > konamiSequence.length) {
       konamiCode.shift();
     }
-
-    if (
-      konamiCode.length === konamiSequence.length &&
-      konamiCode.every((code, index) => code === konamiSequence[index])
-    ) {
+    if (konamiCode.join("") === konamiSequence.join("")) {
       activateKonamiEasterEgg();
       konamiCode = [];
     }
@@ -841,7 +687,6 @@ function initializeEasterEggs() {
 
 function activateKonamiEasterEgg() {
   let konamiGame = document.getElementById("konami-game");
-
   if (!konamiGame) {
     konamiGame = document.createElement("div");
     konamiGame.id = "konami-game";
@@ -860,24 +705,19 @@ function activateKonamiEasterEgg() {
         `;
     document.body.appendChild(konamiGame);
   }
-
   konamiGame.classList.remove("hidden");
-
   if (window.audioSystem) {
     window.audioSystem.play("achievement");
   }
-
   let score = 0;
   const scoreElement = document.getElementById("game-score");
   const interval = setInterval(() => {
     score += Math.floor(Math.random() * 100);
     scoreElement.textContent = score;
   }, 500);
-
   setTimeout(() => {
     clearInterval(interval);
   }, 5000);
-
   document.body.classList.add("konami-active");
   setTimeout(() => {
     document.body.classList.remove("konami-active");
@@ -900,7 +740,6 @@ function initializeSpeedrun() {
       startSpeedrun();
     }
   });
-
   document.addEventListener("keyup", function (e) {
     if (e.key === "Shift" && speedrunTimer) {
       stopSpeedrun();
@@ -913,11 +752,9 @@ function startSpeedrun() {
   if (speedrunTimerElement) {
     speedrunTimerElement.classList.remove("hidden");
   }
-
   speedrunStartTime = Date.now();
   speedrunTimer = setInterval(updateSpeedrunTimer, 100);
   document.body.classList.add("speed-mode");
-
   if (window.audioSystem) {
     window.audioSystem.play("achievement");
   }
@@ -927,14 +764,11 @@ function stopSpeedrun() {
   if (speedrunTimer) {
     clearInterval(speedrunTimer);
     speedrunTimer = null;
-
     const speedrunTimerElement = document.getElementById("speedrun-timer");
     if (speedrunTimerElement) {
       speedrunTimerElement.classList.add("hidden");
     }
-
     document.body.classList.remove("speed-mode");
-
     if (window.audioSystem) {
       window.audioSystem.play("click");
     }
@@ -947,21 +781,16 @@ function updateSpeedrunTimer() {
     const hours = Math.floor(elapsed / 3600000);
     const minutes = Math.floor((elapsed % 3600000) / 60000);
     const seconds = Math.floor((elapsed % 60000) / 1000);
-
     const timerValue = document.querySelector(".timer-value");
     if (timerValue) {
-      timerValue.textContent = `${hours.toString().padStart(2, "0")}:${minutes
-        .toString()
-        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+      timerValue.textContent = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }
   }
 }
 
 function initializeBackToTop() {
   const backToTopButton = document.getElementById("back-to-top");
-
   if (!backToTopButton) return;
-
   function toggleBackToTop() {
     if (window.pageYOffset > 300) {
       backToTopButton.classList.add("show");
@@ -969,18 +798,15 @@ function initializeBackToTop() {
       backToTopButton.classList.remove("show");
     }
   }
-
   function scrollToTop() {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-
     if (window.audioSystem) {
       window.audioSystem.play("click");
     }
   }
-
   window.addEventListener("scroll", toggleBackToTop);
   backToTopButton.addEventListener("click", scrollToTop);
   toggleBackToTop();
@@ -988,7 +814,6 @@ function initializeBackToTop() {
 
 window.closeKonamiGame = closeKonamiGame;
 
-// Adiciona efeito de inclinação aleatória nos botões
 document
   .querySelectorAll(".menu-item, .mobile-menu-item, .mobile-social-item")
   .forEach((button) => {
@@ -996,7 +821,6 @@ document
       const angle = Math.random() * 10 - 5;
       button.style.transform = `translateY(-2px) rotate(${angle}deg)`;
     });
-
     button.addEventListener("mouseleave", () => {
       button.style.transform = "";
     });
@@ -1013,7 +837,6 @@ function triggerMegamanTransition() {
   const bg = document.querySelector(".megaman-bg");
   const transition = document.querySelector(".megaman-transition");
 
-  // Ativa fundo e transição juntos
   bg.classList.add("active");
   transition.classList.add("active");
 
@@ -1023,139 +846,18 @@ function triggerMegamanTransition() {
   }, 2000);
 }
 
-// Função para gerar linhas horizontais
 function generateHorizontalLines() {
   const container = document.getElementById("horizontal-lines-container");
   if (!container) return;
-
-  const numberOfLines = 15; // Número de linhas
-
+  const numberOfLines = 15;
   for (let i = 0; i < numberOfLines; i++) {
     const line = document.createElement("div");
     line.classList.add("line");
-
-    // Largura variável das linhas
     line.style.width = `${Math.random() * 40 + 30}%`;
-
-    // Posição vertical aleatória
     line.style.top = `${Math.random() * 100}%`;
-
-    // Duração da animação variável
     line.style.animationDuration = `${Math.random() * 6 + 4}s`;
-
-    // Delay aleatório para criar efeito escalonado
     line.style.animationDelay = `${Math.random() * 5}s`;
-
     container.appendChild(line);
   }
 }
-
-// Chamar a função ao carregar a página
 document.addEventListener("DOMContentLoaded", generateHorizontalLines);
-
-function initializeCarousel() {
-  const container = document.querySelector(".carousel-container");
-  const track = document.querySelector(".carousel-track");
-  const prevButton = document.querySelector(".carousel-button.prev");
-  const nextButton = document.querySelector(".carousel-button.next");
-
-  if (!container || !track || !prevButton || !nextButton) {
-    return;
-  }
-
-  const courses = [
-    {
-      src: "https://img.youtube.com/vi/r-h20K-g-oI/sddefault.jpg",
-      title: "Curso de Redes",
-    },
-    {
-      src: "https://img.youtube.com/vi/PWu2-b_4L4I/sddefault.jpg",
-      title: "JavaScript Avançado",
-    },
-    {
-      src: "https://i.ytimg.com/vi/tBweoUiMsDg/sddefault.jpg",
-      title: "React para Iniciantes",
-    },
-    {
-      src: "https://i.ytimg.com/vi/2zG_Z8g_s9E/sddefault.jpg",
-      title: "Segurança Cibernética",
-    },
-    {
-      src: "https://i.ytimg.com/vi/QdkEnqG24yY/sddefault.jpg",
-      title: "UX/UI Design",
-    },
-  ];
-
-  courses.forEach((course) => {
-    const slide = document.createElement("div");
-    slide.className = "carousel-slide";
-
-    const img = document.createElement("img");
-    img.src = course.src;
-    img.alt = course.title;
-
-    const caption = document.createElement("div");
-    caption.className = "carousel-caption";
-    caption.textContent = course.title;
-
-    slide.appendChild(img);
-    slide.appendChild(caption);
-    track.appendChild(slide);
-  });
-
-  const slideWidth = track.querySelector(".carousel-slide").clientWidth;
-  let currentIndex = 0;
-  let autoplayInterval = null;
-
-  function updateCarousel() {
-    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-  }
-
-  function startAutoplay() {
-    stopAutoplay(); // Evita múltiplos intervalos
-    autoplayInterval = setInterval(() => {
-      moveNext();
-    }, 3000); // Muda a cada 3 segundos
-  }
-
-  function stopAutoplay() {
-    clearInterval(autoplayInterval);
-  }
-
-  function moveNext() {
-    if (currentIndex < courses.length - 1) {
-      currentIndex++;
-    } else {
-      currentIndex = 0;
-    }
-    updateCarousel();
-  }
-
-  function movePrev() {
-    if (currentIndex > 0) {
-      currentIndex--;
-    } else {
-      currentIndex = courses.length - 1;
-    }
-    updateCarousel();
-  }
-
-  nextButton.addEventListener("click", () => {
-    moveNext();
-    if (window.audioSystem) {
-      window.audioSystem.play("click");
-    }
-  });
-
-  prevButton.addEventListener("click", () => {
-    movePrev();
-    if (window.audioSystem) {
-      window.audioSystem.play("click");
-    }
-  });
-
-  container.addEventListener("mouseenter", stopAutoplay);
-  container.addEventListener("mouseleave", startAutoplay);
-
-  startAutoplay();
-}
