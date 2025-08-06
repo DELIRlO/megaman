@@ -360,7 +360,6 @@ body:hover {
   color: var(--color-secondary);
   text-shadow: 0 0 10px rgba(0, 243, 255, 0.7);
   margin-bottom: 0.5rem;
-  animation: pulse 2s infinite alternate;
 }
 
 .loading-subtitle {
@@ -2506,7 +2505,7 @@ body:hover {
   color: #fff; /* Cor clara para contraste */
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid rgba(5, 193, 240, 0.3); /* Borda inferior sutil */
+  border-bottom: 2px solid var(--color-secondary);
 }
 
 /* Texto e listas */
@@ -2517,18 +2516,23 @@ body:hover {
   color: rgba(255, 255, 255, 0.9); /* Texto com leve transparência */
 }
 
+.cv-item p {
+  display: flex;
+  align-items: center;
+}
+
 .cv-item li {
   margin-bottom: 8px;
-  position: relative;
-  padding-left: 15px;
   color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
 }
 
 .cv-item li::before {
   content: "•";
-  color: rgba(52, 152, 219, 0.7);
-  position: absolute;
-  left: 0;
+  color: var(--color-secondary);
+  text-shadow: 0 0 5px var(--color-secondary);
+  margin-right: 10px;
 }
 
 /* === Título Principal (Sem Cobertura da Borda) === */
@@ -3176,4 +3180,143 @@ body:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ESTILOS BASE */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cv-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: transparent;
+  border-radius: 5px;
+  position: relative;
+  z-index: 10;
+}
+
+h2 {
+  margin: 0 0 15px 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+h3 {
+  margin: 15px 0 5px 0;
+  padding: 0;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+}
+
+p {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+ul {
+  margin: 10px 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+li {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* ÍCONES */
+.section-icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+.bullet-icon {
+  margin-right: 10px;
+  font-size: 0.9em;
+  min-width: 20px;
+  position: relative;
+  top: -2px;
+}
+
+.cv-item p .bullet-icon {
+  position: relative;
+  top: -2px;
+}
+
+/* ANIMAÇÕES */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shine {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 8px currentColor;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* CORES E ANIMAÇÕES DOS ÍCONES */
+/* SEÇÃO AMARELA */
+.yellow-section .section-icon,
+.yellow-section .bullet-icon {
+  color: #ffd700;
+  animation:
+    pulse 2s infinite,
+    shine 2s infinite;
+}
+
+/* SEÇÃO AZUL */
+.blue-section .section-icon,
+.blue-section .bullet-icon {
+  color: #1e90ff;
+  animation:
+    pulse 2s infinite,
+    shine 2s infinite;
+}
+
+/* SEÇÃO VERMELHA */
+.red-section .section-icon,
+.red-section .bullet-icon {
+  color: #ff4500;
+  animation:
+    pulse 2s infinite,
+    shine 2s infinite;
+}
+
+/* SEÇÃO VERDE */
+.green-section .section-icon,
+.green-section .bullet-icon {
+  color: #32cd32;
+  animation:
+    pulse 2s infinite,
+    shine 2s infinite;
 }

@@ -447,50 +447,75 @@ function createCurriculoPage() {
       <button class="download-btn" onclick="downloadCurriculo()">
         ⬇️  [DOWNLOAD C.V]
       </button>
+   <div class="container">
+        <!-- SEÇÃO VERMELHA - FORMAÇÃO ACADÊMICA -->
+        <div class="cv-section red-section">
+            <h2><i class="section-icon fas fa-graduation-cap"></i> FORMAÇÃO ACADÊMICA</h2>
+            <div class="cv-item">
+                <h3><i class="bullet-icon fas fa-user-graduate"></i> Bacharelado em Engenharia da Computação</h3>
+                <p><i class="bullet-icon fas fa-university"></i> Instituto de Estudos Superiores da Amazônia (IESAM) - 2011-2016</p>
+                <ul>
+                    <li><i class="bullet-icon fas fa-users"></i> Participou do Clube de Tecnologia</li>
+                    <li><i class="bullet-icon fas fa-microphone"></i> Palestrante desenvolvimento Arduino</li>
+                    <li><i class="bullet-icon fas fa-chalkboard-teacher"></i> Palestrante na Feira do Empreendedor e Desafio SEBRAE 2011-2017</li>
+                </ul>
+            </div>
+            <div class="cv-item">
+                <h3><i class="bullet-icon fas fa-graduation-cap"></i> Pós-Graduação: Engenharia de Telecomunicações</h3>
+                <p><i class="bullet-icon fas fa-school"></i> Faculdade Estácio - 2017-2018</p>
+                <ul>
+                    <li><i class="bullet-icon fas fa-robot"></i> Desenvolvimento de Projetos variados voltados à robótica</li>
+                    <li><i class="bullet-icon fas fa-calendar-alt"></i> Organização de eventos na Faculdade voltados a TI</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SEÇÃO AMARELA - EXPERIÊNCIA PROFISSIONAL -->
+        <div class="cv-section yellow-section">
+            <h2><i class="section-icon fas fa-briefcase"></i> EXPERIÊNCIA PROFISSIONAL</h2>
+            <div class="cv-item">
+                <h3><i class="bullet-icon fas fa-tools"></i> Técnico em manutenção de computadores</h3>
+                <p><i class="bullet-icon fas fa-building"></i> 50$ Computadores</p>
+                <ul>
+                    <li><i class="bullet-icon fas fa-laptop-medical"></i> Limpeza, Programação e manutenção de software e hardware</li>
+                    <li><i class="bullet-icon fas fa-desktop"></i> Configuração e montagem de Desktops, Micro Computadores e notebooks</li>
+                    <li><i class="bullet-icon fas fa-network-wired"></i> Configuração de Redes e sistemas em domicílio</li>
+                    <li><i class="bullet-icon fas fa-user-tie"></i> Consultor de Tecnologia e aquisição de hardware e sistemas</li>
+                </ul>
+            </div>
+            <div class="cv-item">
+                <h3><i class="bullet-icon fas fa-code"></i> Assistente Desenvolvedor e programação</h3>
+                <p><i class="bullet-icon fas fa-laptop-house"></i> Mac manutenções</p>
+                <ul>
+                    <li><i class="bullet-icon fas fa-laptop"></i> Limpeza e configuração de micro-computadores</li>
+                    <li><i class="bullet-icon fas fa-file-export"></i> Agendamento de arquivos de backup para diretórios oficiais</li>
+                    <li><i class="bullet-icon fas fa-envelope"></i> Projetos online e consultas por e-mail de clientes</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SEÇÃO AZUL - HABILIDADES TÉCNICAS -->
+        <div class="cv-section blue-section">
+            <h2><i class="section-icon fas fa-laptop-code"></i> HABILIDADES TÉCNICAS</h2>
+            <ul>
+                <li><i class="bullet-icon fas fa-microchip"></i> Hardware: Montagem e manutenção de computadores e notebooks</li>
+                <li><i class="bullet-icon fas fa-network-wired"></i> Redes: Configuração de redes domésticas e pequenas empresas</li>
+                <li><i class="bullet-icon fas fa-code"></i> Programação: Desenvolvimento de sistemas e automações</li>
+                <li><i class="bullet-icon fas fa-robot"></i> Robótica: Projetos com Arduino e automação</li>
+            </ul>
+        </div>
+
+        <!-- SEÇÃO VERDE - PALESTRAS E EVENTOS -->
+        <div class="cv-section green-section">
+            <h2><i class="section-icon fas fa-chalkboard-teacher"></i> PALESTRAS E EVENTOS</h2>
+            <ul>
+                <li><i class="bullet-icon fas fa-microphone"></i> Palestrante sobre desenvolvimento Arduino</li>
+                <li><i class="bullet-icon fas fa-users"></i> Participação em Feira do Empreendedor e Desafio SEBRAE</li>
+                <li><i class="bullet-icon fas fa-calendar-check"></i> Organização de eventos acadêmicos de TI</li>
+                <li><i class="bullet-icon fas fa-lightbulb"></i> Mentorias para iniciantes em tecnologia</li>
+            </ul>
+        </div>
     </div>
-    <div class="cv-section">
-      <h2>FORMAÇÃO ACADÊMICA</h2>
-      <div class="cv-item">
-        <h3>Bacharelado em Engenharia da Computação</h3>
-        <p>Instituto de Estudos Superiores da Amazônia (IESAM) - 2011-2016</p>
-        <ul>
-          <li>Participou do Clube de Tecnologia</li>
-          <li>Palestrante desenvolvimento Arduino</li>
-          <li>Palestrante na Feira do Empreendedor e Desafio SEBRAE 2011-2017</li>
-        </ul>
-      </div>
-      <div class="cv-item">
-        <h3>Pós-Graduação Lato Sensu em Engenharia de Redes e Telecomunicações</h3>
-        <p>Faculdade Estácio - 2017-2018</p>
-        <ul>
-          <li>Desenvolvimento de Projetos variados voltados à robótica</li>
-          <li>Organização de eventos na Faculdade voltados a TI</li>
-        </ul>
-      </div>
-    </div>
-    <div class="cv-section">
-      <h2>EXPERIÊNCIA PROFISSIONAL</h2>
-      <div class="cv-item">
-        <h3>Técnico em manutenção de computadores</h3>
-        <p>50$ Computadores</p>
-        <ul>
-          <li>Limpeza, Programação e manutenção de software e hardware</li>
-          <li>Configuração e montagem de Desktops, Micro Computadores e notebooks</li>
-          <li>Configuração de Redes e sistemas em domicílio</li>
-          <li>Consultor de Tecnologia e aquisição de hardware e sistemas</li>
-        </ul>
-      </div>
-      <div class="cv-item">
-        <h3>Assistente Desenvolvedor e programação</h3>
-        <p>Mac manutenções</p>
-        <ul>
-          <li>Limpeza e configuração de micro-computadores</li>
-          <li>Agendamento de arquivos de backup para diretórios oficiais</li>
-          <li>Projetos online e consultas por e-mail de clientes</li>
-        </ul>
-      </div>
-    </div>
-  </div>
   `;
 }
 
