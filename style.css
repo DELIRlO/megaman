@@ -15,6 +15,7 @@
   outline: 1px solid red !important; /* Destaca todos os elementos 
 } 
 */
+/* GARANTE FUNDO PRETO */
 
 #audio-debug {
   position: absolute;
@@ -729,13 +730,43 @@ body:hover {
 .megaman-transition {
   position: fixed;
   top: 50%;
-  left: -100px;
+  left: -100px; /* Roxo sólido */
   transform: translateY(-50%);
   z-index: 2000;
   pointer-events: none;
 }
 
 .megaman-sprite {
+  .transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(
+      138,
+      43,
+      226,
+      0
+    ); /* Roxo, inicialmente transparente */
+    z-index: 1999;
+    pointer-events: none;
+    transition: background-color 0.5s ease-in-out;
+  }
+
+  .transition-overlay.active {
+    background-color: rgba(138, 43, 226, 0.5); /* 50% de transparência */
+    animation: speed-lines 0.8s linear infinite;
+  }
+
+  @keyframes speed-lines {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
   width: 64px;
   height: 64px;
   background: url("https://delirlo.github.io/megaman/assets/sprites/megaman-running.gif")

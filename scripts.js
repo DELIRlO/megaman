@@ -322,7 +322,7 @@ function navigateToPage(pageName) {
     if (window.audioSystem) {
       window.audioSystem.play("teleport");
     }
-  }, 1000);
+  }, 1000); // Mantido em 1s para o som, a transição visual cuidará do resto
 }
 
 function createPage(pageName) {
@@ -553,11 +553,16 @@ function createContatoPage() {
 
 function triggerMegamanTransition() {
   const megamanTransition = document.getElementById("megaman-transition");
-  if (megamanTransition) {
+  const overlay = document.getElementById("transition-overlay");
+
+  if (megamanTransition && overlay) {
+    overlay.classList.add("active");
     megamanTransition.classList.add("active");
+
     setTimeout(() => {
+      overlay.classList.remove("active");
       megamanTransition.classList.remove("active");
-    }, 2000);
+    }, 1500); // Duração total da transição
   }
 }
 
@@ -842,16 +847,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function triggerMegamanTransition() {
-  const bg = document.querySelector(".megaman-bg");
-  const transition = document.querySelector(".megaman-transition");
+  const megamanTransition = document.getElementById("megaman-transition");
+  const overlay = document.getElementById("transition-overlay");
 
-  bg.classList.add("active");
-  transition.classList.add("active");
+  if (megamanTransition && overlay) {
+    overlay.classList.add("active");
+    megamanTransition.classList.add("active");
 
-  setTimeout(() => {
-    bg.classList.remove("active");
-    transition.classList.remove("active");
-  }, 2000);
+    setTimeout(() => {
+      overlay.classList.remove("active");
+      megamanTransition.classList.remove("active");
+    }, 1500); // Duração total da transição
+  }
 }
 
 function generateHorizontalLines() {
