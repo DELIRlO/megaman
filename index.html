@@ -34,154 +34,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <!-- Substitua esta seção -->
-    <div
-      class="audio-controls-top"
-      style="
-        display: absolute;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-      "
-    >
-      <div style="display: flex; gap: 5px">
-        <div
-          class="menu-item audio-control"
-          id="music-button"
-          onclick="window.audioSystem.toggleBackgroundMusic()"
-          style="width: 47px; height: 40px"
-        >
-          <div class="menu-icon" id="music-icon">
-            <i class="fas fa-music"></i>
-          </div>
-        </div>
-        <div
-          class="menu-item audio-control"
-          onclick="window.audioSystem.toggleMute()"
-          style="width: 48px; height: 40px"
-        >
-          <div class="menu-icon" id="mute-icon">
-            <i class="fas fa-volume-up"></i>
-          </div>
-        </div>
-
-        <!-- Adicione este botão de menu -->
-        <div
-          class="menu-item audio-control"
-          id="social-menu-button"
-          style="width: 48px; height: 40px"
-          onclick="toggleSocialMenu()"
-        >
-          <div class="menu-icon"><i class="fas fa-share-alt"></i></div>
-        </div>
-      </div>
-
-      <!-- Container das redes sociais (inicialmente escondido) -->
-      <div
-        id="social-buttons-container"
-        style="
-          display: none;
-          flex-direction: column;
-          gap: 5px;
-          margin-left: -10px;
-        "
-      >
-        <a
-          href="https://t.me/ysneshy2025"
-          target="_blank"
-          class="menu-item social-control"
-          style="width: 48px; height: 40px"
-          title="Telegram"
-        >
-          <div class="menu-icon"><i class="fab fa-telegram"></i></div>
-        </a>
-        <a
-          href="https://github.com/delirlo"
-          target="_blank"
-          class="menu-item social-control"
-          style="width: 48px; height: 40px"
-          title="GitHub"
-        >
-          <div class="menu-icon"><i class="fab fa-github"></i></div>
-        </a>
-        <a
-          href="https://linkedin.com/in/ysneshy/"
-          target="_blank"
-          class="menu-item social-control"
-          style="width: 48px; height: 40px"
-          title="LinkedIn"
-        >
-          <div class="menu-icon"><i class="fab fa-linkedin"></i></div>
-        </a>
-        <a
-          href="https://instagram.com/ysneshy"
-          target="_blank"
-          class="menu-item social-control"
-          style="width: 48px; height: 40px"
-          title="Instagram"
-        >
-          <div class="menu-icon"><i class="fab fa-instagram"></i></div>
-        </a>
-
-        <!-- Botão de controle do Mega Man -->
-        <div
-          class="menu-item social-control"
-          id="megaman-control-button"
-          style="width: 48px; height: 40px; display: none"
-          title="Controles do Mega Man"
-          onclick="toggleMegamanControls()"
-        >
-          <div class="menu-icon"><i class="fas fa-star"></i></div>
-        </div>
-      </div>
-
-      <!-- Container dos controles do Mega Man (inicialmente escondido) -->
-      <div
-        id="megaman-controls-container"
-        style="
-          display: none;
-          flex-direction: column;
-          gap: 5px;
-          margin-left: -10px;
-          margin-top: 5px;
-        "
-      >
-        <div
-          class="menu-item megaman-control"
-          style="width: 48px; height: 40px"
-          title="Ativar Mega Man"
-          onclick="megamanControlAction('on')"
-        >
-          <div class="menu-icon"><i class="fas fa-play"></i></div>
-        </div>
-        <div
-          class="menu-item megaman-control"
-          style="width: 48px; height: 40px"
-          title="Desativar Mega Man"
-          onclick="megamanControlAction('off')"
-        >
-          <div class="menu-icon"><i class="fas fa-stop"></i></div>
-        </div>
-        <div
-          class="menu-item megaman-control"
-          style="width: 48px; height: 40px"
-          title="Forçar Tiro"
-          onclick="megamanControlAction('shoot')"
-        >
-          <div class="menu-icon"><i class="fas fa-crosshairs"></i></div>
-        </div>
-        <div
-          class="menu-item megaman-control"
-          style="width: 48px; height: 40px"
-          title="Forçar Movimento"
-          onclick="megamanControlAction('move')"
-        >
-          <div class="menu-icon"><i class="fas fa-running"></i></div>
-        </div>
-      </div>
-    </div>
 
     <style>
       /* Remove todos os cursores padrão */
@@ -203,6 +55,120 @@
     </style>
   </head>
   <body>
+    <header id="main-header">
+      <!-- Controles de Áudio e Sociais (Esquerda) -->
+      <div class="header-left">
+        <div class="audio-controls-top">
+          <div
+            class="menu-item audio-control"
+            id="music-button"
+            onclick="window.audioSystem.toggleBackgroundMusic()"
+          >
+            <div class="menu-icon" id="music-icon">
+              <i class="fas fa-music"></i>
+            </div>
+          </div>
+          <div
+            class="menu-item audio-control"
+            onclick="window.audioSystem.toggleMute()"
+          >
+            <div class="menu-icon" id="mute-icon">
+              <i class="fas fa-volume-up"></i>
+            </div>
+          </div>
+          <div
+            class="menu-item audio-control"
+            id="social-menu-button"
+            onclick="toggleSocialMenu()"
+          >
+            <div class="menu-icon"><i class="fas fa-share-alt"></i></div>
+          </div>
+        </div>
+        <div id="social-buttons-container">
+          <a
+            href="https://t.me/ysneshy2025"
+            target="_blank"
+            class="menu-item social-control"
+            title="Telegram"
+            ><div class="menu-icon"><i class="fab fa-telegram"></i></div
+          ></a>
+          <a
+            href="https://github.com/delirlo"
+            target="_blank"
+            class="menu-item social-control"
+            title="GitHub"
+            ><div class="menu-icon"><i class="fab fa-github"></i></div
+          ></a>
+          <a
+            href="https://linkedin.com/in/ysneshy/"
+            target="_blank"
+            class="menu-item social-control"
+            title="LinkedIn"
+            ><div class="menu-icon"><i class="fab fa-linkedin"></i></div
+          ></a>
+          <a
+            href="https://instagram.com/ysneshy"
+            target="_blank"
+            class="menu-item social-control"
+            title="Instagram"
+            ><div class="menu-icon"><i class="fab fa-instagram"></i></div
+          ></a>
+          <div
+            class="menu-item social-control"
+            id="megaman-control-button"
+            title="Controles do Mega Man"
+            onclick="toggleMegamanControls()"
+          >
+            <div class="menu-icon"><i class="fas fa-star"></i></div>
+          </div>
+        </div>
+        <div id="megaman-controls-container">
+          <div
+            class="menu-item megaman-control"
+            title="Ativar Mega Man"
+            onclick="megamanControlAction('on')"
+          >
+            <div class="menu-icon"><i class="fas fa-play"></i></div>
+          </div>
+          <div
+            class="menu-item megaman-control"
+            title="Desativar Mega Man"
+            onclick="megamanControlAction('off')"
+          >
+            <div class="menu-icon"><i class="fas fa-stop"></i></div>
+          </div>
+          <div
+            class="menu-item megaman-control"
+            title="Forçar Tiro"
+            onclick="megamanControlAction('shoot')"
+          >
+            <div class="menu-icon"><i class="fas fa-crosshairs"></i></div>
+          </div>
+          <div
+            class="menu-item megaman-control"
+            title="Forçar Movimento"
+            onclick="megamanControlAction('move')"
+          >
+            <div class="menu-icon"><i class="fas fa-running"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Score (Centro) -->
+      <div id="audio-debug"></div>
+
+      <!-- Menu Móvel (Direita) -->
+      <div class="header-right">
+        <div class="mobile-menu-shortcut" id="mobile-shortcut">
+          <div class="shortcut-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
     <!-- Div do cursor (coloque como PRIMEIRO elemento do body) -->
     <div id="custom-cursor"></div>
 
@@ -211,15 +177,6 @@
       class="horizontal-lines-container"
       id="horizontal-lines-container"
     ></div>
-
-    <!-- Menu Móvel -->
-    <div class="mobile-menu-shortcut" id="mobile-shortcut">
-      <div class="shortcut-dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
 
     <div class="mobile-menu-overlay" id="mobile-overlay">
       <div class="mobile-menu-content">
@@ -587,7 +544,6 @@
       </svg>
       <div class="energy-pulse"></div>
     </div>
-    <div id="audio-debug"></div>
     <script>
       function toggleSocialMenu() {
         const container = document.getElementById("social-buttons-container");
