@@ -2517,14 +2517,16 @@ body:hover {
 /* Texto e listas */
 .cv-item p,
 .cv-item ul {
-  margin-left: 15px;
+  margin-left: 0;
+  padding-left: 0;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9); /* Texto com leve transparência */
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .cv-item p {
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
 }
 
 .cv-item li {
@@ -3255,11 +3257,6 @@ li {
   margin-right: 10px;
   font-size: 0.9em;
   min-width: 20px;
-  position: relative;
-  top: -2px;
-}
-
-.cv-item p .bullet-icon {
   position: relative;
   top: -2px;
 }
