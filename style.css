@@ -258,7 +258,8 @@ body:hover {
 }
 /* Adicione isso APÓS o CSS do portfólio efeito starfield melhorada */
 @media (max-width: 768px) {
-  #custom-cursor {
+  #custom-cursor,
+  #audio-debug {
     display: none !important;
   }
 }
