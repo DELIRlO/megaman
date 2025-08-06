@@ -153,6 +153,11 @@ body {
   .project-card {
     width: 80%;
   }
+  .project-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
 }
 @media (max-width: 576px) {
   .project-card {

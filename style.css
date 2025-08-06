@@ -1,4 +1,8 @@
-/* Estilos para a barra de score (#audio-debug) */
+/*
+* {
+  outline: 1px solid red !important;
+}
+ */
 
 :root {
   --color-primary: #8a2be2; /* Roxo */
@@ -9,10 +13,6 @@
   --font-main: "Press Start 2P", monospace;
 }
 
-/*body * {
-  outline: 1px solid red !important; /* Destaca todos os elementos 
-}
-*/
 /* GARANTE FUNDO PRETO */
 body:after {
   content: "";

@@ -36,7 +36,7 @@ function createProjetosPage() {
             class="project-image"
           />
           <div class="project-info">
-            <h2>whatszap_clone</h2>
+            <h2>whats_clone</h2>
             <p>whatszap_clone em TypeScript + react.</p>
             <div class="project-tech">
               <span class="tech-tag react">react</span>
