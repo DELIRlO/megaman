@@ -320,3 +320,8 @@ Não funciona no mobile Verifique se o terminal está acessível
 Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025 whatszap 91 88199828
 - ````
 `````
+
+### 🌐 Links
+
+- **GitHub Pages**: [delirlo.github.io/megaman/](https://delirlo.github.io/megaman/)
+- **Vercel**: [megaman.vercel.app](https://carlosdiniz.vercel.app)
