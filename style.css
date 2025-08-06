@@ -263,6 +263,11 @@ body:hover {
     auto;
 }
 /* Adicione isso APÓS o CSS do portfólio efeito starfield melhorada */
+@media (max-width: 768px) {
+  #custom-cursor {
+    display: none !important;
+  }
+}
 .stars-container {
   --star-color-primary: #d63c4d !important;
   --star-color-bright: #1d92d5 !important;
@@ -2995,5 +3000,6 @@ body:hover {
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
+    top: auto;
   }
 }
