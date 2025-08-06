@@ -1,21 +1,4 @@
 /* Estilos para a barra de score (#audio-debug) */
-
-:root {
-  --color-primary: #8a2be2; /* Roxo */
-  --color-secondary: #00ffff; /* Azul Neon */
-  --color-background: #000000; /* Preto */
-  --color-text: #ffffff;
-  --color-accent: #ff00ff;
-  --font-main: "Press Start 2P", monospace;
-}
-
-/* GARANTE FUNDO PRETO */
-
-/*body * {
-  outline: 1px solid red !important; /* Destaca todos os elementos 
-} 
-*/
-
 #audio-debug {
   position: absolute;
   top: 10px;
@@ -36,6 +19,30 @@
   white-space: nowrap;
 }
 
+/* Ocultar a barra de score em telas muito pequenas */
+@media (max-width: 299px) {
+  #audio-debug {
+    display: none;
+  }
+}
+
+/* Centralizar a barra de score em telas de 300px a 405px */
+@media (min-width: 300px) and (max-width: 405px) {
+  #audio-debug {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 65px; /* Ajuste para não sobrepor outros elementos */
+    width: auto;
+    max-width: 90%;
+  }
+}
+
+/* Ocultar a barra de score em outras resoluções de celular para não cobrir o título */
+@media (min-width: 406px) and (max-width: 768px) {
+  #audio-debug {
+    display: none;
+  }
+}
 /* Importação da fonte Press Start 2P */
 @font-face {
   font-family: "Press Start 2P";
@@ -70,6 +77,15 @@
 .terminal-prompt,
 .terminal-input {
   font-family: "Press Start 2P", monospace;
+}
+
+:root {
+  --color-primary: #8a2be2; /* Roxo */
+  --color-secondary: #00ffff; /* Azul Neon */
+  --color-background: #000000; /* Preto */
+  --color-text: #ffffff;
+  --color-accent: #ff00ff;
+  --font-main: "Press Start 2P", monospace;
 }
 
 /* Estilo base para os botões do menu */
@@ -252,7 +268,6 @@ body:hover {
     display: none !important;
   }
 }
-
 .stars-container {
   --star-color-primary: #d63c4d !important;
   --star-color-bright: #1d92d5 !important;
@@ -277,6 +292,7 @@ body:hover {
   z-index: -1;
   pointer-events: none;
 }
+
 .star {
   position: absolute;
   background-color: var(--color-primary);
@@ -327,7 +343,7 @@ body:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--color-background);
+  background: radial-gradient(ellipse at center, #0a0a20 0%, #000000 100%);
   z-index: 9999;
   transition: opacity 0.5s ease-out;
   overflow: hidden;
@@ -724,6 +740,22 @@ body:hover {
 /* Transição Megaman */
 
 /* Nova camada APENAS para o fundo roxo */
+.megaman-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(138, 43, 226, 0.2);
+  z-index: 1999; /* Um abaixo do Mega Man */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.megaman-bg.active {
+  opacity: 1;
+}
 
 /* Transição Megaman ORIGINAL - NÃO ALTERADA */
 .megaman-transition {
@@ -2435,19 +2467,22 @@ body:hover {
   background: #bf02ee;
 }
 
+/* Container principal transparente */
 .page-content {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
-  background: var(--color-background);
+  background: transparent; /* Fundo transparente */
 }
 
+/* Seções do currículo transparentes */
 .cv-section {
   margin: 30px 0;
   padding: 25px;
-  background: transparent;
+  background: transparent; /* Levemente transparente */
   border-radius: 10px;
-  border: 1px solid rgba(52, 152, 219, 0.7);
+  backdrop-filter: blur(5px); /* Efeito de vidro fosco - opcional */
+  border: 1px solid rgba(52, 152, 219, 0.7); /* Borda sutil */
 }
 
 /* Itens individuais */
@@ -2535,7 +2570,7 @@ body:hover {
 }
 
 .page-content {
-  background: var(--color-background);
+  background: rgba(138, 43, 226, 0.15); /* Quase transparente */
 }
 
 /* === MEGA MAN CHARACTER STYLES === */
@@ -2754,6 +2789,11 @@ body:hover {
     transform: translateX(-0.5px) rotate(-0.1deg);
   }
 }
+
+/* Animação de regeneração com brilho e pulsação */
+/* A animação de regeneração @keyframes foi removida para evitar conflito
+   com a animação controlada por JavaScript, que causava um "efeito fantasma".
+   A animação agora é gerenciada exclusivamente em megaman-controller.js. */
 
 /* Efeito adicional para letras quebrando - cintilação */
 @keyframes letterBreaking {

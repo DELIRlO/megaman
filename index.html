@@ -29,6 +29,7 @@
     />
 
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="projetos.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -241,10 +242,10 @@
             <div class="menu-icon">📚</div>
             <span class="menu-label">CURRÍCULO</span>
           </div>
-          <a href="projetos.html" class="mobile-menu-item">
+          <div class="mobile-menu-item" data-page="projetos">
             <div class="menu-icon">👨‍💻</div>
             <span class="menu-label">PROJETOS</span>
-          </a>
+          </div>
           <div class="mobile-menu-item" data-page="cursos">
             <div class="menu-icon">🎓</div>
             <span class="menu-label">CURSOS</span>
@@ -322,7 +323,6 @@
             class="loading-image"
           />
           <h1 class="loading-title">CARREGANDO</h1>
-          <p class="loading-subtitle">Inicializando Portfolio...</p>
         </div>
 
         <div class="loading-progress">
@@ -348,10 +348,10 @@
         <div class="menu-icon">📚</div>
         <span class="menu-label">CURRICULO</span>
       </div>
-      <a href="projetos.html" class="menu-item">
+      <div class="menu-item" data-page="projetos">
         <div class="menu-icon">👨‍💻</div>
         <span class="menu-label">PROJETOS</span>
-      </a>
+      </div>
       <div class="menu-item" data-page="cursos">
         <div class="menu-icon">🎓</div>
         <span class="menu-label">CURSOS</span>
@@ -503,6 +503,7 @@
     <script src="scripts.js"></script>
     <script src="carousel.js"></script>
     <script src="loading-system.js"></script>
+    <script src="pages/projetos.js"></script>
 
     <script>
       function updateAudioIcons() {

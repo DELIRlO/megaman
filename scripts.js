@@ -25,6 +25,18 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeAudioControls();
   initializeBackToTop();
   populateCarouselHTML();
+
+  // Adicionado para lidar com a navegação entre páginas
+  const targetPage = localStorage.getItem("targetPage");
+  if (targetPage) {
+    localStorage.removeItem("targetPage"); // Limpa para não afetar futuros carregamentos
+
+    // A transição e a navegação precisam de um pequeno atraso
+    // para garantir que tudo foi inicializado corretamente.
+    setTimeout(() => {
+      navigateToPage(targetPage);
+    }, 100);
+  }
 });
 
 function initializeMobileMenus() {
@@ -322,6 +334,9 @@ function createPage(pageName) {
   switch (pageName) {
     case "sobre":
       page.innerHTML = createSobrePage();
+      break;
+    case "projetos":
+      page.innerHTML = createProjetosPage();
       break;
     case "curriculo":
       page.innerHTML = createCurriculoPage();

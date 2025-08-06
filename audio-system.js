@@ -22,6 +22,8 @@ class AudioSystem {
           window.webkitAudioContext)();
       }
 
+      this.loadState();
+      this.loadState();
       await this.loadSounds();
       this.initialized = true;
       console.log("🎵 Sistema de áudio inicializado");
@@ -90,6 +92,7 @@ class AudioSystem {
   // Controle da música de fundo
   toggleBackgroundMusic() {
     this.backgroundMusicEnabled = !this.backgroundMusicEnabled;
+    this.saveState();
 
     if (!this.backgroundMusicEnabled) {
       this.stopBackgroundMusic();
@@ -132,6 +135,7 @@ class AudioSystem {
 
   toggleMute() {
     this.isMuted = !this.isMuted;
+    this.saveState();
 
     if (this.isMuted) {
       this.stopBackgroundMusic();
@@ -227,6 +231,34 @@ class AudioSystem {
       }
     } catch (error) {
       console.warn("⚠️ Erro no som sintetizado:", error);
+    }
+  }
+
+  saveState() {
+    try {
+      localStorage.setItem("audioIsMuted", this.isMuted.toString());
+      localStorage.setItem(
+        "audioBgMusicEnabled",
+        this.backgroundMusicEnabled.toString()
+      );
+    } catch (e) {
+      console.error("Failed to save audio state to localStorage.", e);
+    }
+  }
+
+  loadState() {
+    try {
+      const storedIsMuted = localStorage.getItem("audioIsMuted");
+      if (storedIsMuted !== null) {
+        this.isMuted = storedIsMuted === "true";
+      }
+
+      const storedBgMusicEnabled = localStorage.getItem("audioBgMusicEnabled");
+      if (storedBgMusicEnabled !== null) {
+        this.backgroundMusicEnabled = storedBgMusicEnabled === "true";
+      }
+    } catch (e) {
+      console.error("Failed to load audio state from localStorage.", e);
     }
   }
 }
