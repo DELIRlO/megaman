@@ -1739,6 +1739,8 @@ body:hover {
 
   .page-content h2 {
     font-size: 14px;
+    word-break: break-word;
+    white-space: normal;
   }
 }
 

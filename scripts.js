@@ -368,7 +368,7 @@ function createSobrePage() {
       </div>
       <h1 style="color: #34f2fd;"><i class="fas fa-user-tie" style="position: relative; top: -2px;"></i> SOBRE MIM</h1>
     </div>
-    <h2><i class="fas fa-code red-icon" style="font-size: 15px;"></i> Desenvolvedor Full-Stack | <i class="fas fa-network-wired red-icon" style="font-size: 15px;"></i> Redes | <i class="fas fa-paint-brush red-icon" style="font-size: 15px;"></i> UX/UI</h2>
+    <h2><i class="fas fa-code red-icon" style="font-size: 15px;"></i> Desenvolvedor Full-Stack | <i class="fas fa-network-wired red-icon" style="font-size: 15px;"></i> Redes </i></h2>
   </div>
   <div class="content-overlay">
     <div class="about-text">
