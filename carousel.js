@@ -118,13 +118,15 @@ function startCarousel() {
   }
 
   // Calcula a largura do slide corretamente APÓS ser exibido
+  const isMobile = window.innerWidth <= 768;
   const slideWidth = slides[0].clientWidth;
+  const slideHeight = slides[0].clientHeight;
   const slideMargin = parseInt(window.getComputedStyle(slides[0]).marginRight);
   const totalSlideWidth = slideWidth + slideMargin * 2;
+  const totalSlideHeight = slideHeight;
 
-  if (totalSlideWidth === 0) {
-    return;
-  }
+  if (isMobile && totalSlideHeight === 0) return;
+  if (!isMobile && totalSlideWidth === 0) return;
 
   let currentIndex = 0;
   let autoplayInterval = null;
@@ -151,7 +153,11 @@ function startCarousel() {
   };
 
   const updateCarousel = () => {
-    track.style.transform = `translateX(-${currentIndex * totalSlideWidth}px)`;
+    if (isMobile) {
+      track.style.transform = `translateY(-${currentIndex * totalSlideHeight}px)`;
+    } else {
+      track.style.transform = `translateX(-${currentIndex * totalSlideWidth}px)`;
+    }
     updateDots();
   };
 
@@ -178,10 +184,40 @@ function startCarousel() {
     moveNext();
     if (window.audioSystem) window.audioSystem.play("click");
   });
-  prevButton.addEventListener("click", () => {
-    movePrev();
-    if (window.audioSystem) window.audioSystem.play("click");
-  });
+  const upButton = document.querySelector(".carousel-button.up");
+  const downButton = document.querySelector(".carousel-button.down");
+
+  if (isMobile) {
+    prevButton.style.display = "none";
+    nextButton.style.display = "none";
+    if (upButton) upButton.style.display = "block";
+    if (downButton) downButton.style.display = "block";
+
+    if (upButton)
+      upButton.addEventListener("click", () => {
+        movePrev();
+        if (window.audioSystem) window.audioSystem.play("click");
+      });
+    if (downButton)
+      downButton.addEventListener("click", () => {
+        moveNext();
+        if (window.audioSystem) window.audioSystem.play("click");
+      });
+  } else {
+    if (upButton) upButton.style.display = "none";
+    if (downButton) downButton.style.display = "none";
+    prevButton.style.display = "block";
+    nextButton.style.display = "block";
+
+    prevButton.addEventListener("click", () => {
+      movePrev();
+      if (window.audioSystem) window.audioSystem.play("click");
+    });
+    nextButton.addEventListener("click", () => {
+      moveNext();
+      if (window.audioSystem) window.audioSystem.play("click");
+    });
+  }
   container.addEventListener("mouseenter", stopAutoplay);
   container.addEventListener("mouseleave", startAutoplay);
 

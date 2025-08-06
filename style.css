@@ -2930,6 +2930,7 @@ body:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .carousel-caption {
@@ -2954,8 +2955,45 @@ body:hover {
 }
 
 @media (max-width: 768px) {
+  .carousel-container {
+    height: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .carousel-track {
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+  .carousel-slide {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+  }
   .carousel-track img {
-    width: 150px;
-    height: 112px;
+    width: 80%;
+    height: auto;
+    margin: 0 auto;
+  }
+  .carousel-dots-container {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .carousel-button.up {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .carousel-button.down {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
