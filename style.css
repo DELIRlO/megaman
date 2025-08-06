@@ -1,87 +1,45 @@
-/* Estilos do Cabeçalho e Responsividade */
-#main-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  z-index: 1100; /* Alto z-index para ficar na frente de tudo */
-  pointer-events: none; /* Permite cliques através do header */
-}
-
-#main-header > * {
-  pointer-events: auto; /* Reativa eventos de ponteiro para os filhos diretos */
-}
-
-/* Controles da Esquerda */
-.header-left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.audio-controls-top {
-  display: flex;
-  gap: 5px;
-}
-
-#social-buttons-container,
-#megaman-controls-container {
-  display: none; /* Escondido por padrão, controlado por JS */
-  flex-direction: column;
-  gap: 5px;
-  margin-top: 5px;
-}
-
-/* Barra de Score (Centro) */
+/* Estilos para a barra de score (#audio-debug) */
 #audio-debug {
+  position: absolute;
+  top: 10px;
+  left: 170px;
   background: rgba(0, 0, 0, 0.2);
   color: #fff;
   padding: 5px 10px;
   font-family: "Press Start 2P", cursive;
   font-size: 10px;
   border-radius: 4px;
-  border: 1px solid var(--color-primary);
+  z-index: 1000;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  border: 1px solid #8a2be2;
   backdrop-filter: blur(2px);
+  max-width: 80%;
   white-space: nowrap;
 }
 
-/* Controles da Direita */
-.header-right {
-  display: flex;
-}
-
-/* Responsividade Geral */
-@media (max-width: 768px) {
-  #main-header {
-    align-items: flex-start;
-    padding: 15px;
-  }
-
-  .floating-menu {
+/* Ocultar a barra de score em telas muito pequenas */
+@media (max-width: 299px) {
+  #audio-debug {
     display: none;
   }
+}
 
-  .mobile-menu-shortcut {
-    display: flex;
-  }
-
+/* Centralizar a barra de score em telas de 300px a 405px */
+@media (min-width: 300px) and (max-width: 405px) {
   #audio-debug {
-    position: absolute;
-    top: 15px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 8px; /* Reduz a fonte em telas menores */
-    padding: 4px 8px;
+    top: 65px; /* Ajuste para não sobrepor outros elementos */
+    width: auto;
+    max-width: 90%;
   }
 }
 
-@media (max-width: 480px) {
+/* Ocultar a barra de score em outras resoluções de celular para não cobrir o título */
+@media (min-width: 406px) and (max-width: 768px) {
   #audio-debug {
-    /* Esconde a barra em telas muito pequenas para evitar quebra */
     display: none;
   }
 }
@@ -115,10 +73,6 @@
 }
 
 /* Se quiser aplicar apenas a elementos específicos: */
-html {
-  font-size: 16px; /* Base para o REM */
-}
-
 .terminal-title,
 .terminal-prompt,
 .terminal-input {
@@ -141,7 +95,7 @@ html {
   border: 3px solid var(--arcade-black);
   padding: 10px 15px;
   text-decoration: none;
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -533,19 +487,22 @@ body:hover {
 }
 
 .menu-icon {
-  font-size: 1rem;
-  margin-right: 0.625rem;
+  font-size: 16px;
+  margin-right: 10px;
 }
 
 .menu-label {
-  font-size: 0.5rem;
+  font-size: 8px;
   white-space: nowrap;
 }
 
 /* Estilo para os controles de áudio no topo */
 .audio-controls-top {
+  position: fixed;
+  top: 20px;
+  left: 20px;
   display: flex;
-  gap: 0.9375rem;
+  gap: 15px;
   z-index: 1000;
 }
 
@@ -568,8 +525,8 @@ body:hover {
   border: 2px solid var(--color-secondary);
   color: var(--color-text);
   font-family: var(--font-main);
-  font-size: 1rem;
-  padding: 0.625rem;
+  font-size: 16px;
+  padding: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -585,14 +542,14 @@ body:hover {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 10px;
 }
 
 .social-link {
   display: block;
   background: rgba(0, 255, 255, 0.8);
   border: 2px solid var(--color-primary);
-  padding: 0.625rem;
+  padding: 10px;
   text-decoration: none;
   color: var(--color-text);
   transition: all 0.3s ease;
@@ -608,14 +565,14 @@ body:hover {
 /* Conteúdo Principal */
 .main-content {
   min-height: 100vh;
-  padding: 1.25rem;
-  margin-right: 12.5rem;
+  padding: 20px;
+  margin-right: 200px;
 }
 
 .page {
   display: none;
   min-height: 100vh;
-  padding: 2.5rem 1.25rem;
+  padding: 40px 20px;
 }
 
 .page.active {
@@ -637,14 +594,14 @@ body:hover {
 /* Hero Section */
 .hero-section {
   text-align: center;
-  max-width: 50rem;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .hero-avatar {
-  width: 8rem;
-  height: 8rem;
-  margin: 0 auto 1.875rem;
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 30px;
   position: relative;
   cursor: pointer;
 }
@@ -664,7 +621,7 @@ body:hover {
 }
 
 .hero-title {
-  font-size: 1.5rem; /* 24px */
+  font-size: 24px;
   color: var(--color-secondary);
   margin-bottom: 10px;
   text-shadow: 2px 2px 0 var(--color-primary);
@@ -683,13 +640,13 @@ body:hover {
 }
 
 .hero-subtitle {
-  font-size: 1rem; /* 16px */
+  font-size: 16px;
   color: var(--color-primary);
   margin-bottom: 30px;
 }
 
 .hero-description {
-  font-size: 0.75rem; /* 12px */
+  font-size: 12px;
   line-height: 1.8;
   margin-bottom: 40px;
   max-width: 600px;
@@ -716,7 +673,7 @@ body:hover {
 }
 
 .terminal-title {
-  font-size: 0.625rem; /* 10px */
+  font-size: 10px;
   font-weight: bold;
 }
 
@@ -728,40 +685,40 @@ body:hover {
 .terminal-btn {
   background: var(--color-background);
   color: var(--color-secondary);
-  padding: 0.125rem 0.375rem; /* 2px 6px */
-  font-size: 0.5rem; /* 8px */
+  padding: 2px 6px;
+  font-size: 8px;
   cursor: pointer;
 }
 
 .terminal-body {
-  padding: 0.9375rem; /* 15px */
-  min-height: 12.5rem; /* 200px */
+  padding: 15px;
+  min-height: 200px;
 }
 
 .terminal-line {
-  margin-bottom: 0.625rem; /* 10px */
+  margin-bottom: 10px;
 }
 
 .terminal-prompt {
   color: var(--color-secondary);
-  font-size: 0.75rem; /* 12px */
+  font-size: 12px;
 }
 
 .terminal-cursor {
   animation: blink 1s infinite;
-  font-size: 0.75rem; /* 12px */
+  font-size: 12px;
 }
 
 .terminal-output {
-  margin: 0.625rem 0; /* 10px */
-  font-size: 0.625rem; /* 10px */
+  margin: 10px 0;
+  font-size: 10px;
   line-height: 1.4;
 }
 
 .terminal-input-line {
   display: flex;
   align-items: center;
-  margin-top: 0.625rem; /* 10px */
+  margin-top: 10px;
 }
 
 .terminal-input {
@@ -769,10 +726,10 @@ body:hover {
   border: none;
   color: var(--color-text);
   font-family: "Courier New", monospace;
-  font-size: 0.75rem; /* 12px */
+  font-size: 12px;
   outline: none;
   flex: 1;
-  margin-left: 0.3125rem; /* 5px */
+  margin-left: 5px;
 }
 
 /* Transição Megaman */
@@ -1168,15 +1125,15 @@ body:hover {
   }
 
   .hero-title {
-    font-size: 1rem; /* 16px */
+    font-size: 16px;
   }
 
   .hero-subtitle {
-    font-size: 0.75rem; /* 12px */
+    font-size: 12px;
   }
 
   .hero-description {
-    font-size: 0.625rem; /* 10px */
+    font-size: 10px;
   }
 
   .terminal {
@@ -1187,8 +1144,8 @@ body:hover {
   .menu-item,
   .mobile-menu-item,
   .mobile-social-item {
-    min-height: 48px;
-    min-width: 48px;
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 
@@ -1344,15 +1301,15 @@ body:hover {
 }
 
 .page-content h1 {
-  font-size: 1.5rem; /* 24px */
+  font-size: 24px;
   color: var(--color-secondary);
   text-align: center;
-  margin-bottom: 2.5rem; /* 40px */
+  margin-bottom: 40px;
   text-shadow: 2px 2px 0 var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 15px;
 }
 
 .page-content h1 .fa-graduation-cap {
@@ -1361,11 +1318,11 @@ body:hover {
 }
 
 .page-content h2 {
-  font-size: 1rem; /* 16px */
+  font-size: 16px;
   color: var(--color-primary);
-  margin: 1.875rem 0 1.25rem 0; /* 30px 0 20px 0 */
+  margin: 30px 0 20px 0;
   border-bottom: 2px solid var(--color-secondary);
-  padding-bottom: 0.625rem; /* 10px */
+  padding-bottom: 10px;
 }
 
 .page-content h3 {
@@ -1392,10 +1349,9 @@ body:hover {
 
 /* Página Sobre */
 .about-section {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
   margin-bottom: 40px;
   align-items: center;
 }
@@ -1421,10 +1377,9 @@ body:hover {
 }
 
 .stats-section {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   margin-top: 40px;
 }
 
@@ -1474,8 +1429,8 @@ body:hover {
 /* Página Projetos */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
   margin-top: 30px;
 }
 
@@ -1733,12 +1688,20 @@ body:hover {
 
 /* Responsividade para páginas */
 @media (max-width: 768px) {
+  .about-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 20px;
+  }
+
   .stats-section {
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
 
   .projects-grid {
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
 
   .contact-section {
@@ -2931,12 +2894,11 @@ body:hover {
 }
 
 .carousel-track img {
-  width: 100%;
-  height: auto;
-  max-width: 200px; /* Limita a largura máxima em telas grandes */
+  width: 200px;
+  height: 150px;
   object-fit: cover;
-  object-position: top;
-  margin: 0 0.625rem;
+  object-position: top; /* Garante que a miniatura mostre o topo da imagem */
+  margin: 0 10px;
   border: 2px solid var(--color-primary);
   image-rendering: pixelated;
   transition:

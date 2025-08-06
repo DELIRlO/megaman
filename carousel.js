@@ -1,6 +1,10 @@
 // Flag para garantir que a funcionalidade completa (eventos, autoplay) seja inicializada apenas uma vez.
 let isCarouselActive = false;
 
+/**
+ * Preenche o HTML do carrossel com as imagens e legendas dos cursos.
+ * Esta função deve ser chamada quando o DOM principal estiver pronto.
+ */
 function populateCarouselHTML() {
   const track = document.querySelector(".carousel-track");
   if (!track) {

@@ -326,9 +326,6 @@ function createPage(pageName) {
     case "curriculo":
       page.innerHTML = createCurriculoPage();
       break;
-    case "projetos":
-      page.innerHTML = createProjetosPage();
-      break;
     case "skills":
       page.innerHTML = createSkillsPage();
       break;
@@ -495,10 +492,6 @@ function downloadCurriculo() {
     "https://drive.google.com/uc?export=download&id=1SgJETTmBMuwfhpDUp0DLn3v08SBc27EO";
   link.download = "carlosfilho2025";
   link.click();
-}
-
-function createProjetosPage() {
-  return `<div class="page-content"><h1>PROJETOS</h1><div class="projects-grid"><div class="project-card"><div class="project-icon">🌐</div><h3>PORTFÓLIO 8-BIT</h3><p>Portfólio interativo com tema retro gamer, desenvolvido com HTML5, CSS3 e JavaScript vanilla.</p><div class="project-tech">HTML5 • CSS3 • JavaScript</div></div><div class="project-card"><div class="project-icon">🤖</div><h3>SISTEMA ARDUINO</h3><p>Projetos de automação residencial e robótica educacional usando Arduino e sensores.</p><div class="project-tech">Arduino • C++ • IoT</div></div><div class="project-card"><div class="project-icon">🔧</div><h3>SISTEMA DE BACKUP</h3><p>Solução automatizada para backup de dados corporativos com agendamento inteligente.</p><div class="project-tech">Python • Linux • Shell</div></div><div class="project-card"><div class="project-icon">🌐</div><h3>CONFIGURAÇÃO DE REDES</h3><p>Implementação de redes corporativas com foco em segurança e performance.</p><div class="project-tech">Cisco • Linux • Windows Server</div></div></div></div>`;
 }
 
 function createSkillsPage() {
