@@ -487,7 +487,9 @@ body:hover {
 
 .menu-icon {
   font-size: 16px;
-  margin-right: 10px;
+  margin-right: 5px;
+  position: relative;
+  top: -2px;
 }
 
 .menu-label {
@@ -3006,4 +3008,172 @@ body:hover {
     transform: translateX(-50%) translateY(150%);
     top: auto;
   }
+}
+
+.hero-description {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.hero-description strong {
+  color: var(--color-secondary);
+  display: block;
+  margin: 15px 0 5px 0;
+  text-align: right;
+  padding-right: 20px;
+  margin-left: auto;
+  width: fit-content;
+}
+
+.hero-description ul {
+  list-style-type: none;
+  padding-left: 45px;
+  margin: 5px 0 10px 0;
+}
+
+.hero-description li {
+  position: relative;
+  padding-left: 15px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.hero-description li:before {
+  content: "•";
+  color: var(--color-primary);
+  position: absolute;
+  left: 0;
+}
+
+/* Ícones amarelos (títulos) */
+.yellow-icon {
+  color: #ffd700; /* Amarelo dourado */
+  text-shadow: 0 0 8px #ffa500; /* Brilho laranja */
+  margin-right: 10px;
+}
+
+/* Ícones vermelhos (itens da lista) */
+.red-icon {
+  color: #ff4500; /* Vermelho laranjado */
+  text-shadow: 0 0 8px #8b0000; /* Brilho vermelho escuro */
+  margin-right: 10px;
+}
+
+/* Efeitos de hover */
+.hero-description li:hover .red-icon {
+  animation: red-pulse 0.5s infinite alternate;
+}
+
+.hero-description strong:hover .yellow-icon {
+  animation: yellow-pulse 0.5s infinite alternate;
+}
+
+@keyframes red-pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes yellow-pulse {
+  0% {
+    text-shadow: 0 0 8px #ffa500;
+  }
+  100% {
+    text-shadow:
+      0 0 15px #ffd700,
+      0 0 20px #ffa500;
+  }
+}
+
+/* Mantendo seus estilos existentes */
+.hero-description {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.hero-description strong {
+  color: var(--color-secondary);
+  display: block;
+  margin: 15px 0 5px 0;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.hero-description ul {
+  list-style-type: none;
+  padding-left: 45px;
+  margin: 5px 0 10px 0;
+}
+
+.hero-description li {
+  position: relative;
+  padding-left: 15px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Ícones amarelos com pulsação */
+.yellow-pulse-icon {
+  color: #ffd700;
+  margin: 0 5px;
+  position: relative;
+  top: -2px;
+  text-shadow: 0 0 5px #ffa500;
+  animation: yellow-pulse 1.5s infinite alternate;
+}
+
+/* Texto vermelho com pulsação */
+.red-pulse-text {
+  color: #ff4500;
+  display: inline-block;
+  text-shadow: 0 0 5px #8b0000;
+  animation: red-pulse 2s infinite alternate;
+  margin: 0 5px;
+}
+
+/* Animações */
+@keyframes yellow-pulse {
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 5px #ffa500;
+  }
+  100% {
+    transform: scale(1.1);
+    text-shadow:
+      0 0 15px #ffd700,
+      0 0 20px #ffa500;
+  }
+}
+
+@keyframes red-pulse {
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 5px #8b0000;
+    color: #ff4500;
+  }
+  50% {
+    text-shadow:
+      0 0 10px #ff0000,
+      0 0 20px #8b0000;
+    color: #ff6347;
+  }
+  100% {
+    transform: scale(1.02);
+    text-shadow: 0 0 15px #8b0000;
+    color: #ff4500;
+  }
+}
+
+/* Ajuste de posicionamento */
+.hero-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
