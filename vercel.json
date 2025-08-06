@@ -1,7 +1,7 @@
 {
-  "routes": [
-    { "handle": "filesystem" }
-  ],
+  "rewrites": [{ "source": "/old", "destination": "/new" }],
+  "redirects": [{ "source": "/from", "destination": "/to", "permanent": true }],
+  "trailingSlash": false,
+  "headers": [],
   "cleanUrls": true
 }
-
