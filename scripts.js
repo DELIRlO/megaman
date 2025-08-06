@@ -38,6 +38,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 100);
   }
 });
+document.addEventListener("click", function (e) {
+  const target = e.target.closest("a[data-page-link]");
+  if (target) {
+    e.preventDefault();
+    const page = target.getAttribute("data-page-link");
+    if (page) {
+      navigateToPage(page);
+    }
+  }
+});
 
 function initializeMobileMenus() {
   initializeMobileMenuShortcut();

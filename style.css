@@ -3325,3 +3325,126 @@ li {
     pulse 2s infinite,
     shine 2s infinite;
 }
+
+/* Footer Styles */
+footer {
+  background-color: rgba(10, 10, 20, 0.8);
+  border-top: 1px solid var(--color-primary);
+  padding: 15px 0;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 20px;
+}
+
+.social-link-footer i {
+  font-size: 24px;
+  color: var(--color-text);
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.social-link-footer:hover i {
+  color: var(--color-secondary);
+  transform: scale(1.2);
+}
+
+.footer-info {
+  text-align: center;
+  font-size: 10px;
+  color: #aaa;
+}
+
+.footer-info p {
+  margin: 5px 0;
+}
+
+.footer-nav,
+.footer-subscribe {
+  min-width: 200px;
+}
+
+.footer-nav h4,
+.footer-subscribe h4 {
+  color: var(--color-secondary);
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.footer-nav ul li {
+  margin-bottom: 0;
+}
+
+.footer-nav a {
+  color: #aaa;
+  text-decoration: none;
+  font-size: 12px;
+  transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+  color: var(--color-secondary);
+}
+
+.footer-subscribe input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-primary);
+  color: #fff;
+  padding: 8px;
+  width: calc(100% - 90px);
+  font-family: var(--font-main);
+  font-size: 10px;
+}
+
+.footer-subscribe button {
+  background: var(--color-primary);
+  border: none;
+  color: #fff;
+  padding: 8px 10px;
+  font-family: var(--font-main);
+  font-size: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.footer-subscribe button:hover {
+  background: var(--color-secondary);
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-nav ul {
+    padding: 0;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
