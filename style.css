@@ -2960,6 +2960,9 @@ body:hover {
 }
 
 @media (max-width: 768px) {
+  #audio-debug {
+    display: none !important;
+  }
   .carousel-container {
     height: 500px;
     width: 100%;
@@ -2992,14 +2995,14 @@ body:hover {
     gap: 10px;
   }
   .carousel-button.up {
-    top: 10px;
+    top: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-150%);
   }
   .carousel-button.down {
-    bottom: 10px;
+    bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(150%);
     top: auto;
   }
 }
