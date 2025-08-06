@@ -573,6 +573,7 @@ body:hover {
   min-height: 100vh;
   padding: 20px;
   margin-right: 200px;
+  padding-bottom: 200px; /* Impede que o conteúdo sobreponha o rodapé */
 }
 
 .page {
@@ -3447,4 +3448,30 @@ footer {
     flex-direction: column;
     gap: 10px;
   }
+}
+
+/* Cores Hover para Redes Sociais no Rodapé */
+.social-link-footer[title="GitHub"]:hover i {
+  color: #8a2be2; /* Cor roxa conforme solicitado */
+  transform: scale(1.2) rotate(5deg);
+}
+.social-link-footer[title="LinkedIn"]:hover i {
+  color: #0077b5;
+  transform: scale(1.2) rotate(5deg);
+}
+.social-link-footer[title="Instagram"]:hover i {
+  color: #d6249f;
+  transform: scale(1.2) rotate(5deg);
+}
+.social-link-footer[title="WhatsApp"]:hover i {
+  color: #25d366;
+  transform: scale(1.2) rotate(5deg);
+}
+.social-link-footer[title="Telegram"]:hover i {
+  color: #24a1de;
+  transform: scale(1.2) rotate(5deg);
+}
+.social-link-footer[title="Facebook"]:hover i {
+  color: #1877f2;
+  transform: scale(1.2) rotate(5deg);
 }

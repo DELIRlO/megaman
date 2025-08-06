@@ -910,4 +910,27 @@ function generateHorizontalLines() {
     container.appendChild(line);
   }
 }
-document.addEventListener("DOMContentLoaded", generateHorizontalLines);
+
+function handleMenuAndFooterCollision() {
+  const floatingMenu = document.querySelector(".floating-menu");
+  const footer = document.querySelector("footer");
+
+  if (!floatingMenu || !footer) return;
+
+  const menuRect = floatingMenu.getBoundingClientRect();
+  const footerRect = footer.getBoundingClientRect();
+
+  if (menuRect.bottom > footerRect.top) {
+    floatingMenu.style.opacity = "0";
+    floatingMenu.style.visibility = "hidden";
+  } else {
+    floatingMenu.style.opacity = "1";
+    floatingMenu.style.visibility = "visible";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  generateHorizontalLines();
+  window.addEventListener("scroll", handleMenuAndFooterCollision);
+  handleMenuAndFooterCollision(); // Executa uma vez no carregamento
+});
