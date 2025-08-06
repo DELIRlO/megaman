@@ -445,7 +445,7 @@ function createCurriculoPage() {
            onclick="abrirCurriculoCompleto()">
       <p class="cv-thumbnail-caption">Clique na imagem para visualizar o currículo completo</p>
       <button class="download-btn" onclick="downloadCurriculo()">
-        ⬇️ Baixar Currículo (PDF)
+        ⬇️  [DOWNLOAD C.V]
       </button>
     </div>
     <div class="cv-section">

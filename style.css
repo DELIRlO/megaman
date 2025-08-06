@@ -9,12 +9,22 @@
   --font-main: "Press Start 2P", monospace;
 }
 
-/* GARANTE FUNDO PRETO */
-
 /*body * {
   outline: 1px solid red !important; /* Destaca todos os elementos 
-} 
+}
 */
+/* GARANTE FUNDO PRETO */
+body:after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000 !important;
+  z-index: -2; /* Abaixo do conteúdo mas acima do starfield */
+  pointer-events: none;
+}
 
 #audio-debug {
   position: absolute;
@@ -1755,7 +1765,8 @@ body:hover {
 .audio-controls-top .menu-icon,
 #music-button .menu-icon,
 #mute-icon .menu-icon,
-.audio-controls-top .social-control .menu-icon {
+.audio-controls-top .social-control .menu-icon,
+#megaman-controls-container .menu-icon {
   all: unset;
   display: flex !important;
   align-items: center !important;

@@ -1,6 +1,5 @@
 function createProjetosPage() {
   return `
-    <section id="projetos" class="page active">
       <h1 class="page-title">projetos Realizado e melhorado</h1>
       <div class="projects-container">
         <div class="project-card">
@@ -272,6 +271,5 @@ function createProjetosPage() {
           </div>
         </div>
       </div>
-    </section>
   `;
 }
