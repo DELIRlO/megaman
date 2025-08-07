@@ -952,7 +952,11 @@
           <ul>
             <li><a href="#" data-page-link="home">Home</a></li>
             <li><a href="#" data-page-link="sobre">Sobre</a></li>
+            <li><a href="#" data-page-link="curriculo">Currículo</a></li>
             <li><a href="#" data-page-link="projetos">Projetos</a></li>
+            <li><a href="#" data-page-link="cursos">Cursos</a></li>
+            <li><a href="#" data-page-link="skills">Skills</a></li>
+            <li><a href="#" data-page-link="blog">Blog</a></li>
             <li><a href="#" data-page-link="contato">Contato</a></li>
           </ul>
         </div>
@@ -968,6 +972,122 @@
           <p>carlosaugustodiniz@outlook.com</p>
         </div>
       </div>
+      <div class="matrix-rain"></div>
+
+      <style>
+        /* EFEITO MATRIX QUE SOBE E DESCE */
+        .matrix-rain {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+          font-family: "Courier New", monospace;
+          color: #da0c0c;
+          font-size: 12px;
+          opacity: 0.6;
+        }
+
+        .matrix-track {
+          position: absolute;
+          width: 15px;
+          animation: matrixLoop 8s linear infinite;
+          animation-delay: calc(var(--delay) * 0.5s);
+        }
+
+        @keyframes matrixLoop {
+          0% {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100%);
+            opacity: 0;
+          }
+        }
+      </style>
     </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.querySelector(".matrix-rain");
+
+        const chars =
+          "01" +
+          "0000000000000000▣\n" +
+          "0111111111111110▣\n" +
+          "0100000000000010▣\n" +
+          "0101111111111010▣\n" +
+          "0101000000001010▣\n" +
+          "0101011111101010▣\n" +
+          "0101010000101010▣\n" +
+          "0101010110101010▣\n" +
+          "0101010110101010▣\n" +
+          "0101010000101010▣\n" +
+          "0101011111101010▣\n" +
+          "0101000000001010▣\n" +
+          "0101111111111010▣\n" +
+          "0100000000000010▣\n" +
+          "0111111111111110▣\n" +
+          "0000000000000000▣";
+
+        // Calcula quantas colunas cabem no footer
+        const columnCount = Math.floor(window.innerWidth / 20);
+
+        // Cria trilhas de caracteres
+        for (let i = 0; i < columnCount; i++) {
+          const track = document.createElement("div");
+          track.className = "matrix-track";
+          track.style.setProperty("--delay", i);
+          track.style.left = `${i * 20}px`;
+
+          // Cria caracteres com fade
+          for (let j = 0; j < 30; j++) {
+            const char = document.createElement("div");
+            const randomChar = chars[Math.floor(Math.random() * chars.length)];
+
+            // Adiciona negrito apenas para 0 e 1
+            if (randomChar === "0" || randomChar === "1") {
+              char.innerHTML = `<strong>${randomChar}</strong>`;
+            } else {
+              char.textContent = randomChar;
+            }
+
+            char.style.opacity = (30 - j) / 30;
+            char.style.transition = "opacity 0.3s";
+            track.appendChild(char);
+          }
+
+          container.appendChild(track);
+        }
+
+        // Atualiza caracteres periodicamente
+        setInterval(() => {
+          document.querySelectorAll(".matrix-track div").forEach((char) => {
+            if (Math.random() > 0.7) {
+              const randomChar =
+                chars[Math.floor(Math.random() * chars.length)];
+
+              // Mantém o negrito para 0 e 1 nas atualizações
+              if (randomChar === "0" || randomChar === "1") {
+                char.innerHTML = `<strong>${randomChar}</strong>`;
+              } else {
+                char.textContent = randomChar;
+              }
+
+              char.style.opacity = 1;
+            }
+          });
+        }, 300);
+      });
+    </script>
   </body>
 </html>

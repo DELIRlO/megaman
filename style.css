@@ -3402,8 +3402,9 @@ footer {
 .footer-nav ul {
   list-style: none;
   padding: 0;
-  display: flex;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 .footer-nav ul li {
