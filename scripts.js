@@ -733,6 +733,8 @@ function initializeEasterEggs() {
   }
 }
 
+let scoreInterval = null; // Variável para controlar o intervalo do score
+
 function activateKonamiEasterEgg() {
   let konamiGame = document.getElementById("konami-game");
   if (!konamiGame) {
@@ -746,7 +748,10 @@ function activateKonamiEasterEgg() {
                 </div>
                 <div class="game-content">
                     <p>Parabéns! Você descobriu o easter egg!</p>
-                    <div class="game-score">Pontuação: <span id="game-score">0</span></div>
+                    <div class="game-score">
+                        <span class="score-label">SCORE: </span>
+                        <span id="game-score">0</span>
+                    </div>
                     <div class="game-animation"></div>
                 </div>
             </div>
@@ -757,19 +762,32 @@ function activateKonamiEasterEgg() {
   if (window.audioSystem) {
     window.audioSystem.play("achievement");
   }
+
   let score = 0;
   const scoreElement = document.getElementById("game-score");
-  const interval = setInterval(() => {
+  const scoreLabel = document.querySelector(".score-label");
+
+  // Limpa o intervalo anterior se ele existir
+  if (scoreInterval) {
+    clearInterval(scoreInterval);
+  }
+
+  scoreInterval = setInterval(() => {
     score += Math.floor(Math.random() * 100);
-    scoreElement.textContent = score;
+    const isMobile = window.innerWidth <= 768;
+
+    if (scoreLabel) {
+      scoreLabel.textContent = isMobile ? "P: " : "SCORE: ";
+    }
+
+    if (scoreElement) {
+      scoreElement.textContent = isMobile
+        ? String(score).padStart(4, "0")
+        : score;
+    }
   }, 500);
-  setTimeout(() => {
-    clearInterval(interval);
-  }, 5000);
+
   document.body.classList.add("konami-active");
-  setTimeout(() => {
-    document.body.classList.remove("konami-active");
-  }, 5000);
 }
 
 function closeKonamiGame() {
@@ -780,6 +798,13 @@ function closeKonamiGame() {
   if (window.audioSystem) {
     window.audioSystem.play("click");
   }
+
+  // Limpa o intervalo quando o jogo é fechado
+  if (scoreInterval) {
+    clearInterval(scoreInterval);
+    scoreInterval = null;
+  }
+  document.body.classList.remove("konami-active");
 }
 
 function initializeSpeedrun() {

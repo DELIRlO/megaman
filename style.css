@@ -505,6 +505,12 @@ body:hover {
   top: -2px;
 }
 
+/* Correção para centralizar ícones nos botões do topo esquerdo */
+.audio-controls-top .menu-icon {
+  margin-right: 0;
+  top: 0;
+}
+
 .menu-label {
   font-size: 8px;
   white-space: nowrap;
@@ -3449,7 +3455,7 @@ footer {
 
 /* Cores Hover para Redes Sociais no Rodapé */
 .social-link-footer[title="GitHub"]:hover i {
-  color: #8a2be2; /* Cor roxa conforme solicitado */
+  color: #8a2be2;
   transform: scale(1.2) rotate(5deg);
 }
 .social-link-footer[title="LinkedIn"]:hover i {
