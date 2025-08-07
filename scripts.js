@@ -733,46 +733,26 @@ function initializeEasterEggs() {
   }
 }
 
-let scoreInterval = null; // Variável para controlar o intervalo do score
+let scoreInterval = null;
+let gameTimeout = null;
 
 function activateKonamiEasterEgg() {
-  let konamiGame = document.getElementById("konami-game");
-  if (!konamiGame) {
-    konamiGame = document.createElement("div");
-    konamiGame.id = "konami-game";
-    konamiGame.innerHTML = `
-            <div class="game-container">
-                <div class="game-header">
-                    <h2>KONAMI EASTER EGG!</h2>
-                    <button onclick="closeKonamiGame()">X</button>
-                </div>
-                <div class="game-content">
-                    <p>Parabéns! Você descobriu o easter egg!</p>
-                    <div class="game-score">
-                        <span class="score-label">SCORE: </span>
-                        <span id="game-score">0</span>
-                    </div>
-                    <div class="game-animation"></div>
-                </div>
-            </div>
-        `;
-    document.body.appendChild(konamiGame);
-  }
+  const konamiGame = document.getElementById("konami-game");
   konamiGame.classList.remove("hidden");
+
   if (window.audioSystem) {
     window.audioSystem.play("achievement");
   }
 
   let score = 0;
   const scoreElement = document.getElementById("game-score");
-  const scoreLabel = document.querySelector(".score-label");
+  const scoreLabel = konamiGame.querySelector(".score-label");
 
-  // Limpa o intervalo anterior se ele existir
-  if (scoreInterval) {
-    clearInterval(scoreInterval);
-  }
+  // Limpa processos anteriores para evitar múltiplos loops
+  if (scoreInterval) clearInterval(scoreInterval);
+  if (gameTimeout) clearTimeout(gameTimeout);
 
-  scoreInterval = setInterval(() => {
+  const updateScore = () => {
     score += Math.floor(Math.random() * 100);
     const isMobile = window.innerWidth <= 768;
 
@@ -785,9 +765,18 @@ function activateKonamiEasterEgg() {
         ? String(score).padStart(4, "0")
         : score;
     }
-  }, 500);
+  };
+
+  updateScore(); // Chama uma vez para formatação imediata
+  scoreInterval = setInterval(updateScore, 500);
 
   document.body.classList.add("konami-active");
+
+  // Define um timeout para parar o jogo e a animação
+  gameTimeout = setTimeout(() => {
+    if (scoreInterval) clearInterval(scoreInterval);
+    document.body.classList.remove("konami-active");
+  }, 5000);
 }
 
 function closeKonamiGame() {
@@ -799,10 +788,14 @@ function closeKonamiGame() {
     window.audioSystem.play("click");
   }
 
-  // Limpa o intervalo quando o jogo é fechado
+  // Garante que todos os processos sejam limpos ao fechar manualmente
   if (scoreInterval) {
     clearInterval(scoreInterval);
     scoreInterval = null;
+  }
+  if (gameTimeout) {
+    clearTimeout(gameTimeout);
+    gameTimeout = null;
   }
   document.body.classList.remove("konami-active");
 }
