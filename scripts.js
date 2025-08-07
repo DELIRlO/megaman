@@ -748,7 +748,6 @@ function activateKonamiEasterEgg() {
   const scoreElement = document.getElementById("game-score");
   const scoreLabel = konamiGame.querySelector(".score-label");
 
-  // Limpa processos anteriores para evitar múltiplos loops
   if (scoreInterval) clearInterval(scoreInterval);
   if (gameTimeout) clearTimeout(gameTimeout);
 
@@ -757,7 +756,7 @@ function activateKonamiEasterEgg() {
     const isMobile = window.innerWidth <= 768;
 
     if (scoreLabel) {
-      scoreLabel.textContent = isMobile ? "P: " : "SCORE: ";
+      scoreLabel.textContent = isMobile ? "P:" : "SCORE:";
     }
 
     if (scoreElement) {
@@ -767,12 +766,11 @@ function activateKonamiEasterEgg() {
     }
   };
 
-  updateScore(); // Chama uma vez para formatação imediata
   scoreInterval = setInterval(updateScore, 500);
+  updateScore();
 
   document.body.classList.add("konami-active");
 
-  // Define um timeout para parar o jogo e a animação
   gameTimeout = setTimeout(() => {
     if (scoreInterval) clearInterval(scoreInterval);
     document.body.classList.remove("konami-active");
