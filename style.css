@@ -1153,11 +1153,17 @@ body:hover {
   }
 
   .mobile-menu-shortcut {
-    display: flex; /* Mostrar atalho de 3 pontos */
+    display: flex !important;
+    width: 35px !important; /* Reduzido em 30% */
+    height: 35px !important; /* Reduzido em 30% */
   }
 
   .audio-controls-top {
     top: 20px; /* Posição normal */
+  }
+
+  .loading-title {
+    font-size: 1.5rem !important; /* Reduzido em 40% */
   }
 
   .hero-title {
@@ -3478,4 +3484,16 @@ footer {
 .social-link-footer[title="Facebook"]:hover i {
   color: #1877f2;
   transform: scale(1.2) rotate(5deg);
+}
+
+@media (max-width: 320px) {
+  .game-score {
+    position: absolute !important;
+    top: 70px !important; /* Posição abaixo dos controles */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: auto !important;
+    text-align: center !important;
+    z-index: 3001 !important; /* Garante visibilidade acima de outros elementos */
+  }
 }
