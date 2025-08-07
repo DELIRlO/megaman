@@ -511,6 +511,16 @@ body:hover {
   top: 0;
 }
 
+/* Centraliza ícones nos botões de redes sociais e jogos */
+.social-control .menu-icon,
+.megaman-control .menu-icon {
+  margin: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .menu-label {
   font-size: 8px;
   white-space: nowrap;
