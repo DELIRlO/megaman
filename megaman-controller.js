@@ -36,7 +36,7 @@ class MegamanController {
       idle: "assets/sprites/parado10.gif",
       idleLeft: "assets/sprites/megaman-pushing-esquerda.gif",
       stopped: "assets/sprites/parado10.gif",
-      shooting: "assets/sprites/m2.gif",
+      shooting: "assets/sprites/atirando.gif",
       running: "assets/sprites/megaman-pushing.gif",
       runningLeft: "assets/sprites/megaman-pushing-esquerda.gif",
     };
@@ -82,7 +82,7 @@ class MegamanController {
     this.scoreElement.innerHTML = `
       <div class="score-container">
         <span class="score-label">SCORE:</span>
-        <span class="score-value">0000</span>
+        <span class="score-value">00000</span>
       </div>
     `;
     document.body.appendChild(this.scoreElement);

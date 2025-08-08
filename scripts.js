@@ -18,14 +18,18 @@ const konamiSequence = [
 document.addEventListener("DOMContentLoaded", function () {
   const dnaContainer = document.querySelector(".dna-sequence");
   const chars = "0123456789ACGT"; // Caracteres genéticos
-  const cellCount = Math.floor((window.innerWidth * window.innerHeight) / 100);
+  if (dnaContainer) {
+    const cellCount = Math.floor(
+      (window.innerWidth * window.innerHeight) / 100
+    );
 
-  for (let i = 0; i < cellCount; i++) {
-    const cell = document.createElement("span");
-    cell.style.animationDelay = `${Math.random() * 2}s`;
-    cell.style.animationDuration = `${3 + Math.random() * 4}s`;
-    cell.textContent = chars[Math.floor(Math.random() * chars.length)];
-    dnaContainer.appendChild(cell);
+    for (let i = 0; i < cellCount; i++) {
+      const cell = document.createElement("span");
+      cell.style.animationDelay = `${Math.random() * 2}s`;
+      cell.style.animationDuration = `${3 + Math.random() * 4}s`;
+      cell.textContent = chars[Math.floor(Math.random() * chars.length)];
+      dnaContainer.appendChild(cell);
+    }
   }
 });
 
@@ -39,7 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeSpeedrun();
   initializeAudioControls();
   initializeBackToTop();
-  populateCarouselHTML();
+  if (document.getElementById("carousel-container")) {
+    populateCarouselHTML();
+  }
 
   // Adicionado para lidar com a navegação entre páginas
   const targetPage = localStorage.getItem("targetPage");
@@ -380,7 +386,9 @@ function createPage(pageName) {
         "<h1>PÁGINA EM CONSTRUÇÃO</h1><p>Esta página está sendo desenvolvida...</p>";
   }
 
-  mainContent.appendChild(page);
+  if (mainContent) {
+    mainContent.appendChild(page);
+  }
   return page;
 }
 

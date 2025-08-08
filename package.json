@@ -1,5 +1,9 @@
 {
+  "scripts": {
+    "start": "serve"
+  },
   "devDependencies": {
-    "prettier": "3.6.2"
+    "prettier": "3.6.2",
+    "serve": "^14.2.4"
   }
 }
