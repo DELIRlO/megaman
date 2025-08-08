@@ -529,15 +529,15 @@ body:hover {
 
 /* Conteúdo Principal */
 .main-content {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 20px;
   margin-right: 200px;
-  padding-bottom: 200px; /* Impede que o conteúdo sobreponha o rodapé */
+  padding-bottom: 0; /* Remove todo o espaço extra abaixo do conteúdo */
 }
 
 .page {
   display: none;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 40px 20px;
 }
 
@@ -840,9 +840,12 @@ body:hover {
 }
 
 .game-score {
-  font-size: 12px;
-  margin-bottom: 15px;
+  font-size: 7px; /* Fonte reduzida em 40% */
+  margin: 0 auto 15px auto; /* Centraliza e mantém a margem inferior */
   color: var(--color-secondary);
+  width: 100px; /* Largura ajustada */
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 .game-area {
@@ -3334,7 +3337,7 @@ footer {
   padding: 15px 0;
   width: 100%;
   position: relative;
-  bottom: 0;
+  bottom: 20px;
   z-index: 100;
   backdrop-filter: blur(5px);
 }
@@ -3504,4 +3507,77 @@ footer {
   text-align: left; /* Garante que o texto comece logo após o ícone */
   flex-grow: 1; /* Faz o texto ocupar o espaço restante */
   font-size: 6px; /* Fonte reajustada */
+}
+
+/* === Estilos para o Menu Superior Esquerdo === */
+
+.audio-controls-top {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.top-menu-row {
+  display: flex;
+  gap: 5px;
+}
+
+.audio-controls-top .menu-item {
+  width: 45px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-menu-dropdown {
+  display: none; /* Inicia escondido */
+  flex-direction: column;
+  gap: 5px;
+  /* O JavaScript controlará a exibição */
+}
+
+/* === ESTILOS CORRIGIDOS PARA O MENU SUPERIOR ESQUERDO === */
+
+.audio-controls-top {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinha todos os filhos (linha de botões e menus) à esquerda */
+  gap: 5px;
+}
+
+.top-menu-row {
+  display: flex;
+  gap: 5px;
+}
+
+/* Padroniza TODOS os botões nesta seção para o mesmo tamanho */
+.audio-controls-top .menu-item {
+  width: 45px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; /* Garante que padding/border não afetem o tamanho final */
+}
+
+/* Controla os menus que abrem para baixo */
+#social-buttons-container,
+#megaman-controls-container {
+  display: none; /* Controlado por JS */
+  flex-direction: column;
+  gap: 5px;
+  padding-left: 0; /* Remove qualquer indentação acidental */
 }

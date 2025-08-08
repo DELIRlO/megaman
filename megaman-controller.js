@@ -122,14 +122,14 @@ class MegamanController {
         right: 20px;
         background-color: rgba(0, 0, 0, 0.7);
         border: 1px solid #0080ff;
-        border-radius: 4px;
+        border-radius: 2px;
         padding: 8px 12px;
         color: #ffffff;
         font-family: 'Press Start 2P', monospace;
         text-align: center;
         z-index: 1000;
         box-shadow: 0 0 10px rgba(0, 128, 255, 0.7), inset 0 0 5px rgba(0, 128, 255, 0.5);
-        width: 140px;
+        width: 123px;
         height: 35px;
         display: flex;
         align-items: center;

@@ -36,24 +36,12 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <!-- Substitua esta seção -->
-    <div
-      class="audio-controls-top"
-      style="
-        display: absolute;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-      "
-    >
-      <div style="display: flex; gap: 5px">
+    <div class="audio-controls-top">
+      <div class="top-menu-row">
         <div
           class="menu-item audio-control"
           id="music-button"
           onclick="window.audioSystem.toggleBackgroundMusic()"
-          style="width: 47px; height: 40px"
         >
           <div class="menu-icon" id="music-icon">
             <i class="fas fa-music"></i>
@@ -62,39 +50,25 @@
         <div
           class="menu-item audio-control"
           onclick="window.audioSystem.toggleMute()"
-          style="width: 48px; height: 40px"
         >
           <div class="menu-icon" id="mute-icon">
             <i class="fas fa-volume-up"></i>
           </div>
         </div>
-
-        <!-- Adicione este botão de menu -->
         <div
           class="menu-item audio-control"
           id="social-menu-button"
-          style="width: 48px; height: 40px"
           onclick="toggleSocialMenu()"
         >
           <div class="menu-icon"><i class="fas fa-share-alt"></i></div>
         </div>
       </div>
 
-      <!-- Container das redes sociais (inicialmente escondido) -->
-      <div
-        id="social-buttons-container"
-        style="
-          display: none;
-          flex-direction: column;
-          gap: 5px;
-          margin-left: -10px;
-        "
-      >
+      <div id="social-buttons-container" class="top-menu-dropdown">
         <a
           href="https://t.me/ysneshy2025"
           target="_blank"
           class="menu-item social-control"
-          style="width: 48px; height: 40px"
           title="Telegram"
         >
           <div class="menu-icon"><i class="fab fa-telegram"></i></div>
@@ -103,7 +77,6 @@
           href="https://github.com/delirlo"
           target="_blank"
           class="menu-item social-control"
-          style="width: 48px; height: 40px"
           title="GitHub"
         >
           <div class="menu-icon"><i class="fab fa-github"></i></div>
@@ -112,7 +85,6 @@
           href="https://linkedin.com/in/ysneshy/"
           target="_blank"
           class="menu-item social-control"
-          style="width: 48px; height: 40px"
           title="LinkedIn"
         >
           <div class="menu-icon"><i class="fab fa-linkedin"></i></div>
@@ -121,17 +93,13 @@
           href="https://instagram.com/ysneshy"
           target="_blank"
           class="menu-item social-control"
-          style="width: 48px; height: 40px"
           title="Instagram"
         >
           <div class="menu-icon"><i class="fab fa-instagram"></i></div>
         </a>
-
-        <!-- Botão de controle do Mega Man -->
         <div
           class="menu-item social-control"
           id="megaman-control-button"
-          style="width: 48px; height: 40px; display: none"
           title="Controles do Mega Man"
           onclick="toggleMegamanControls()"
         >
@@ -139,20 +107,9 @@
         </div>
       </div>
 
-      <!-- Container dos controles do Mega Man (inicialmente escondido) -->
-      <div
-        id="megaman-controls-container"
-        style="
-          display: none;
-          flex-direction: column;
-          gap: 5px;
-          margin-left: -10px;
-          margin-top: 5px;
-        "
-      >
+      <div id="megaman-controls-container" class="top-menu-dropdown">
         <div
           class="menu-item megaman-control"
-          style="width: 48px; height: 40px"
           title="Ativar Mega Man"
           onclick="megamanControlAction('on')"
         >
@@ -160,7 +117,6 @@
         </div>
         <div
           class="menu-item megaman-control"
-          style="width: 48px; height: 40px"
           title="Desativar Mega Man"
           onclick="megamanControlAction('off')"
         >
@@ -168,7 +124,6 @@
         </div>
         <div
           class="menu-item megaman-control"
-          style="width: 48px; height: 40px"
           title="Forçar Tiro"
           onclick="megamanControlAction('shoot')"
         >
@@ -176,7 +131,6 @@
         </div>
         <div
           class="menu-item megaman-control"
-          style="width: 48px; height: 40px"
           title="Forçar Movimento"
           onclick="megamanControlAction('move')"
         >
