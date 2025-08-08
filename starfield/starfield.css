@@ -1,0 +1,39 @@
+.stars,
+.stars2,
+.stars3 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: -3;
+}
+
+.stars {
+  animation: animStar 91s linear infinite;
+}
+
+.stars2 {
+  animation: animStar 156s linear infinite;
+}
+
+.stars3 {
+  animation: animStar 221s linear infinite;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+}
+
+@keyframes animStar {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
+}

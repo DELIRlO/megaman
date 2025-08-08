@@ -22,7 +22,7 @@ body:after {
   width: 100vw;
   height: 100vh;
   background: #000 !important;
-  z-index: -2; /* Abaixo do conteúdo mas acima do starfield */
+  z-index: -4; /* Abaixo do conteúdo e do starfield */
   pointer-events: none;
 }
 
@@ -295,63 +295,6 @@ body:hover {
   }
 }
 
-.stars-container {
-  --star-color-primary: #d63c4d !important;
-  --star-color-bright: #1d92d5 !important;
-  --star-glow-color: #7111f5 !important;
-}
-
-.star {
-  background-color: var(--star-color-primary) !important;
-}
-
-.star.bright {
-  background-color: var(--star-color-bright) !important;
-  box-shadow: 0 0 15px var(--star-glow-color) !important;
-}
-
-.stars-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  pointer-events: none;
-}
-.star {
-  position: absolute;
-  background-color: var(--color-primary);
-  border-radius: 50%;
-  animation: float linear infinite;
-}
-
-.star.bright {
-  background-color: var(--star-color-bright);
-  box-shadow: 0 0 15px var(--star-glow-color);
-  animation:
-    float linear infinite,
-    pulse 2s ease-in-out infinite;
-}
-
-@keyframes float {
-  to {
-    transform: translateY(-100vh);
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.5);
-  }
-}
-
 @keyframes spark {
   to {
     opacity: 0;
@@ -388,7 +331,7 @@ body:hover {
 }
 
 .loading-title {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   color: var(--color-secondary);
   text-shadow: 0 0 10px rgba(0, 243, 255, 0.7);
   margin-bottom: 0.5rem;
@@ -2011,7 +1954,7 @@ body:hover {
   background: var(--color-primary);
   opacity: 0.5;
   box-shadow: 0 0 5px var(--color-primary);
-  animation: moveAndGlitch 4s linear infinite;
+  animation: moveAndGlitch 10.4s linear infinite;
 }
 
 .line:nth-child(odd) {
@@ -2022,7 +1965,7 @@ body:hover {
     transparent
   );
   box-shadow: 0 0 5px var(--color-secondary);
-  animation-duration: 6s;
+  animation-duration: 15.6s;
   animation-delay: -2s;
 }
 
@@ -2035,7 +1978,7 @@ body:hover {
   );
   box-shadow: 0 0 7px var(--color-accent);
   height: 1px;
-  animation-duration: 3s;
+  animation-duration: 7.8s;
   animation-direction: reverse;
 }
 
@@ -3544,4 +3487,21 @@ footer {
     text-align: center !important;
     z-index: 3001 !important; /* Garante visibilidade acima de outros elementos */
   }
+}
+
+/* Ajuste fino para alinhamento do menu flutuante */
+.floating-menu .menu-item {
+  justify-content: flex-start; /* Alinha ícone e texto à esquerda */
+  width: 122px; /* Largura reajustada */
+}
+
+.floating-menu .menu-icon {
+  width: 35px; /* Define uma largura fixa para a área do ícone */
+  text-align: center; /* Centraliza o ícone dentro da sua área */
+}
+
+.floating-menu .menu-label {
+  text-align: left; /* Garante que o texto comece logo após o ícone */
+  flex-grow: 1; /* Faz o texto ocupar o espaço restante */
+  font-size: 6px; /* Fonte reajustada */
 }

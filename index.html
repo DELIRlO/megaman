@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="projetos.css" />
+    <link rel="stylesheet" href="starfield/starfield.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -204,6 +205,10 @@
     </style>
   </head>
   <body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
     <!-- Sobreposição de transição -->
     <div id="transition-overlay" class="transition-overlay"></div>
     <!-- Div do cursor (coloque como PRIMEIRO elemento do body) -->
@@ -367,7 +372,7 @@
         <span class="menu-label">BLOG</span>
       </div>
       <div class="menu-item" data-page="contato">
-        <div class="menu-icon"><i class="fas fa-headphones"></i></div>
+        <div class="menu-icon"><i class="fas fa-headset"></i></div>
         <span class="menu-label">CONTATO</span>
       </div>
 
@@ -624,6 +629,7 @@
     <script src="carousel.js"></script>
     <script src="loading-system.js"></script>
     <script src="pages/projetos.js"></script>
+    <script src="starfield/starfield.js"></script>
 
     <script>
       function updateAudioIcons() {
