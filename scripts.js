@@ -230,7 +230,7 @@ class Starfield {
   createStars() {
     const starsCount = Math.floor(window.innerWidth / 3);
     for (let i = 0; i < starsCount; i++) {
-      const isBright = Math.random() < 0.15;
+      const isBright = false; // Desativa as estrelas brilhantes
       this.createStar(isBright);
     }
   }
@@ -386,14 +386,10 @@ function createPage(pageName) {
 
 function createSobrePage() {
   return `<div class="page-content">
-  <div class="header-container">
-    <div class="avatar-title-wrapper">
-      <div class="about-avatar">
-        <div class="avatar-large"></div>
-      </div>
-      <h1 style="color: #34f2fd;"><i class="fas fa-user-tie" style="position: relative; top: -2px;"></i> SOBRE MIM</h1>
-    </div>
-    <h2><i class="fas fa-code red-icon" style="font-size: 15px;"></i> Desenvolvedor Full-Stack | < class="fas fa-network-wired red-icon" style="font-size: 15px;"></i></h2>
+    <div style="text-align: center;">
+        <img src="assets/sprites/megaman-idle.gif" alt="Sobre Mim" style="width: 100px; height: 100px; border: 2px solid #00ffff; margin-bottom: 20px;">
+        <h1><i class="fas fa-user"></i> SOBRE MIM</h1>
+        <h2><i class="fas fa-code red-icon" style="font-size: 15px;"></i> Desenvolvedor Full-Stack</h2>
   </div>
   <div class="content-overlay">
     <div class="about-text">

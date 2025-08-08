@@ -129,7 +129,25 @@ body:after {
 }
 
 .menu-item:hover .menu-icon {
-  transform: rotate(20deg) scale(1.2);
+  animation: iconGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes iconGlow {
+  0%,
+  100% {
+    color: #ffa500; /* Laranja */
+    text-shadow:
+      0 0 10px #ffa500,
+      0 0 15px #ff8c00;
+    transform: scale(1.1);
+  }
+  50% {
+    color: #ff0000; /* Vermelho */
+    text-shadow:
+      0 0 12px #ff0000,
+      0 0 25px #8b0000;
+    transform: scale(1.3);
+  }
 }
 
 /* Estilo específico para os controles de áudio */
@@ -309,8 +327,8 @@ body:hover {
 }
 
 .star.bright {
-  background-color: var(--color-bright);
-  box-shadow: 0 0 15px var(--glow-color);
+  background-color: var(--star-color-bright);
+  box-shadow: 0 0 15px var(--star-glow-color);
   animation:
     float linear infinite,
     pulse 2s ease-in-out infinite;
@@ -406,15 +424,6 @@ body:hover {
   color: rgba(255, 255, 255, 0.7);
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 /* controle de audio */
 .audio-controls-container {
   position: fixed;
@@ -468,34 +477,7 @@ body:hover {
 .menu-item:hover {
   background: var(--color-secondary);
   color: var(--color-background);
-  box-shadow: 0 0 20px var(--color-secondary);
   transform: scale(1.1) translateZ(0);
-}
-
-.menu-item:hover::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle,
-    transparent 30%,
-    var(--color-secondary) 70%
-  );
-  animation: pixelBurst 0.5s ease-out;
-}
-
-@keyframes pixelBurst {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
 }
 
 .menu-icon {
@@ -503,6 +485,16 @@ body:hover {
   margin-right: 5px;
   position: relative;
   top: -2px;
+}
+
+.floating-menu .menu-icon {
+  color: var(--color-text);
+  transition: all 0.3s ease;
+}
+
+.floating-menu .menu-icon {
+  color: var(--color-text);
+  transition: all 0.3s ease;
 }
 
 /* Correção para centralizar ícones nos botões do topo esquerdo */
@@ -2001,7 +1993,7 @@ body:hover {
   transform: scale(0.95) !important;
 }
 
-/* Animação de linhas horizontais */
+/* Animação de linhas horizontais (Efeito Glitch) */
 .horizontal-lines-container {
   position: fixed;
   top: 0;
@@ -2015,16 +2007,11 @@ body:hover {
 
 .line {
   position: absolute;
-  height: 3px; /* Espessura da linha aumentada */
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-primary),
-    transparent
-  );
-  opacity: 0.8; /* Transparência aumentada */
-  animation: moveLine 8s linear infinite; /* Animação */
-  box-shadow: 0 0 6px var(--color-primary);
+  height: 2px;
+  background: var(--color-primary);
+  opacity: 0.5;
+  box-shadow: 0 0 5px var(--color-primary);
+  animation: moveAndGlitch 4s linear infinite;
 }
 
 .line:nth-child(odd) {
@@ -2034,7 +2021,9 @@ body:hover {
     var(--color-secondary),
     transparent
   );
-  box-shadow: 0 0 6px var(--color-secondary);
+  box-shadow: 0 0 5px var(--color-secondary);
+  animation-duration: 6s;
+  animation-delay: -2s;
 }
 
 .line:nth-child(3n) {
@@ -2044,23 +2033,71 @@ body:hover {
     var(--color-accent),
     transparent
   );
-  box-shadow: 0 0 6px var(--color-accent);
+  box-shadow: 0 0 7px var(--color-accent);
+  height: 1px;
+  animation-duration: 3s;
+  animation-direction: reverse;
 }
 
-@keyframes moveLine {
+@keyframes moveAndGlitch {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-110%) translateY(0px);
     opacity: 0;
   }
-  10% {
-    opacity: 0.8;
+  5% {
+    opacity: 0.6;
   }
-  90% {
-    opacity: 0.8;
+  20% {
+    transform: translateX(-80%) translateY(-2px);
+  }
+  40% {
+    transform: translateX(-40%) translateY(1px);
+  }
+  60% {
+    transform: translateX(0%) translateY(2px);
+  }
+  80% {
+    transform: translateX(40%) translateY(-1px);
+  }
+  95% {
+    opacity: 0.6;
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(110%) translateY(0px);
     opacity: 0;
+  }
+}
+
+/* Efeito de Scanline Localizado */
+.scanline-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline-effect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 0, 0, 0.3) 51%
+  );
+  background-size: 100% 4px;
+  animation: scanlines-vertical 10s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes scanlines-vertical {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: 100%;
   }
 }
 
@@ -3082,6 +3119,15 @@ body:hover {
   left: 0;
 }
 
+@keyframes red-pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
 /* Ícones amarelos (títulos) */
 .yellow-icon {
   color: #ffd700; /* Amarelo dourado */
@@ -3103,15 +3149,6 @@ body:hover {
 
 .hero-description strong:hover .yellow-icon {
   animation: yellow-pulse 0.5s infinite alternate;
-}
-
-@keyframes red-pulse {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.2);
-  }
 }
 
 @keyframes yellow-pulse {
