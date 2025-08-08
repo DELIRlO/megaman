@@ -44,7 +44,6 @@ class MegamanController {
       idleLeft: "assets/sprites/megaman-pushing-esquerda.gif",
       stopped: "assets/sprites/parado10.gif",
       shooting: "assets/sprites/atirando.gif",
-      shootingLeft: "assets/sprites/atirando-esquerda.gif", // Novo sprite para atirar para a esquerda
       running: "assets/sprites/megaman-pushing.gif",
       runningLeft: "assets/sprites/megaman-pushing-esquerda.gif",
     };
@@ -87,7 +86,7 @@ class MegamanController {
   // Nova lógica de IA melhorada
   startAICycle() {
     if (!this.isActive || this.isPaused) return;
-
+    
     this.findTargetElement();
     if (!this.targetElement) {
       // Se não há alvo, usar comportamento antigo
@@ -114,7 +113,7 @@ class MegamanController {
     const targetRect = this.targetElement.getBoundingClientRect();
     const targetCenter = {
       x: targetRect.left + targetRect.width / 2,
-      y: targetRect.top + targetRect.height / 2,
+      y: targetRect.top + targetRect.height / 2
     };
 
     switch (this.aiState) {
@@ -135,10 +134,7 @@ class MegamanController {
     // Move para a direita do alvo (200-300px)
     const rightPosition = {
       x: Math.min(targetCenter.x + 250, this.boundaries.maxX - 50), // Ajustado para 200-300px
-      y: Math.max(
-        Math.min(targetCenter.y - 32, this.boundaries.maxY - 50),
-        this.boundaries.minY
-      ),
+      y: Math.max(Math.min(targetCenter.y - 32, this.boundaries.maxY - 50), this.boundaries.minY)
     };
 
     this.moveToPosition(rightPosition, () => {
@@ -155,10 +151,7 @@ class MegamanController {
     // Move para a esquerda do alvo
     const leftPosition = {
       x: Math.max(targetCenter.x - 150, this.boundaries.minX),
-      y: Math.max(
-        Math.min(targetCenter.y - 32, this.boundaries.maxY - 50),
-        this.boundaries.minY
-      ),
+      y: Math.max(Math.min(targetCenter.y - 32, this.boundaries.maxY - 50), this.boundaries.minY)
     };
 
     this.moveToPosition(leftPosition, () => {
@@ -223,7 +216,7 @@ class MegamanController {
     this.isShooting = true;
     this.stats.totalShots++;
     this.direction = direction;
-    this.switchSprite(direction === "left" ? "shootingLeft" : "shooting");
+    this.switchSprite("shooting");
     this.element.classList.add("shooting");
 
     if (window.audioSystem) {
@@ -244,7 +237,7 @@ class MegamanController {
 
   scheduleNextAICycle() {
     if (!this.isActive) return;
-
+    
     // Agenda próximo ciclo de IA
     const delay = Math.random() * 8000 + 5000; // 5-13 segundos
     this.aiCycleTimer = setTimeout(() => this.startAICycle(), delay);
@@ -274,9 +267,7 @@ class MegamanController {
     this.position.y += moveY;
     this.updateElementPosition();
 
-    this.animationFrame = requestAnimationFrame(() =>
-      this.updateMovement(callback)
-    );
+    this.animationFrame = requestAnimationFrame(() => this.updateMovement(callback));
   }
 
   createScoreElement() {
@@ -498,10 +489,6 @@ class MegamanController {
       
       .megaman-character.entering {
         animation: megaman-enter 1s ease-out;
-      }
-      
-      .megaman-character.leaving {
-        animation: megaman-leave 1s ease-in;
       }
       
       @keyframes megaman-enter {
@@ -1016,39 +1003,8 @@ class MegamanController {
         if (activePage.querySelector(".hero-title")) this.currentPage = "home";
         else this.currentPage = "unknown";
       }
-    } else this.currentPage = "home";
-  }
-
-  setupPageChangeMonitoring() {
-    const observer = new MutationObserver((mutations) => {
-      let pageChanged = false;
-      mutations.forEach((mutation) => {
-        if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "class"
-        ) {
-          if (mutation.target.classList.contains("page")) pageChanged = true;
-        }
-      });
-      if (pageChanged) {
-        setTimeout(() => {
-          const oldPage = this.currentPage;
-          this.detectCurrentPage();
-          if (oldPage !== this.currentPage) this.findNameElement();
-        }, 100);
-      }
-    });
-    const pages = document.querySelectorAll(".page");
-    pages.forEach((page) =>
-      observer.observe(page, {
-        attributes: true,
-        attributeFilter: ["class"],
-      })
-    );
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
+    }
+    else this.currentPage = "home";
   }
 
   findNameElement() {
@@ -1105,26 +1061,6 @@ class MegamanController {
     if (this.element && this.sprites[spriteName]) {
       this.currentSprite = spriteName;
       this.element.style.backgroundImage = `url('${this.sprites[spriteName]}')`;
-
-      const isShooting =
-        spriteName === "shooting" || spriteName === "shootingLeft";
-      this.element.style.width = isShooting ? "207px" : "64px";
-      this.element.style.height = isShooting ? "207px" : "64px";
-
-      // Ajustes de posição para compensar o tamanho do sprite
-      let x = this.position.x;
-      let y = this.position.y;
-
-      if (isShooting) {
-        y -= 71.5; // Desloca para cima para alinhar a base
-
-        if (spriteName === "shootingLeft") {
-          x -= 143; // Aumenta o deslocamento para a esquerda para corrigir o alinhamento.
-        }
-      }
-
-      this.element.style.left = `${x}px`;
-      this.element.style.top = `${y}px`;
     }
   }
 
@@ -1252,3 +1188,4 @@ document.addEventListener("DOMContentLoaded", () => {
     '🎮 Mega Man Controller melhorado carregado! Use "megaman.start()" para iniciar.'
   );
 });
+

@@ -136,6 +136,13 @@
         >
           <div class="menu-icon"><i class="fas fa-running"></i></div>
         </div>
+        <div
+          class="menu-item megaman-control"
+          title="Mover para Esquerda"
+          onclick="megamanControlAction('move_left')"
+        >
+          <div class="menu-icon"><i class="fas fa-running" style="transform: scaleX(-1);"></i></div>
+        </div>
       </div>
     </div>
 
@@ -757,6 +764,20 @@
             if (window.megamanController.isActive) {
               window.megamanController.moveToRandomPosition();
               console.log("🏃 Mega Man se moveu via botão!");
+            } else {
+              console.log("❌ Mega Man precisa estar ativo para se mover.");
+            }
+            break;
+          case "move_left":
+            if (window.megamanController.isActive) {
+              // Move para uma posição à esquerda
+              const leftPosition = {
+                x: Math.max(50, window.megamanController.position.x - 200),
+                y: window.megamanController.position.y
+              };
+              window.megamanController.moveToPosition(leftPosition, () => {
+                console.log("🏃 Mega Man se moveu para esquerda via botão!");
+              });
             } else {
               console.log("❌ Mega Man precisa estar ativo para se mover.");
             }
