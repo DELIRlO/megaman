@@ -141,7 +141,9 @@
           title="Mover para Esquerda"
           onclick="megamanControlAction('move_left')"
         >
-          <div class="menu-icon"><i class="fas fa-running" style="transform: scaleX(-1);"></i></div>
+          <div class="menu-icon">
+            <i class="fas fa-running" style="transform: scaleX(-1)"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -369,7 +371,9 @@
           </h1>
           <h2 class="hero-subtitle">
             <i class="fas fa-laptop yellow-pulse-icon"></i>
-            <span class="red-pulse-text">ENGENHEIRO DA COMPUTAÇÃO</span>
+            <span id="destroyable-subtitle" class="red-pulse-text"
+              >ENGENHEIRO DA COMPUTAÇÃO</span
+            >
             <i class="fas fa-microchip yellow-pulse-icon"></i>
           </h2>
           <div class="terminal">
@@ -773,7 +777,7 @@
               // Move para uma posição à esquerda
               const leftPosition = {
                 x: Math.max(50, window.megamanController.position.x - 200),
-                y: window.megamanController.position.y
+                y: window.megamanController.position.y,
               };
               window.megamanController.moveToPosition(leftPosition, () => {
                 console.log("🏃 Mega Man se moveu para esquerda via botão!");

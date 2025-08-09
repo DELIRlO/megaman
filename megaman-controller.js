@@ -21,14 +21,11 @@ class MegamanController {
     this.hasShootLeft = false;
     this.aiCycleTimer = null;
 
-    this.nameElement = null;
-    this.isMovingToName = false;
-    this.nameOriginalContent = "CARLOS FILHO";
+    this.targets = []; // Array para armazenar múltiplos alvos
+    this.currentTarget = null; // O alvo sendo atacado no momento
+    this.isMovingToTarget = false;
     this.nameRegenerationTimer = null;
     this.destructionCooldown = false;
-    this.originalNameAttributes = {};
-    this.originalNameContainer = null;
-    this.originalNameNextSibling = null;
     this.isRegenerating = false;
 
     this.shootInterval = { min: 12000, max: 30000 };
@@ -80,7 +77,7 @@ class MegamanController {
     this.createScoreElement();
     this.updateBoundaries();
     this.bindEvents();
-    this.findNameElement();
+    this.findTargetElements();
     this.injectStyles();
     this.setupPageChangeMonitoring();
   }
@@ -562,25 +559,20 @@ class MegamanController {
     document.head.appendChild(style);
   }
 
-  handleDestruction() {
-    if (!this.nameElement || this.isRegenerating) return;
-
-    const container = this.nameElement.parentNode;
-    const nextSibling = this.nameElement.nextSibling;
+  handleDestruction(target) {
+    if (!target || !target.element || this.isRegenerating) return;
 
     this.element?.classList.add("attack");
-    this.nameElement.style.animation = "shake 0.3s ease-in-out";
+    target.element.style.animation = "shake 0.3s ease-in-out";
 
-    this.animateLetterBreaking();
+    this.animateLetterBreaking(target);
 
     setTimeout(() => {
-      if (this.nameElement) {
-        this.nameElement.style.animation = "ash-fall 1.5s ease-in-out";
-        this.nameElement.innerHTML = this.createAshEffect(
-          this.nameOriginalContent
-        );
-        this.nameElement.style.color = "#333";
-        this.nameElement.style.textShadow = "0 0 5px rgba(100, 100, 100, 0.5)";
+      if (target.element) {
+        target.element.style.animation = "ash-fall 1.5s ease-in-out";
+        target.element.innerHTML = this.createAshEffect(target.originalContent);
+        target.element.style.color = "#333";
+        target.element.style.textShadow = "0 0 5px rgba(100, 100, 100, 0.5)";
       }
     }, 800);
 
@@ -589,28 +581,25 @@ class MegamanController {
     this.updateScore(10);
 
     setTimeout(() => {
-      if (this.nameElement?.parentNode) this.nameElement.remove();
+      if (target.element?.parentNode) target.element.remove();
 
       this.element?.classList.remove("attack");
       this.isRegenerating = true;
 
-      setTimeout(
-        () => this.regenerateName(container, nextSibling),
-        this.regenerationCooldown
-      );
+      setTimeout(() => this.regenerateName(target), this.regenerationCooldown);
     }, this.animationDuration);
   }
 
-  animateLetterBreaking() {
-    if (!this.nameElement || !this.nameOriginalContent) return;
+  animateLetterBreaking(target) {
+    if (!target || !target.element) return;
 
-    const plainText = this.nameOriginalContent.replace(/<[^>]*>/g, "");
+    const plainText = target.originalContent.replace(/<[^>]*>/g, "");
     const letters = plainText.split("");
     let currentStep = 0;
     const totalSteps = 8;
 
     const breakingInterval = setInterval(() => {
-      if (!this.nameElement) {
+      if (!target.element) {
         clearInterval(breakingInterval);
         return;
       }
@@ -621,14 +610,10 @@ class MegamanController {
         letters,
         destructionProgress
       );
-      this.nameElement.innerHTML = brokenText;
+      target.element.innerHTML = brokenText;
 
-      this.nameElement.style.color = `rgba(255, ${Math.floor(
-        255 * (1 - destructionProgress)
-      )}, ${Math.floor(255 * (1 - destructionProgress))}, 1)`;
-      this.nameElement.style.textShadow = `2px 2px 0 #000, 0 0 ${
-        10 * destructionProgress
-      }px #ff0000`;
+      target.element.style.color = `rgba(255, ${Math.floor(255 * (1 - destructionProgress))}, ${Math.floor(255 * (1 - destructionProgress))}, 1)`;
+      target.element.style.textShadow = `2px 2px 0 #000, 0 0 ${10 * destructionProgress}px #ff0000`;
 
       if (currentStep >= totalSteps) clearInterval(breakingInterval);
     }, 100);
@@ -700,19 +685,26 @@ class MegamanController {
       .join("");
   }
 
-  regenerateName(container, nextSibling) {
-    if (!container || !this.isRegenerating) return;
+  regenerateName(target) {
+    if (!target || !target.originalContainer || !this.isRegenerating) return;
 
-    const newNameElement = document.createElement("h1");
-    for (const [name, value] of Object.entries(this.originalNameAttributes)) {
-      newNameElement.setAttribute(name, value);
+    const newElement = document.createElement(target.element.tagName);
+    for (const [name, value] of Object.entries(target.originalAttributes)) {
+      newElement.setAttribute(name, value);
     }
-    if (nextSibling) container.insertBefore(newNameElement, nextSibling);
-    else container.appendChild(newNameElement);
 
-    this.nameElement = newNameElement;
+    if (target.originalNextSibling) {
+      target.originalContainer.insertBefore(
+        newElement,
+        target.originalNextSibling
+      );
+    } else {
+      target.originalContainer.appendChild(newElement);
+    }
 
-    const plainText = this.nameOriginalContent.replace(/<[^>]*>/g, "");
+    target.element = newElement; // Atualiza a referência do elemento no objeto do alvo
+
+    const plainText = target.originalContent.replace(/<[^>]*>/g, "");
 
     const brokenChars = ["█", "▓", "▒", "░", "▄", "▀", "■", "□", "▪", "▫"];
     let currentStep = 0;
@@ -726,9 +718,9 @@ class MegamanController {
           brokenChars[Math.floor(Math.random() * brokenChars.length)]
         );
     }
-    newNameElement.textContent = letters.join("");
-    newNameElement.style.color = "rgba(255, 0, 0, 1)";
-    newNameElement.style.textShadow = "2px 2px 0 #000, 0 0 10px #ff0000";
+    newElement.textContent = letters.join("");
+    newElement.style.color = "rgba(255, 0, 0, 1)";
+    newElement.style.textShadow = "2px 2px 0 #000, 0 0 10px #ff0000";
 
     const regenerationInterval = this.regenerationDuration / totalSteps;
 
@@ -738,31 +730,38 @@ class MegamanController {
         this.isRegenerating = false;
         this.destructionCooldown = false;
 
-        newNameElement.textContent = plainText;
-        newNameElement.style.color = "";
-        newNameElement.style.textShadow = "";
-        newNameElement.style.animation =
-          "titleGlow 2s ease-in-out infinite alternate";
+        newElement.textContent = plainText;
+        newElement.style.color = "";
+        newElement.style.textShadow = "";
+
+        // Restaura as classes originais em vez de aplicar a animação padrão
+        newElement.className = target.originalClasses;
+
+        // Adiciona a animação de brilho apenas se não for o subtítulo
+        if (target.element.id !== "destroyable-subtitle") {
+          newElement.style.animation =
+            "titleGlow 2s ease-in-out infinite alternate";
+        }
 
         setTimeout(() => {
-          if (!this.nameElement) return;
+          if (!target.element) return;
           const iconSpan = document.createElement("span");
           iconSpan.innerHTML = `
             <i class="fas fa-microchip" 
                style="margin-left: 15px; vertical-align: middle; position: relative; top: -3px; color: var(--color-primary); animation: flicker 1.5s linear infinite;">
             </i>
           `;
-          this.nameElement.appendChild(iconSpan);
+          target.element.appendChild(iconSpan);
 
           setTimeout(() => {
             if (iconSpan.parentNode) {
               iconSpan.parentNode.removeChild(iconSpan);
-              if (this.nameElement) this.nameElement.textContent = plainText;
+              if (target.element) target.element.textContent = plainText;
             }
           }, 4500);
         }, 100);
 
-        this.setupClickListener();
+        this.setupClickListener(target);
         return;
       }
 
@@ -781,18 +780,16 @@ class MegamanController {
         }
       }
 
-      newNameElement.textContent = currentTextArr.join("");
+      newElement.textContent = currentTextArr.join("");
 
       const r = Math.floor(255 * (1 - progressRatio));
       const g = Math.floor(150 * progressRatio);
       const b = Math.floor(255 * progressRatio);
-      newNameElement.style.color = `rgba(${r},${g},${b},1)`;
+      newElement.style.color = `rgba(${r},${g},${b},1)`;
 
       const shadowRedIntensity = 10 * (1 - progressRatio);
       const shadowPurpleIntensity = 5 * progressRatio;
-      newNameElement.style.textShadow = `2px 2px 0 rgba(0,0,0,0.7), 0 0 ${shadowRedIntensity}px rgba(255,0,0,${
-        1 - progressRatio
-      }), 0 0 ${shadowPurpleIntensity}px var(--color-primary)`;
+      newElement.style.textShadow = `2px 2px 0 rgba(0,0,0,0.7), 0 0 ${shadowRedIntensity}px rgba(255,0,0,${1 - progressRatio}), 0 0 ${shadowPurpleIntensity}px var(--color-primary)`;
 
       currentStep++;
     }, regenerationInterval);
@@ -815,8 +812,9 @@ class MegamanController {
       this.element?.classList.remove("entering");
     }, 1000);
 
-    // Inicia nova lógica de IA
-    this.startAICycle();
+    // Inicia o comportamento clássico de movimento e tiro
+    this.scheduleNextMove();
+    this.scheduleNextShoot();
 
     if (window.audioSystem) {
       window.audioSystem.play("achievement");
@@ -855,11 +853,14 @@ class MegamanController {
       return;
     }
 
-    this.findNameElement();
+    this.findTargetElements(); // Garante que os alvos estão atualizados
     this.lastPosition = { ...this.position };
 
-    if (this.nameElement && Math.random() < 0.6) {
-      this.moveToName();
+    // Escolhe um alvo aleatório da lista de alvos encontrados
+    if (this.targets.length > 0 && Math.random() < 0.7) {
+      this.currentTarget =
+        this.targets[Math.floor(Math.random() * this.targets.length)];
+      this.moveToTarget();
       return;
     }
 
@@ -874,18 +875,18 @@ class MegamanController {
     this.updateMovement();
   }
 
-  moveToName() {
-    if (!this.nameElement) return;
+  moveToTarget() {
+    if (!this.currentTarget || !this.currentTarget.element) return;
 
-    const rect = this.nameElement.getBoundingClientRect();
+    const rect = this.currentTarget.element.getBoundingClientRect();
     this.targetPosition = {
-      x: Math.max(50, rect.left - 100),
+      x: Math.max(50, rect.left + rect.width / 2 - 32), // Mira no centro
       y: Math.max(50, rect.top + rect.height / 2 - 32),
     };
 
     this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
     this.isMoving = true;
-    this.isMovingToName = true;
+    this.isMovingToTarget = true;
     this.stats.totalMoves++;
 
     this.element.classList.add("moving");
@@ -906,9 +907,23 @@ class MegamanController {
 
     if (this.isMoving) this.stopMovement();
 
+    // Determina a direção do tiro com base na posição do alvo
+    // Se não há um alvo atual, escolhe um aleatoriamente
+    if (!this.currentTarget && this.targets.length > 0) {
+      this.currentTarget =
+        this.targets[Math.floor(Math.random() * this.targets.length)];
+    }
+
+    // Determina a direção do tiro com base na posição do alvo atual
+    if (this.currentTarget && this.currentTarget.element) {
+      const nameRect = this.currentTarget.element.getBoundingClientRect();
+      this.direction =
+        this.position.x > nameRect.left + nameRect.width / 2 ? "left" : "right";
+    }
+
     this.isShooting = true;
     this.stats.totalShots++;
-    this.switchSprite("shooting");
+    this.switchSprite(this.direction === "left" ? "shootingLeft" : "shooting");
     this.element.classList.add("shooting");
 
     if (window.audioSystem) {
@@ -919,7 +934,9 @@ class MegamanController {
 
     setTimeout(() => {
       if (this.isActive) {
-        this.switchSprite("stopped");
+        this.switchSprite(
+          this.direction === "left" ? "preShootingLeft" : "stopped"
+        );
         this.isShooting = false;
         this.element.classList.remove("shooting");
         this.scheduleNextShoot();
@@ -937,33 +954,38 @@ class MegamanController {
 
   checkNameDestruction() {
     if (
-      !this.nameElement ||
+      !this.currentTarget ||
+      !this.currentTarget.element ||
       !this.isActive ||
       this.destructionCooldown ||
       this.isRegenerating
     )
       return;
 
-    const nameRect = this.nameElement.getBoundingClientRect();
-    const megamanRect = {
-      left: parseFloat(this.element.style.left),
-      top: parseFloat(this.element.style.top),
-      right: parseFloat(this.element.style.left) + this.element.clientWidth,
-      bottom: parseFloat(this.element.style.top) + this.element.clientHeight,
-    };
+    const nameRect = this.currentTarget.element.getBoundingClientRect();
+    const megamanX = this.position.x;
+    const megamanY = this.position.y;
+
+    const isShootingTowardsName =
+      (this.direction === "left" && megamanX > nameRect.left) ||
+      (this.direction === "right" && megamanX < nameRect.right);
+
+    if (!isShootingTowardsName) {
+      return;
+    }
 
     const distance = Math.sqrt(
-      Math.pow(nameRect.left - megamanRect.left, 2) +
-        Math.pow(nameRect.top - megamanRect.top, 2)
+      Math.pow(nameRect.left + nameRect.width / 2 - megamanX, 2) +
+        Math.pow(nameRect.top + nameRect.height / 2 - megamanY, 2)
     );
 
     let destructionChance = 0;
-    if (distance < 250) destructionChance = 0.9;
-    else if (distance < 350) destructionChance = 0.7;
-    else if (distance < 450) destructionChance = 0.5;
+    if (distance < 300) destructionChance = 0.9;
+    else if (distance < 400) destructionChance = 0.7;
+    else if (distance < 500) destructionChance = 0.5;
 
     if (destructionChance > 0 && Math.random() < destructionChance) {
-      this.handleDestruction();
+      this.handleDestruction(this.currentTarget);
     }
   }
 
@@ -1055,47 +1077,39 @@ class MegamanController {
     });
   }
 
-  findNameElement() {
+  findTargetElements() {
     this.detectCurrentPage();
-    let titleElement = null;
+    this.targets = [];
+
+    const targetConfigs = [
+      { selector: "#destroyable-name", originalContent: "CARLOS FILHO" },
+      {
+        selector: "#destroyable-subtitle",
+        originalContent: "ENGENHEIRO DA COMPUTAÇÃO",
+      },
+    ];
 
     if (this.currentPage === "home") {
-      titleElement = document.querySelector(".hero-title");
-      if (titleElement) {
-        this.nameElement = titleElement;
-        this.nameOriginalContent = "CARLOS FILHO";
-        if (titleElement.textContent.includes("SOBRE MIM")) {
-          titleElement.textContent = this.nameOriginalContent;
+      targetConfigs.forEach((config) => {
+        const element = document.querySelector(config.selector);
+        if (element) {
+          const targetData = {
+            element: element,
+            originalContent: config.originalContent,
+            originalAttributes: {},
+            originalContainer: element.parentNode,
+            originalNextSibling: element.nextSibling,
+            originalClasses: element.className, // Salva as classes originais
+          };
+          for (const attr of element.attributes) {
+            targetData.originalAttributes[attr.name] = attr.value;
+          }
+          this.targets.push(targetData);
+          this.setupClickListener(targetData);
         }
-      }
-    } else {
-      const pageSelectors = [
-        ".page.active .header-container h1",
-        ".page.active .page-content h1",
-        ".page.active h1",
-      ];
-
-      for (const selector of pageSelectors) {
-        titleElement = document.querySelector(selector);
-        if (titleElement) {
-          this.nameElement = titleElement;
-          this.nameOriginalContent = titleElement.innerHTML;
-          break;
-        }
-      }
+      });
     }
-
-    if (this.nameElement) {
-      this.originalNameAttributes = {};
-      for (const attr of this.nameElement.attributes) {
-        this.originalNameAttributes[attr.name] = attr.value;
-      }
-      this.originalNameContainer = this.nameElement.parentNode;
-      this.originalNameNextSibling = this.nameElement.nextSibling;
-      this.setupClickListener();
-    } else {
-      this.nameElement = null;
-    }
+    // Lógica para outras páginas pode ser adicionada aqui se necessário
   }
 
   updateElementPosition() {
@@ -1161,7 +1175,7 @@ class MegamanController {
   scheduleNextShoot() {
     if (!this.isActive) return;
     let delay = this.getRandomInterval(this.shootInterval);
-    if (this.nameElement && this.isMovingToName) delay *= 0.5;
+    if (this.currentTarget && this.isMovingToTarget) delay *= 0.5;
     this.shootTimer = setTimeout(() => this.shoot(), delay);
   }
 
@@ -1197,13 +1211,15 @@ class MegamanController {
     this.startAICycle();
   }
 
-  setupClickListener() {
-    if (this.nameElement) {
-      this.nameElement.addEventListener(
-        "click",
-        () => this.handleDestruction(),
-        { once: true }
-      );
+  setupClickListener(target) {
+    if (target && target.element) {
+      const clickHandler = () => {
+        this.handleDestruction(target);
+      };
+      // Remove o listener antigo para evitar duplicatas, se houver um
+      target.element.removeEventListener("click", target.clickHandler);
+      target.element.addEventListener("click", clickHandler, { once: true });
+      target.clickHandler = clickHandler; // Armazena a referência para poder remover depois
     }
   }
 
