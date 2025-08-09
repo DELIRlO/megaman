@@ -43,9 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeSpeedrun();
   initializeAudioControls();
   initializeBackToTop();
-  if (document.getElementById("carousel-container")) {
-    populateCarouselHTML();
-  }
 
   // Adicionado para lidar com a navegação entre páginas
   const targetPage = localStorage.getItem("targetPage");
@@ -347,6 +344,7 @@ function navigateToPage(pageName) {
     targetPage.classList.add("active");
 
     if (pageName === "cursos") {
+      populateCarouselHTML();
       startCarousel();
     }
 

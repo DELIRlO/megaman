@@ -54,7 +54,7 @@ function populateCarouselHTML() {
     "raspberry-aplicacoes.jpg",
     "raspyberry.jpg",
     "seguranca em linux - firewall.png",
-    "SEGURANÇA EM TECNOLOGIA DA INFORMACAO.png",
+    "SEGURANCA EM TECNOLOGIA DA INFORMACAO.png",
     "SENAI EXCEL BASICO.png",
     "senai sao paulo.png",
     "SHAREPOINT.png",
