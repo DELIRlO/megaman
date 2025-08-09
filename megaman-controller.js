@@ -26,6 +26,7 @@ class MegamanController {
     this.nameRegenerationTimer = null;
     this.destructionCooldown = false;
     this.isRegenerating = false;
+    this.subtitleDestroyed = false;
 
     this.shootInterval = { min: 12000, max: 30000 };
     this.moveInterval = { min: 1500, max: 4000 };
@@ -571,6 +572,9 @@ class MegamanController {
     // Zera o contador de ícones quando um nome é destruído
     if (target.element.id === "destroyable-name") {
       this.iconsDestroyedCount = 0;
+      this.subtitleDestroyed = false; // Reseta o ciclo completo
+    } else if (target.element.id === "destroyable-subtitle") {
+      this.subtitleDestroyed = true;
     }
 
     this.element?.classList.add("attack");
@@ -876,12 +880,24 @@ class MegamanController {
 
     // Lógica refinada de decisão
     if (this.iconsDestroyedCount < 2 && this.iconTargets.length > 0) {
-      // Prioriza ícones até destruir 2
+      // 1. Prioriza ícones até destruir 2
       const icon =
         this.iconTargets[Math.floor(Math.random() * this.iconTargets.length)];
       this.moveToIcon(icon);
+    } else if (this.iconsDestroyedCount >= 2 && !this.subtitleDestroyed) {
+      // 2. Após 2 ícones, foca no subtítulo se ainda não foi destruído
+      const subtitleTarget = this.targets.find(
+        (t) => t.element.id === "destroyable-subtitle"
+      );
+      if (subtitleTarget) {
+        this.currentTarget = subtitleTarget;
+        this.moveToTarget();
+      } else {
+        this.subtitleDestroyed = true; // Marca como 'destruído' se não encontrar, para não travar a lógica
+        this.moveToRandomPosition(); // Tenta de novo
+      }
     } else {
-      // Quando 2 ícones forem destruídos, foca no nome "CARLOS FILHO"
+      // 3. Foca no nome "CARLOS FILHO" como alvo principal
       const carlosFilhoTarget = this.targets.find(
         (t) => t.element.id === "destroyable-name"
       );
@@ -889,7 +905,7 @@ class MegamanController {
         this.currentTarget = carlosFilhoTarget;
         this.moveToTarget();
       } else {
-        // Fallback para movimento aleatório se o alvo principal não for encontrado
+        // Fallback para movimento aleatório se nenhum alvo for encontrado
         this.targetPosition = this.getRandomPosition();
         this.direction =
           this.targetPosition.x < this.position.x ? "left" : "right";
