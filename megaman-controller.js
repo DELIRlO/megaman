@@ -45,6 +45,7 @@ class MegamanController {
       shootingLeft: "assets/sprites/atirando-esquerda.gif", // Novo sprite para atirar para a esquerda
       running: "assets/sprites/megaman-pushing.gif",
       runningLeft: "assets/sprites/megaman-pushing-esquerda.gif",
+      destroying: "assets/sprites/destroiicon.gif",
     };
 
     this.direction = "right";
@@ -68,6 +69,8 @@ class MegamanController {
     };
 
     this.scoreElement = null;
+    this.iconsDestroyedCount = 0; // Novo contador
+    this.iconTargets = [];
 
     this.init();
   }
@@ -102,8 +105,11 @@ class MegamanController {
 
   findTargetElement() {
     // Procura pelo elemento alvo (título da página)
-    this.findNameElement();
-    this.targetElement = this.nameElement;
+    // esta função não existe no código, talvez seja findTargetElements?
+    // ou talvez devesse ser this.findTargetElements() e depois pegar o primeiro?
+    // por enquanto, vou deixar como estava.
+    // this.findNameElement();
+    // this.targetElement = this.nameElement;
   }
 
   executeAIBehavior() {
@@ -562,6 +568,11 @@ class MegamanController {
   handleDestruction(target) {
     if (!target || !target.element || this.isRegenerating) return;
 
+    // Zera o contador de ícones quando um nome é destruído
+    if (target.element.id === "destroyable-name") {
+      this.iconsDestroyedCount = 0;
+    }
+
     this.element?.classList.add("attack");
     target.element.style.animation = "shake 0.3s ease-in-out";
 
@@ -587,6 +598,13 @@ class MegamanController {
       this.isRegenerating = true;
 
       setTimeout(() => this.regenerateName(target), this.regenerationCooldown);
+
+      // Agenda um movimento aleatório para depois da animação de destruição
+      setTimeout(() => {
+        if (this.isActive && !this.isMoving) {
+          this.moveToRandomPosition();
+        }
+      }, this.animationDuration + 100);
     }, this.animationDuration);
   }
 
@@ -856,23 +874,34 @@ class MegamanController {
     this.findTargetElements(); // Garante que os alvos estão atualizados
     this.lastPosition = { ...this.position };
 
-    // Escolhe um alvo aleatório da lista de alvos encontrados
-    if (this.targets.length > 0 && Math.random() < 0.7) {
-      this.currentTarget =
-        this.targets[Math.floor(Math.random() * this.targets.length)];
-      this.moveToTarget();
-      return;
+    // Lógica refinada de decisão
+    if (this.iconsDestroyedCount < 2 && this.iconTargets.length > 0) {
+      // Prioriza ícones até destruir 2
+      const icon =
+        this.iconTargets[Math.floor(Math.random() * this.iconTargets.length)];
+      this.moveToIcon(icon);
+    } else {
+      // Quando 2 ícones forem destruídos, foca no nome "CARLOS FILHO"
+      const carlosFilhoTarget = this.targets.find(
+        (t) => t.element.id === "destroyable-name"
+      );
+      if (carlosFilhoTarget) {
+        this.currentTarget = carlosFilhoTarget;
+        this.moveToTarget();
+      } else {
+        // Fallback para movimento aleatório se o alvo principal não for encontrado
+        this.targetPosition = this.getRandomPosition();
+        this.direction =
+          this.targetPosition.x < this.position.x ? "left" : "right";
+        this.isMoving = true;
+        this.isMovingToTarget = false;
+        this.stats.totalMoves++;
+
+        this.element.classList.add("moving");
+        this.updateMovementSprite();
+        this.updateMovement();
+      }
     }
-
-    this.targetPosition = this.getRandomPosition();
-    this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
-    this.isMoving = true;
-    this.isMovingToName = false;
-    this.stats.totalMoves++;
-
-    this.element.classList.add("moving");
-    this.updateMovementSprite();
-    this.updateMovement();
   }
 
   moveToTarget() {
@@ -892,6 +921,27 @@ class MegamanController {
     this.element.classList.add("moving");
     this.updateMovementSprite();
     this.updateMovement();
+  }
+
+  moveToIcon(icon) {
+    if (!icon) return;
+    const rect = icon.getBoundingClientRect();
+    this.targetPosition = {
+      x: rect.left + rect.width / 2 - 32, // centralizar
+      y: rect.top + rect.height / 2 - 32,
+    };
+
+    this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
+    this.isMoving = true;
+    this.isMovingToTarget = false;
+    this.stats.totalMoves++;
+
+    this.element.classList.add("moving");
+    this.updateMovementSprite();
+    this.updateMovement(() => {
+      // Quando chegar no ícone, destrói
+      this.destroyIcon(icon);
+    });
   }
 
   shoot() {
@@ -952,6 +1002,7 @@ class MegamanController {
     }, this.shootDuration);
   }
 
+  // Apenas para destruir o NOME
   checkNameDestruction() {
     if (
       !this.currentTarget ||
@@ -1110,6 +1161,8 @@ class MegamanController {
       });
     }
     // Lógica para outras páginas pode ser adicionada aqui se necessário
+
+    this.findIconsToDestroy();
   }
 
   updateElementPosition() {
@@ -1124,11 +1177,20 @@ class MegamanController {
       this.currentSprite = spriteName;
       this.element.style.backgroundImage = `url('${this.sprites[spriteName]}')`;
 
-      // Redimensiona apenas para os sprites de tiro
       const isShootingSprite =
         spriteName === "shooting" || spriteName === "shootingLeft";
-      this.element.style.width = isShootingSprite ? "207px" : "64px";
-      this.element.style.height = isShootingSprite ? "207px" : "64px";
+      const isDestroyingSprite = spriteName === "destroying";
+
+      if (isDestroyingSprite) {
+        this.element.style.width = "203px";
+        this.element.style.height = "203px";
+      } else if (isShootingSprite) {
+        this.element.style.width = "207px";
+        this.element.style.height = "207px";
+      } else {
+        this.element.style.width = "64px";
+        this.element.style.height = "64px";
+      }
 
       let x = this.position.x;
       let y = this.position.y;
@@ -1256,6 +1318,54 @@ class MegamanController {
       successfulRegenerations: 0,
       score: 0,
     };
+  }
+  findIconsToDestroy() {
+    this.iconTargets = document.querySelectorAll(".icon-to-destroy");
+    this.iconTargets.forEach((icon) => {
+      // Adiciona um listener para o evento de destruição, se necessário
+    });
+  }
+
+  destroyIcon(icon) {
+    if (!icon || icon.style.opacity === "0") {
+      return; // não destruir se já estiver destruído ou em processo
+    }
+
+    this.isShooting = true; // Previne outros movimentos
+    this.iconsDestroyedCount++; // Incrementa o contador
+    this.switchSprite("destroying");
+
+    // 1. Efeito de vibração (Shake)
+    icon.style.animation = "shake 0.5s ease-in-out";
+
+    // 2. Após a vibração, o ícone desaparece
+    setTimeout(() => {
+      icon.style.transition = "opacity 0.3s";
+      icon.style.opacity = "0";
+      icon.style.animation = ""; // Limpa a animação
+    }, 500); // Duração do shake
+
+    // 3. Megaman volta ao estado normal após a animação de destruição
+    setTimeout(() => {
+      this.isShooting = false;
+      this.switchSprite("idle");
+    }, 1000); // Duração do gif 'destroiicon.gif'
+
+    // 4. Agenda a regeneração do ícone
+    setTimeout(() => {
+      // Efeito de regeneração (piscar)
+      icon.style.opacity = "0";
+      icon.style.transition = "opacity 0.2s linear";
+      let flashes = 0;
+      const flickerInterval = setInterval(() => {
+        icon.style.opacity = icon.style.opacity === "0" ? "1" : "0";
+        flashes++;
+        if (flashes >= 6) {
+          clearInterval(flickerInterval);
+          icon.style.opacity = "1"; // Garante que o ícone fique visível
+        }
+      }, 200);
+    }, 10000); // 10 segundos
   }
 }
 
