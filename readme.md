@@ -161,7 +161,6 @@ python3 -m http.server 8000
 # Acessar no navegador
 http://localhost:8000
 
-
 - Este projeto é de uso pessoal e educacional.
 - Não permite redistribuição comercial.
 
@@ -319,7 +318,7 @@ Problema Solução
 ### 🌐 Links
 
 - **GitHub Pages**: [delirlo.github.io/megaman/](https://delirlo.github.io/megaman/)
-- **Vercel**: [megaman.vercel.app](https://carlosdiniz.vercel.app)
+- **Vercel**: [carlosdiniz.vercel.app](https://carlosdiniz.vercel.app)
 
 ---
 
@@ -424,16 +423,16 @@ A IA agora segue um ciclo estratégico específico:
 
 ### Funcionalidades Testadas
 
-✅ Ativação do Megaman via botão
-✅ Nova lógica de IA funcionando automaticamente
-✅ Movimento estratégico para direita e esquerda do alvo
-✅ Tiros sempre executados parado (nunca andando)
-✅ Uso correto dos sprites (parado-reverso quando necessário)
-✅ Novo botão "Mover para Esquerda" funcionando
-✅ Ícone invertido do botão de movimento para esquerda
-✅ Sistema de pontuação funcionando (score aumenta com tiros)
-✅ Regeneração do título após destruição
-✅ Compatibilidade com controles existentes
+- ✅ Ativação do Megaman via botão
+- ✅ Nova lógica de IA funcionando automaticamente
+- ✅ Movimento estratégico para direita e esquerda do alvo
+- ✅ Tiros sempre executados parado (nunca andando)
+- ✅ Uso correto dos sprites (parado-reverso quando necessário)
+- ✅ Novo botão "Mover para Esquerda" funcionando
+- ✅ Ícone invertido do botão de movimento para esquerda
+- ✅ Sistema de pontuação funcionando (score aumenta com tiros)
+- ✅ Regeneração do título após destruição
+- ✅ Compatibilidade com controles existentes
 
 ## 6. Conclusão
 
