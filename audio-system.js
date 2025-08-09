@@ -254,7 +254,10 @@ class AudioSystem {
       }
 
       const storedBgMusicEnabled = localStorage.getItem("audioBgMusicEnabled");
-      if (storedBgMusicEnabled !== null) {
+      // Se não há estado salvo, o padrão é a música estar LIGADA.
+      if (storedBgMusicEnabled === null) {
+        this.backgroundMusicEnabled = true;
+      } else {
         this.backgroundMusicEnabled = storedBgMusicEnabled === "true";
       }
     } catch (e) {
@@ -271,7 +274,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const enableAudio = () => {
     window.audioSystem.enableAudio();
     window.audioSystem.init().then(() => {
-      setTimeout(() => window.audioSystem.startBackgroundMusic(), 3000);
+      // Inicia a música imediatamente após a primeira interação, sem atraso.
+      window.audioSystem.startBackgroundMusic();
     });
 
     document.removeEventListener("click", enableAudio);

@@ -11,8 +11,6 @@
     />
     <meta property="og:image" content="/public/assets/images/screenshot.png" />
     <title>Carlos Filho - Portfólio 8-bit's</title>
-
-    <!-- Favicon corrigido com múltiplas opções -->
     <link
       rel="shortcut icon"
       href="https://delirlo.github.io/megaman/assets/sprites/favicon.ico"
@@ -27,7 +25,6 @@
       rel="apple-touch-icon"
       href="https://delirlo.github.io/megaman/assets/sprites/favicon.png"
     />
-
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="projetos.css" />
     <link rel="stylesheet" href="starfield/starfield.css" />
@@ -35,7 +32,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <!-- Substitua esta seção -->
     <div class="audio-controls-top">
       <div class="top-menu-row">
         <div
@@ -63,7 +59,6 @@
           <div class="menu-icon"><i class="fas fa-share-alt"></i></div>
         </div>
       </div>
-
       <div id="social-buttons-container" class="top-menu-dropdown">
         <a
           href="https://t.me/ysneshy2025"
@@ -106,7 +101,6 @@
           <div class="menu-icon"><i class="fas fa-star"></i></div>
         </div>
       </div>
-
       <div id="megaman-controls-container" class="top-menu-dropdown">
         <div
           class="menu-item megaman-control"
@@ -125,36 +119,53 @@
         <div
           class="menu-item megaman-control"
           title="Forçar Tiro"
-          onclick="megamanControlAction('shoot')"
+          onclick="megamanControlAction('shoot', true)"
         >
           <div class="menu-icon"><i class="fas fa-crosshairs"></i></div>
         </div>
         <div
           class="menu-item megaman-control"
           title="Forçar Movimento"
-          onclick="megamanControlAction('move')"
+          onclick="megamanControlAction('move', true)"
         >
           <div class="menu-icon"><i class="fas fa-running"></i></div>
         </div>
         <div
           class="menu-item megaman-control"
           title="Mover para Esquerda"
-          onclick="megamanControlAction('move_left')"
+          onclick="megamanControlAction('move_left', true)"
         >
           <div class="menu-icon">
             <i class="fas fa-running" style="transform: scaleX(-1)"></i>
           </div>
         </div>
+        <div
+          class="menu-item megaman-control"
+          title="Modo IA"
+          onclick="megamanControlAction('set_mode', 'ia')"
+        >
+          <div class="menu-icon"><i class="fas fa-robot"></i></div>
+        </div>
+        <div
+          class="menu-item megaman-control"
+          title="Modo Manual"
+          onclick="megamanControlAction('set_mode', 'manual')"
+        >
+          <div class="menu-icon"><i class="fas fa-hand-paper"></i></div>
+        </div>
+        <div
+          class="menu-item megaman-control"
+          title="Modo Híbrido"
+          onclick="megamanControlAction('set_mode', 'all')"
+        >
+          <div class="menu-icon"><i class="fas fa-infinity"></i></div>
+        </div>
       </div>
     </div>
-
     <style>
-      /* Remove todos os cursores padrão */
       * {
         cursor: none !important;
       }
-
-      /* Estilo do cursor personalizado */
       #custom-cursor {
         position: fixed;
         width: 32px;
@@ -163,27 +174,20 @@
         z-index: 9999;
         background-image: url("assets/sprites/cursor.png");
         background-size: cover;
-        display: none; /* Inicia oculto */
+        display: none;
       }
     </style>
   </head>
   <body>
-    <!-- Starfield background -->
     <div class="stars"></div>
     <div class="stars2"></div>
     <div class="stars3"></div>
-    <!-- Sobreposição de transição -->
     <div id="transition-overlay" class="transition-overlay"></div>
-    <!-- Div do cursor (coloque como PRIMEIRO elemento do body) -->
     <div id="custom-cursor"></div>
-
-    <!-- Container para as linhas horizontais -->
     <div
       class="horizontal-lines-container"
       id="horizontal-lines-container"
     ></div>
-
-    <!-- Menu Móvel -->
     <div class="mobile-menu-shortcut" id="mobile-shortcut">
       <div class="shortcut-dots">
         <span></span>
@@ -191,14 +195,12 @@
         <span></span>
       </div>
     </div>
-
     <div class="mobile-menu-overlay" id="mobile-overlay">
       <div class="mobile-menu-content">
         <div class="mobile-menu-header">
           <h3>MENU</h3>
           <button class="close-menu" id="close-menu">✕</button>
         </div>
-
         <div class="mobile-menu-grid">
           <div class="mobile-menu-item" data-page="home">
             <div class="menu-icon">🏛️</div>
@@ -233,12 +235,10 @@
             <span class="menu-label">CONTATO</span>
           </div>
         </div>
-
         <div class="mobile-social-section">
           <div class="mobile-social-title">REDES SOCIAIS</div>
           <div class="mobile-social-grid">
             <div style="display: flex; gap: 5px; margin-left: -15px"></div>
-
             <a
               href="https://github.com/delirlo"
               target="_blank"
@@ -283,7 +283,6 @@
         </div>
       </div>
     </div>
-    <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
       <div class="loading-container">
         <div class="loading-brand">
@@ -294,7 +293,6 @@
           />
           <h1 class="loading-title">CARREGANDO</h1>
         </div>
-
         <div class="loading-progress">
           <div class="progress-track">
             <div class="progress-bar" id="progress-indicator"></div>
@@ -303,8 +301,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Menu Flutuante -->
     <nav class="floating-menu">
       <div class="menu-item" data-page="home">
         <div class="menu-icon"><i class="fas fa-laptop-code"></i></div>
@@ -338,7 +334,6 @@
         <div class="menu-icon"><i class="fas fa-headset"></i></div>
         <span class="menu-label">CONTATO</span>
       </div>
-
       <div class="social-links">
         <a
           href="https://github.com/delirlo"
@@ -358,8 +353,6 @@
         </a>
       </div>
     </nav>
-
-    <!-- Conteúdo Principal -->
     <main id="main-content" class="main-content">
       <section id="home" class="page active">
         <div class="hero-section">
@@ -482,7 +475,6 @@
               desenvolvimento
             </li>
           </ul>
-
           <p>
             <strong style="position: relative; z-index: 11">
               <i
@@ -524,16 +516,13 @@
           </ul>
         </div>
       </section>
-
       <section id="cursos" class="page">
         <div class="page-content">
           <h1>
             <i class="fas fa-graduation-cap"></i> MEUS CURSOS E CERTIFICAÇÕES
           </h1>
           <div class="carousel-container">
-            <div class="carousel-track">
-              <!-- Imagens dos cursos serão adicionadas aqui -->
-            </div>
+            <div class="carousel-track"></div>
             <button class="carousel-button prev">&#10094;</button>
             <button class="carousel-button next">&#10095;</button>
             <button class="carousel-button up" style="display: none">
@@ -547,8 +536,6 @@
         </div>
       </section>
     </main>
-
-    <!-- Elementos adicionais -->
     <div class="loading-sprite">
       <img
         src="assets/sprites/megaman-idle.gif"
@@ -556,11 +543,9 @@
         style="display: none"
       />
     </div>
-
     <div id="megaman-transition" class="megaman-transition">
       <div class="megaman-sprite"></div>
     </div>
-
     <div id="speedrun-timer" class="speedrun-timer hidden">
       <div class="timer-label">SPEEDRUN</div>
       <div class="timer-value">00:00:00</div>
@@ -570,7 +555,6 @@
         <div>3. RETRO_GAMER - 02:01:33</div>
       </div>
     </div>
-
     <div id="konami-game" class="konami-game hidden">
       <div class="game-screen">
         <h3>EASTER EGG ATIVADO!</h3>
@@ -587,7 +571,6 @@
         <button onclick="closeKonamiGame()">FECHAR</button>
       </div>
     </div>
-
     <script src="audio-system.js"></script>
     <script src="megaman-controller.js"></script>
     <script src="scripts.js"></script>
@@ -595,16 +578,13 @@
     <script src="loading-system.js"></script>
     <script src="pages/projetos.js"></script>
     <script src="starfield/starfield.js"></script>
-
     <script>
       function updateAudioIcons() {
         const musicIcon = document.getElementById("music-icon");
         const musicButton = document.getElementById("music-button");
-
         if (musicButton && musicIcon) {
           const isMusicEnabled =
             window.audioSystem && window.audioSystem.backgroundMusicEnabled;
-
           if (!isMusicEnabled) {
             musicButton.classList.remove("music-button-playing");
             musicButton.classList.add("music-button-paused");
@@ -613,7 +593,6 @@
             musicButton.classList.add("music-button-playing");
           }
         }
-
         const muteIcon = document.getElementById("mute-icon");
         if (muteIcon && window.audioSystem) {
           muteIcon.innerHTML = window.audioSystem.isMuted
@@ -621,7 +600,6 @@
             : '<i class="fas fa-volume-up"></i>';
         }
       }
-
       document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
           if (window.audioSystem) {
@@ -632,7 +610,6 @@
               setTimeout(updateAudioIcons, 100);
               return result;
             };
-
             const originalToggleMute = window.audioSystem.toggleMute;
             window.audioSystem.toggleMute = function () {
               const result = originalToggleMute.apply(this, arguments);
@@ -640,41 +617,29 @@
               return result;
             };
           }
-
           updateAudioIcons();
           setInterval(updateAudioIcons, 2000);
         }, 1000);
       });
     </script>
-
     <script>
-      // Configuração básica do cursor
       document.addEventListener("DOMContentLoaded", () => {
         const cursor = document.getElementById("custom-cursor");
-
-        // Mostra o cursor quando o mouse entra na página
         document.body.addEventListener("mouseenter", () => {
           cursor.style.display = "block";
         });
-
-        // Move o cursor
         document.addEventListener("mousemove", (e) => {
           cursor.style.left = `${e.clientX}px`;
           cursor.style.top = `${e.clientY}px`;
         });
-
-        // Efeito de clique (opcional)
         document.addEventListener("mousedown", () => {
           cursor.style.transform = "scale(0.8)";
         });
-
         document.addEventListener("mouseup", () => {
           cursor.style.transform = "scale(1)";
         });
       });
     </script>
-
-    <!-- Adicione isso no final do <body> -->
     <div class="energy-circuit">
       <svg
         class="energy-connection"
@@ -691,18 +656,15 @@
         const container = document.getElementById("social-buttons-container");
         const button = document.getElementById("social-menu-button");
         const megamanButton = document.getElementById("megaman-control-button");
-
         if (container.style.display === "none" || !container.style.display) {
           container.style.display = "flex";
           button.classList.add("active");
-          // Mostra o botão do Mega Man quando o menu social é aberto
           if (megamanButton) {
             megamanButton.style.display = "flex";
           }
         } else {
           container.style.display = "none";
           button.classList.remove("active");
-          // Esconde o botão do Mega Man e seus controles quando o menu social é fechado
           if (megamanButton) {
             megamanButton.style.display = "none";
             const megamanControls = document.getElementById(
@@ -714,18 +676,14 @@
             megamanButton.classList.remove("active");
           }
         }
-
-        // Tocar efeito sonoro se disponível
         if (window.audioSystem) {
           window.audioSystem.play("click");
         }
       }
 
-      // Função para controlar o menu do Mega Man
       function toggleMegamanControls() {
         const container = document.getElementById("megaman-controls-container");
         const button = document.getElementById("megaman-control-button");
-
         if (container.style.display === "none" || !container.style.display) {
           container.style.display = "flex";
           button.classList.add("active");
@@ -733,20 +691,21 @@
           container.style.display = "none";
           button.classList.remove("active");
         }
-
-        // Tocar efeito sonoro se disponível
         if (window.audioSystem) {
           window.audioSystem.play("click");
         }
       }
 
-      // Função para executar ações do Mega Man via botões
-      function megamanControlAction(action) {
+      function megamanControlAction(action, value) {
         if (!window.megamanController) {
           console.log("❌ Controlador do Mega Man não encontrado.");
           return;
         }
-
+        if (action === "set_mode") {
+          window.megamanController.setControlMode(value);
+          console.log(`🤖 Modo de controle alterado para: ${value}`);
+          return;
+        }
         switch (action) {
           case "on":
             window.megamanController.start();
@@ -758,7 +717,7 @@
             break;
           case "shoot":
             if (window.megamanController.isActive) {
-              window.megamanController.shoot();
+              window.megamanController.shoot(true);
               console.log("💥 Mega Man atirou via botão!");
             } else {
               console.log("❌ Mega Man precisa estar ativo para atirar.");
@@ -766,7 +725,7 @@
             break;
           case "move":
             if (window.megamanController.isActive) {
-              window.megamanController.moveToRandomPosition();
+              window.megamanController.moveToRandomPosition(true);
               console.log("🏃 Mega Man se moveu via botão!");
             } else {
               console.log("❌ Mega Man precisa estar ativo para se mover.");
@@ -774,21 +733,22 @@
             break;
           case "move_left":
             if (window.megamanController.isActive) {
-              // Move para uma posição à esquerda
               const leftPosition = {
                 x: Math.max(50, window.megamanController.position.x - 200),
                 y: window.megamanController.position.y,
               };
-              window.megamanController.moveToPosition(leftPosition, () => {
-                console.log("🏃 Mega Man se moveu para esquerda via botão!");
-              });
+              window.megamanController.moveToPosition(
+                leftPosition,
+                () => {
+                  console.log("🏃 Mega Man se moveu para esquerda via botão!");
+                },
+                true
+              );
             } else {
               console.log("❌ Mega Man precisa estar ativo para se mover.");
             }
             break;
         }
-
-        // Tocar efeito sonoro se disponível
         if (window.audioSystem) {
           window.audioSystem.play("click");
         }
@@ -797,44 +757,30 @@
     <button id="back-to-top" title="Voltar ao topo" class="back-to-top">
       ↑
     </button>
-
     <script>
-      // Debug avançado do sistema de áudio
       function initAudioDebug() {
         const debugEl = document.getElementById("audio-debug");
         if (!debugEl || !window.audioSystem) return;
-
-        // Estilo adicional para o debug
         debugEl.style.display = "flex";
         debugEl.style.alignItems = "center";
         debugEl.style.gap = "15px";
         debugEl.style.padding = "8px 12px";
-
-        // Função para formatar tempo
         const formatTime = (seconds) => {
           if (!seconds) return "0.0s";
           const mins = Math.floor(seconds / 60);
           const secs = (seconds % 60).toFixed(1);
           return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
         };
-
-        // Atualização contínua do debug
         const updateDebugInfo = () => {
           try {
             const audio = window.audioSystem;
             const now = audio.audioContext?.currentTime || 0;
-
-            // Tempo decorrido da música
             const elapsed =
               audio.backgroundMusic && audio.musicStartTime
                 ? formatTime(now - audio.musicStartTime)
                 : "0.0s";
-
-            // Estado dos controles
             const musicState = audio.backgroundMusicEnabled ? "ON" : "OFF";
             const muteState = audio.isMuted ? "MUDO" : "SOM";
-
-            // Atualiza o elemento de debug
             debugEl.innerHTML = `
         <span title="Música de fundo">🎵 ${musicState}</span>
         <span title="Tempo decorrido">⏱ ${elapsed}</span>
@@ -843,26 +789,16 @@
           audio.isMuted ? "🔇" : "🔊"
         } ${muteState}</span>
       `;
-
-            // Cor baseada no estado
             debugEl.style.borderColor = audio.isMuted ? "#ff5555" : "#8A2BE2";
           } catch (error) {
             console.error("Audio debug error:", error);
             debugEl.innerHTML = "DEBUG ERROR";
           }
         };
-
-        // Configura o intervalo de atualização
         const debugInterval = setInterval(updateDebugInfo, 500);
-
-        // Atualiza também em eventos de redimensionamento
         window.addEventListener("resize", updateDebugInfo);
-
-        // Limpeza quando necessário
         return () => clearInterval(debugInterval);
       }
-
-      // Inicialização segura
       function setupAudioDebug() {
         if (window.audioSystem) {
           return initAudioDebug();
@@ -873,8 +809,6 @@
               initAudioDebug();
             }
           }, 300);
-
-          // Timeout para não ficar verificando eternamente
           setTimeout(() => {
             clearInterval(checkInterval);
             const debugEl = document.getElementById("audio-debug");
@@ -882,11 +816,8 @@
           }, 10000);
         }
       }
-
-      // Inicia quando o DOM estiver pronto
       document.addEventListener("DOMContentLoaded", setupAudioDebug);
     </script>
-    <!-- Adicionado no body -->
     <footer>
       <div class="footer-content">
         <div class="footer-social">
@@ -959,9 +890,7 @@
         </div>
       </div>
       <div class="matrix-rain"></div>
-
       <style>
-        /* EFEITO MATRIX QUE SOBE E DESCE */
         .matrix-rain {
           position: absolute;
           top: 0;
@@ -976,14 +905,12 @@
           font-size: 12px;
           opacity: 0.6;
         }
-
         .matrix-track {
           position: absolute;
           width: 15px;
           animation: matrixLoop 8s linear infinite;
           animation-delay: calc(var(--delay) * 0.5s);
         }
-
         @keyframes matrixLoop {
           0% {
             transform: translateY(-100%);
@@ -1005,7 +932,6 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const container = document.querySelector(".matrix-rain");
-
         const chars =
           "01" +
           "0000000000000000▣\n" +
@@ -1024,51 +950,36 @@
           "0100000000000010▣\n" +
           "0111111111111110▣\n" +
           "0000000000000000▣";
-
-        // Calcula quantas colunas cabem no footer
         const columnCount = Math.floor(window.innerWidth / 20);
-
-        // Cria trilhas de caracteres
         for (let i = 0; i < columnCount; i++) {
           const track = document.createElement("div");
           track.className = "matrix-track";
           track.style.setProperty("--delay", i);
           track.style.left = `${i * 20}px`;
-
-          // Cria caracteres com fade
           for (let j = 0; j < 30; j++) {
             const char = document.createElement("div");
             const randomChar = chars[Math.floor(Math.random() * chars.length)];
-
-            // Adiciona negrito apenas para 0 e 1
             if (randomChar === "0" || randomChar === "1") {
               char.innerHTML = `<strong>${randomChar}</strong>`;
             } else {
               char.textContent = randomChar;
             }
-
             char.style.opacity = (30 - j) / 30;
             char.style.transition = "opacity 0.3s";
             track.appendChild(char);
           }
-
           container.appendChild(track);
         }
-
-        // Atualiza caracteres periodicamente
         setInterval(() => {
           document.querySelectorAll(".matrix-track div").forEach((char) => {
             if (Math.random() > 0.7) {
               const randomChar =
                 chars[Math.floor(Math.random() * chars.length)];
-
-              // Mantém o negrito para 0 e 1 nas atualizações
               if (randomChar === "0" || randomChar === "1") {
                 char.innerHTML = `<strong>${randomChar}</strong>`;
               } else {
                 char.textContent = randomChar;
               }
-
               char.style.opacity = 1;
             }
           });

@@ -13,6 +13,7 @@ class MegamanController {
     this.moveTimer = null;
     this.currentPage = "home";
     this.isPaused = false;
+    this.controlMode = "all"; // ia, manual, all
 
     // Nova lógica de IA
     this.aiState = "idle";
@@ -86,16 +87,45 @@ class MegamanController {
     this.setupPageChangeMonitoring();
   }
 
+  setControlMode(mode) {
+    if (["ia", "manual", "all"].includes(mode)) {
+      this.controlMode = mode;
+      console.log(`Modo de controle do Megaman definido para: ${mode}`);
+      this.updateButtonStyles();
+      clearTimeout(this.shootTimer);
+      clearTimeout(this.moveTimer);
+      this.shootTimer = null;
+      this.moveTimer = null;
+      if (
+        (this.controlMode === "ia" || this.controlMode === "all") &&
+        this.isActive
+      ) {
+        this.scheduleNextMove();
+        this.scheduleNextShoot();
+      }
+    }
+  }
+
+  updateButtonStyles() {
+    document
+      .querySelectorAll(".megaman-control")
+      .forEach((btn) => btn.classList.remove("control-mode-active"));
+    const activeButton = document.querySelector(
+      `[onclick="megamanControlAction('set_mode', '${this.controlMode}')"]`
+    );
+    if (activeButton) {
+      activeButton.classList.add("control-mode-active");
+    }
+  }
+
   startAICycle() {
     if (!this.isActive || this.isPaused) return;
-
     this.findTargetElement();
     if (!this.targetElement) {
       this.scheduleNextMove();
       this.scheduleNextShoot();
       return;
     }
-
     this.aiState = "moving_right";
     this.hasShootRight = false;
     this.hasShootLeft = false;
@@ -106,13 +136,11 @@ class MegamanController {
 
   executeAIBehavior() {
     if (!this.isActive || this.isPaused || !this.targetElement) return;
-
     const targetRect = this.targetElement.getBoundingClientRect();
     const targetCenter = {
       x: targetRect.left + targetRect.width / 2,
       y: targetRect.top + targetRect.height / 2,
     };
-
     switch (this.aiState) {
       case "moving_right":
         this.moveRightAndShoot(targetCenter);
@@ -135,7 +163,6 @@ class MegamanController {
         this.boundaries.minY
       ),
     };
-
     this.moveToPosition(rightPosition, () => {
       this.stopAndShootLeft(() => {
         this.hasShootRight = true;
@@ -153,7 +180,6 @@ class MegamanController {
         this.boundaries.minY
       ),
     };
-
     this.moveToPosition(leftPosition, () => {
       this.stopAndShootRight(() => {
         this.hasShootLeft = true;
@@ -163,14 +189,17 @@ class MegamanController {
     });
   }
 
-  moveToPosition(targetPos, callback) {
+  moveToPosition(targetPos, callback, isManual = false) {
+    if (isManual && this.controlMode !== "manual" && this.controlMode !== "all")
+      return;
+    if (!isManual && this.controlMode !== "ia" && this.controlMode !== "all")
+      return;
     if (this.isMoving || this.isShooting) return;
 
     this.targetPosition = targetPos;
     this.direction = this.targetPosition.x > this.position.x ? "right" : "left";
     this.isMoving = true;
     this.stats.totalMoves++;
-
     this.element.classList.add("moving");
     this.updateMovementSprite();
     this.updateMovement(callback);
@@ -178,12 +207,10 @@ class MegamanController {
 
   stopAndShootLeft(callback) {
     if (this.isShooting) return;
-
     this.direction = "left";
     this.isMoving = false;
     this.element.classList.remove("moving");
     this.switchSprite("preShootingLeft");
-
     setTimeout(() => {
       if (this.isActive && !this.isShooting) {
         this.performShoot("left", callback);
@@ -193,12 +220,10 @@ class MegamanController {
 
   stopAndShootRight(callback) {
     if (this.isShooting) return;
-
     this.isMoving = false;
     this.element.classList.remove("moving");
     this.direction = "right";
     this.switchSprite("idle");
-
     setTimeout(() => {
       this.performShoot("right", callback);
     }, 500);
@@ -209,19 +234,15 @@ class MegamanController {
       if (callback) callback();
       return;
     }
-
     this.isShooting = true;
     this.stats.totalShots++;
     this.direction = direction;
     this.switchSprite(direction === "left" ? "shootingLeft" : "shooting");
     this.element.classList.add("shooting");
-
     this.checkNameDestruction();
-
     if (window.audioSystem) {
       window.audioSystem.play("click");
     }
-
     setTimeout(() => {
       if (this.isActive) {
         this.switchSprite(
@@ -245,7 +266,6 @@ class MegamanController {
     const dx = this.targetPosition.x - this.position.x;
     const dy = this.targetPosition.y - this.position.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
-
     if (distance < this.movementSpeed) {
       this.position = { ...this.targetPosition };
       this.isMoving = false;
@@ -255,13 +275,11 @@ class MegamanController {
       if (callback) callback();
       return;
     }
-
     const moveX = (dx / distance) * this.movementSpeed;
     const moveY = (dy / distance) * this.movementSpeed;
     this.position.x += moveX;
     this.position.y += moveY;
     this.updateElementPosition();
-
     this.animationFrame = requestAnimationFrame(() =>
       this.updateMovement(callback)
     );
@@ -278,7 +296,6 @@ class MegamanController {
     `;
     document.body.appendChild(this.scoreElement);
     this.updateScore(0);
-
     this.checkMobileDevice();
     window.addEventListener("resize", () => this.checkMobileDevice());
   }
@@ -356,8 +373,6 @@ class MegamanController {
 
   handleDestruction(target) {
     if (!target || !target.element || this.isRegenerating) return;
-
-    // Avança o ciclo de ataque
     switch (this.attackStage) {
       case "destroying_name1":
         this.attackStage = "destroying_subtitle";
@@ -366,16 +381,13 @@ class MegamanController {
         this.attackStage = "destroying_name2";
         break;
       case "destroying_name2":
-        this.iconsDestroyedCount = 0; // Zera contador
-        this.attackStage = "destroying_icons"; // Reinicia o ciclo
+        this.iconsDestroyedCount = 0;
+        this.attackStage = "destroying_icons";
         break;
     }
-
     this.element?.classList.add("attack");
     target.element.style.animation = "shake 0.3s ease-in-out";
-
     this.animateLetterBreaking(target);
-
     setTimeout(() => {
       if (target.element) {
         target.element.style.animation = "ash-fall 1.5s ease-in-out";
@@ -384,19 +396,14 @@ class MegamanController {
         target.element.style.textShadow = "0 0 5px rgba(100, 100, 100, 0.5)";
       }
     }, 800);
-
     this.destructionCooldown = true;
     this.stats.nameDestructions++;
     this.updateScore(10);
-
     setTimeout(() => {
       if (target.element?.parentNode) target.element.remove();
-
       this.element?.classList.remove("attack");
       this.isRegenerating = true;
-
       setTimeout(() => this.regenerateName(target), this.regenerationCooldown);
-
       setTimeout(() => {
         if (this.isActive && !this.isMoving) {
           this.moveToRandomPosition();
@@ -407,12 +414,10 @@ class MegamanController {
 
   animateLetterBreaking(target) {
     if (!target || !target.element) return;
-
     const plainText = target.originalContent.replace(/<[^>]*>/g, "");
     const letters = plainText.split("");
     let currentStep = 0;
     const totalSteps = 8;
-
     const breakingInterval = setInterval(() => {
       if (!target.element) {
         clearInterval(breakingInterval);
@@ -614,9 +619,14 @@ class MegamanController {
     }
   }
 
-  moveToRandomPosition() {
+  moveToRandomPosition(isManual = false) {
+    if (isManual && this.controlMode !== "manual" && this.controlMode !== "all")
+      return;
+    if (!isManual && this.controlMode !== "ia" && this.controlMode !== "all")
+      return;
+
     if (!this.isActive || this.isPaused || this.isMoving || this.isShooting) {
-      this.scheduleNextMove();
+      if (!isManual) this.scheduleNextMove();
       return;
     }
     this.findTargetElements();
@@ -707,14 +717,19 @@ class MegamanController {
     });
   }
 
-  shoot() {
+  shoot(isManual = false) {
+    if (isManual && this.controlMode !== "manual" && this.controlMode !== "all")
+      return;
+    if (!isManual && this.controlMode !== "ia" && this.controlMode !== "all")
+      return;
+
     if (
       !this.isActive ||
       this.isPaused ||
       this.isShooting ||
       this.destructionCooldown
     ) {
-      this.scheduleNextShoot();
+      if (!isManual) this.scheduleNextShoot();
       return;
     }
     if (this.isMoving) this.stopMovement();
@@ -742,8 +757,8 @@ class MegamanController {
         );
         this.isShooting = false;
         this.element.classList.remove("shooting");
-        this.scheduleNextShoot();
-        if (Math.random() < 0.5) {
+        if (!isManual) this.scheduleNextShoot();
+        if (Math.random() < 0.5 && !isManual) {
           setTimeout(() => {
             if (this.isActive && !this.isMoving) {
               this.moveToRandomPosition();
@@ -834,10 +849,10 @@ class MegamanController {
       mutations.forEach((mutation) => {
         if (
           mutation.type === "attributes" &&
-          mutation.attributeName === "class"
-        ) {
-          if (mutation.target.classList.contains("page")) pageChanged = true;
-        }
+          mutation.attributeName === "class" &&
+          mutation.target.classList.contains("page")
+        )
+          pageChanged = true;
       });
       if (pageChanged) {
         setTimeout(() => {
@@ -944,13 +959,21 @@ class MegamanController {
   }
 
   scheduleNextMove() {
-    if (!this.isActive) return;
+    if (
+      !this.isActive ||
+      (this.controlMode !== "ia" && this.controlMode !== "all")
+    )
+      return;
     const delay = this.getRandomInterval(this.moveInterval);
     this.moveTimer = setTimeout(() => this.moveToRandomPosition(), delay);
   }
 
   scheduleNextShoot() {
-    if (!this.isActive) return;
+    if (
+      !this.isActive ||
+      (this.controlMode !== "ia" && this.controlMode !== "all")
+    )
+      return;
     let delay = this.getRandomInterval(this.shootInterval);
     if (this.currentTarget && this.isMovingToTarget) delay *= 0.5;
     this.shootTimer = setTimeout(() => this.shoot(), delay);
@@ -1062,7 +1085,7 @@ class MegamanController {
           icon.style.opacity = "1";
         }
       }, 200);
-    }, 1500); // Regeneração quase imediata
+    }, 1500);
   }
 }
 
