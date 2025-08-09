@@ -156,13 +156,18 @@
         <div
           class="menu-item megaman-control"
           title="Modo Híbrido"
-          onclick="megamanControlAction('set_mode', 'all')"
+          onclick="megamanControlAction('set_mode', 'hibrido')"
         >
           <div class="menu-icon"><i class="fas fa-infinity"></i></div>
         </div>
       </div>
     </div>
     <style>
+      .megaman-control.active {
+        background-color: #0f0; /* Verde para o modo ativo */
+        color: #000;
+        box-shadow: 0 0 10px #0f0;
+      }
       * {
         cursor: none !important;
       }
@@ -658,75 +663,69 @@
         else ((e.style.display = "none"), t.classList.remove("active"));
         if (window.audioSystem) window.audioSystem.play("click");
       }
-      function megamanControlAction(e, t) {
-        if (!window.megamanController)
-          return void console.log("❌ Controlador do Mega Man não encontrado.");
-        if ("set_mode" === e)
-          return (
-            window.megamanController.setControlMode(t),
-            void console.log(`🤖 Modo de controle alterado para: ${t}`)
-          );
-        switch (e) {
+      function megamanControlAction(action, value) {
+        if (!window.megamanController) {
+          return console.log("❌ Controlador do Mega Man não encontrado.");
+        }
+        const controller = window.megamanController;
+
+        switch (action) {
           case "on":
-            (window.megamanController.start(),
-              console.log("🤖 Mega Man ativado via botão!"));
+            controller.start();
+            console.log("🤖 Mega Man ativado via botão!");
             break;
           case "off":
-            (window.megamanController.stop(),
-              console.log("🤖 Mega Man desativado via botão!"));
+            controller.stop();
+            console.log("🤖 Mega Man desativado via botão!");
+            break;
+          case "set_mode":
+            controller.setControlMode(value);
+            updateMegamanControlIcons(); // Atualiza a interface
             break;
           case "shoot":
-            window.megamanController.isActive
-              ? (window.megamanController.shoot(!0),
-                console.log("💥 Mega Man atirou via botão!"))
-              : console.log("❌ Mega Man precisa estar ativo para atirar.");
-            break;
           case "move_right":
-            if (window.megamanController.isActive) {
-              const e = {
-                x: Math.min(
-                  window.megamanController.boundaries.maxX,
-                  window.megamanController.position.x + 200
-                ),
-                y: window.megamanController.position.y,
-              };
-              window.megamanController.moveToPosition(
-                e,
-                () => {
-                  console.log("🏃 Mega Man se moveu para direita via botão!");
-                },
-                !0
-              );
-            } else
-              console.log("❌ Mega Man precisa estar ativo para se mover.");
-            break;
           case "move_left":
-            if (window.megamanController.isActive) {
-              const e = {
-                x: Math.max(
-                  window.megamanController.boundaries.minX,
-                  window.megamanController.position.x - 200
-                ),
-                y: window.megamanController.position.y,
-              };
-              window.megamanController.moveToPosition(
-                e,
-                () => {
-                  console.log("🏃 Mega Man se moveu para esquerda via botão!");
-                },
-                !0
-              );
-            } else
-              console.log("❌ Mega Man precisa estar ativo para se mover.");
+            controller.handleManualAction(action, value);
             break;
-          case "move":
-            window.megamanController.isActive
-              ? (window.megamanController.moveToRandomPosition(!0),
-                console.log("🏃 Mega Man se moveu via botão!"))
-              : console.log("❌ Mega Man precisa estar ativo para se mover.");
         }
         if (window.audioSystem) window.audioSystem.play("click");
       }
+    </script>
+    <script>
+      function updateMegamanControlIcons() {
+        if (!window.megamanController) return;
+
+        const currentMode = window.megamanController.controlMode;
+        const modeButtons = {
+          ia: document.querySelector(".megaman-control[title='Modo IA']"),
+          manual: document.querySelector(
+            ".megaman-control[title='Modo Manual']"
+          ),
+          hibrido: document.querySelector(
+            ".megaman-control[title='Modo Híbrido']"
+          ),
+        };
+
+        for (const mode in modeButtons) {
+          if (modeButtons[mode]) {
+            if (mode === currentMode) {
+              modeButtons[mode].classList.add("active");
+            } else {
+              modeButtons[mode].classList.remove("active");
+            }
+          }
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Evento para quando o modo é trocado via código
+        document.addEventListener("controlmodechange", (e) => {
+          updateMegamanControlIcons();
+        });
+
+        // Estado inicial
+        setTimeout(updateMegamanControlIcons, 1000); // Garante que o controller já carregou
+      });
     </script>
     <button id="back-to-top" title="Voltar ao topo" class="back-to-top">
       ↑
