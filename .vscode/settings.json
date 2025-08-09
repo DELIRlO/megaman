@@ -1,3 +1,6 @@
 {
-  "liveServer.settings.port": 5505
+  "cSpell.enabled": false,
+  "editor.guides.indentation": true,
+  "editor.guides.bracketPairs": true,
+  "editor.renderWhitespace": "all"
 }

@@ -15,14 +15,14 @@ class MegamanController {
     this.isPaused = false;
 
     // Nova lógica de IA
-    this.aiState = "idle"; // idle, moving_right, positioning_left, shooting_right, shooting_left
+    this.aiState = "idle";
     this.targetElement = null;
     this.hasShootRight = false;
     this.hasShootLeft = false;
     this.aiCycleTimer = null;
 
-    this.targets = []; // Array para armazenar múltiplos alvos
-    this.currentTarget = null; // O alvo sendo atacado no momento
+    this.targets = [];
+    this.currentTarget = null;
     this.isMovingToTarget = false;
     this.nameRegenerationTimer = null;
     this.destructionCooldown = false;
@@ -38,11 +38,11 @@ class MegamanController {
 
     this.sprites = {
       idle: "assets/sprites/parado10.gif",
-      idleLeft: "assets/sprites/megaman-pushing-esquerda.gif", // Usado quando parado e virado para a esquerda
-      preShootingLeft: "assets/sprites/parado-reverso.gif", // Animação antes de atirar para a esquerda
+      idleLeft: "assets/sprites/megaman-pushing-esquerda.gif",
+      preShootingLeft: "assets/sprites/parado-reverso.gif",
       stopped: "assets/sprites/parado10.gif",
       shooting: "assets/sprites/atirando.gif",
-      shootingLeft: "assets/sprites/atirando-esquerda.gif", // Novo sprite para atirar para a esquerda
+      shootingLeft: "assets/sprites/atirando-esquerda.gif",
       running: "assets/sprites/megaman-pushing.gif",
       runningLeft: "assets/sprites/megaman-pushing-esquerda.gif",
       destroying: "assets/sprites/destroiicon.gif",
@@ -69,7 +69,8 @@ class MegamanController {
     };
 
     this.scoreElement = null;
-    this.iconsDestroyedCount = 0; // Novo contador
+    this.iconsDestroyedCount = 0;
+    this.attackStage = "destroying_icons";
     this.iconTargets = [];
 
     this.init();
@@ -85,13 +86,11 @@ class MegamanController {
     this.setupPageChangeMonitoring();
   }
 
-  // Nova lógica de IA melhorada
   startAICycle() {
     if (!this.isActive || this.isPaused) return;
 
     this.findTargetElement();
     if (!this.targetElement) {
-      // Se não há alvo, usar comportamento antigo
       this.scheduleNextMove();
       this.scheduleNextShoot();
       return;
@@ -103,14 +102,7 @@ class MegamanController {
     this.executeAIBehavior();
   }
 
-  findTargetElement() {
-    // Procura pelo elemento alvo (título da página)
-    // esta função não existe no código, talvez seja findTargetElements?
-    // ou talvez devesse ser this.findTargetElements() e depois pegar o primeiro?
-    // por enquanto, vou deixar como estava.
-    // this.findNameElement();
-    // this.targetElement = this.nameElement;
-  }
+  findTargetElement() {}
 
   executeAIBehavior() {
     if (!this.isActive || this.isPaused || !this.targetElement) return;
@@ -136,9 +128,8 @@ class MegamanController {
   }
 
   moveRightAndShoot(targetCenter) {
-    // Move para a direita do alvo (200-300px)
     const rightPosition = {
-      x: Math.min(targetCenter.x + 250, this.boundaries.maxX - 50), // Ajustado para 200-300px
+      x: Math.min(targetCenter.x + 250, this.boundaries.maxX - 50),
       y: Math.max(
         Math.min(targetCenter.y - 32, this.boundaries.maxY - 50),
         this.boundaries.minY
@@ -146,7 +137,6 @@ class MegamanController {
     };
 
     this.moveToPosition(rightPosition, () => {
-      // Para e atira para a esquerda (na direção do alvo)
       this.stopAndShootLeft(() => {
         this.hasShootRight = true;
         this.aiState = "positioning_left";
@@ -156,7 +146,6 @@ class MegamanController {
   }
 
   positionLeftAndShoot(targetCenter) {
-    // Move para a esquerda do alvo
     const leftPosition = {
       x: Math.max(targetCenter.x - 150, this.boundaries.minX),
       y: Math.max(
@@ -166,7 +155,6 @@ class MegamanController {
     };
 
     this.moveToPosition(leftPosition, () => {
-      // Para, olha para a direita (gif parado-reverso) e atira para a direita
       this.stopAndShootRight(() => {
         this.hasShootLeft = true;
         this.aiState = "idle";
@@ -194,28 +182,23 @@ class MegamanController {
     this.direction = "left";
     this.isMoving = false;
     this.element.classList.remove("moving");
-    // 1. Mostra a animação de preparação
     this.switchSprite("preShootingLeft");
 
-    // 2. Aguarda um momento com a animação de preparação
     setTimeout(() => {
       if (this.isActive && !this.isShooting) {
-        // 3. Executa o tiro
         this.performShoot("left", callback);
       }
-    }, 300); // Aumentei o tempo para a animação ser mais visível
+    }, 300);
   }
 
   stopAndShootRight(callback) {
     if (this.isShooting) return;
 
-    // Para o movimento e muda para sprite parado olhando para a direita
     this.isMoving = false;
     this.element.classList.remove("moving");
     this.direction = "right";
     this.switchSprite("idle");
 
-    // Aguarda um momento parado antes de atirar
     setTimeout(() => {
       this.performShoot("right", callback);
     }, 500);
@@ -253,15 +236,12 @@ class MegamanController {
 
   scheduleNextAICycle() {
     if (!this.isActive) return;
-
-    // Agenda próximo ciclo de IA
-    const delay = Math.random() * 8000 + 5000; // 5-13 segundos
+    const delay = Math.random() * 8000 + 5000;
     this.aiCycleTimer = setTimeout(() => this.startAICycle(), delay);
   }
 
   updateMovement(callback) {
     if (!this.isActive || !this.isMoving) return;
-
     const dx = this.targetPosition.x - this.position.x;
     const dy = this.targetPosition.y - this.position.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -278,7 +258,6 @@ class MegamanController {
 
     const moveX = (dx / distance) * this.movementSpeed;
     const moveY = (dy / distance) * this.movementSpeed;
-
     this.position.x += moveX;
     this.position.y += moveY;
     this.updateElementPosition();
@@ -327,240 +306,50 @@ class MegamanController {
   injectStyles() {
     const style = document.createElement("style");
     style.textContent = `
-      /* ========== SISTEMA DE PONTUAÇÃO RETRO 8-BITS ========== */
       .megaman-score {
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        background-color: rgba(0, 0, 0, 0.7);
-        border: 1px solid #0080ff;
-        border-radius: 2px;
-        padding: 8px 12px;
-        color: #ffffff;
-        font-family: 'Press Start 2P', monospace;
-        text-align: center;
-        z-index: 1000;
-        box-shadow: 0 0 10px rgba(0, 128, 255, 0.7), inset 0 0 5px rgba(0, 128, 255, 0.5);
-        width: 123px;
-        height: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: absolute; top: 10px; right: 20px; background-color: rgba(0, 0, 0, 0.7); border: 1px solid #0080ff;
+        border-radius: 2px; padding: 8px 12px; color: #ffffff; font-family: 'Press Start 2P', monospace;
+        text-align: center; z-index: 1000; box-shadow: 0 0 10px rgba(0, 128, 255, 0.7), inset 0 0 5px rgba(0, 128, 255, 0.5);
+        width: 123px; height: 35px; display: flex; align-items: center; justify-content: center;
       }
-      
-      .score-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-      }
-      
-      .score-label {
-        font-size: 08px;
-        color: #ffcc00;
-        text-shadow: 2px 2px 0 #000;
-      }
-      
-      .score-value {
-        font-size: 12px;
-        color: #00ff00;
-        text-shadow: 2px 2px 0 #000;
-      }
-      
-      .score-flash {
-        animation: score-flash-animation 0.3s ease-in-out;
-      }
-      
-      @keyframes score-flash-animation {
-        0% { transform: scale(1); color: #00ff00; }
-        50% { transform: scale(1.2); color: #ffffff; }
-        100% { transform: scale(1); color: #00ff00; }
-      }
-      
-      /* Responsividade para dispositivos móveis */
+      .score-container { display: flex; align-items: center; justify-content: center; gap: 8px; }
+      .score-label { font-size: 08px; color: #ffcc00; text-shadow: 2px 2px 0 #000; }
+      .score-value { font-size: 12px; color: #00ff00; text-shadow: 2px 2px 0 #000; }
+      .score-flash { animation: score-flash-animation 0.3s ease-in-out; }
+      @keyframes score-flash-animation { 0% { transform: scale(1); color: #00ff00; } 50% { transform: scale(1.2); color: #ffffff; } 100% { transform: scale(1); color: #00ff00; } }
       @media (max-width: 768px) {
-        .megaman-score {
-          top: 10px;
-          left: 170px;
-          right: auto;
-          padding: 0 5px;
-          border-width: 2px;
-          width: 120px;
-          height: 42px;
-        }
-        
-        .score-container {
-          gap: 4px;
-        }
-        
-        .score-label {
-          font-size: 8px;
-        }
-        
-        .score-value {
-          font-size: 10px;
-        }
-        
-        #audio-debug {
-          display: none !important;
-        }
+        .megaman-score { top: 10px; left: 170px; right: auto; padding: 0 5px; border-width: 2px; width: 120px; height: 42px; }
+        .score-container { gap: 4px; }
+        .score-label { font-size: 8px; }
+        .score-value { font-size: 10px; }
+        #audio-debug { display: none !important; }
       }
-      
-      /* Para telas muito pequenas */
-      @media (max-width: 480px) {
-        .megaman-score {
-          top: 10px;
-          left: 130px;
-          padding: 0 3px;
-          width: 100px;
-          height: 42px;
-        }
-      }
-      
-      /* Específico para Samsung Galaxy A51/A71 (412 x 914) */
-      @media (min-width: 410px) and (max-width: 415px) and (min-height: 900px) and (max-height: 920px) {
-        .megaman-score {
-          top: 60px;
-          left: 10px;
-          right: auto;
-          padding: 0 3px;
-          width: 100px;
-          height: 42px;
-        }
-      }
-      
-      /* Configuração adicional para telas menores (300px até 405px) */
+      @media (max-width: 480px) { .megaman-score { top: 10px; left: 130px; padding: 0 3px; width: 100px; height: 42px; } }
+      @media (min-width: 410px) and (max-width: 415px) and (min-height: 900px) and (max-height: 920px) { .megaman-score { top: 60px; left: 10px; right: auto; padding: 0 3px; width: 100px; height: 42px; } }
       @media (min-width: 300px) and (max-width: 405px) {
-        .megaman-score {
-          top: 60px;
-          left: 10px;
-          right: auto;
-          padding: 0 3px;
-          width: 90px;
-          height: 35px;
-          border-width: 2px;
-        }
-        
-        .score-container {
-          gap: 3px;
-        }
-        
-        .score-label {
-          font-size: 7px;
-        }
-        
-        .score-value {
-          font-size: 9px;
-        }
+        .megaman-score { top: 60px; left: 10px; right: auto; padding: 0 3px; width: 90px; height: 35px; border-width: 2px; }
+        .score-container { gap: 3px; }
+        .score-label { font-size: 7px; }
+        .score-value { font-size: 9px; }
       }
-
-      /* Variáveis para cores usadas na regeneração */
-      :root {
-        --color-secondary: rgba(0, 255, 255, 1);
-        --color-primary: rgba(106, 13, 173, 0.9);
-      }
-      
-      /* ========== EFEITOS DE DESTRUIÇÃO ========== */
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
-      }
-      
-      @keyframes ash-fall {
-        0% { transform: translateY(0); opacity: 1; }
-        100% { transform: translateY(20px); opacity: 0; }
-      }
-      
-      /* Efeito de pulsação para o título regenerado */
-      @keyframes titleGlow {
-        from {
-          text-shadow: 2px 2px 3px var(--color-primary), 0 0 5px var(--color-secondary);
-        }
-        to {
-          text-shadow: 2px 2px 8px var(--color-primary), 0 0 15px var(--color-secondary), 0 0 25px var(--color-secondary);
-        }
-      }
-
-      /* Efeito de piscar para o texto "REGENERADO" */
-      @keyframes flicker {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.6; }
-      }
-      
-      /* ========== ESTILOS DO MEGA MAN ========== */
-      .megaman-character {
-        position: fixed;
-        width: 64px;
-        height: 64px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        z-index: 800;
-        pointer-events: none;
-        transition: none;
-      }
-      
-      .megaman-character.active {
-        opacity: 1;
-      }
-      
-      .megaman-character.entering {
-        animation: megaman-enter 1s ease-out;
-      }
-      
-      .megaman-character.leaving {
-        animation: megaman-leave 1s ease-in;
-      }
-      
-      @keyframes megaman-enter {
-        0% { transform: scale(0.5); opacity: 0; }
-        100% { transform: scale(1); opacity: 1; }
-      }
-      
-      @keyframes megaman-leave {
-        0% { transform: scale(1); opacity: 1; }
-        100% { transform: scale(0.5); opacity: 0; }
-      }
-      
-      .megaman-character.moving {
-        animation: megaman-move 0.5s infinite alternate;
-      }
-      
-      @keyframes megaman-move {
-        0% { transform: translateY(0); }
-        100% { transform: translateY(-5px); }
-      }
-      
-      .megaman-character.shooting {
-        animation: megaman-shoot 0.3s;
-      }
-      
-      @keyframes megaman-shoot {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        50% { transform: translateX(5px); }
-        75% { transform: translateX(-5px); }
-        100% { transform: translateX(0); }
-      }
-      
-      .megaman-character.attack {
-        animation: megaman-attack 0.5s;
-      }
-      
-      @keyframes megaman-attack {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
-      }
-      
-      /* ========== EFEITOS DE TEXTO ========== */
-      .hero-title {
-        position: relative;
-        transition: color 0.5s ease, text-shadow 0.5s ease;
-        color: var(--color-secondary);
-        text-shadow: 2px 2px 3px var(--color-primary);
-      }
+      :root { --color-secondary: rgba(0, 255, 255, 1); --color-primary: rgba(106, 13, 173, 0.9); }
+      @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
+      @keyframes ash-fall { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
+      @keyframes titleGlow { from { text-shadow: 2px 2px 3px var(--color-primary), 0 0 5px var(--color-secondary); } to { text-shadow: 2px 2px 8px var(--color-primary), 0 0 15px var(--color-secondary), 0 0 25px var(--color-secondary); } }
+      @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+      .megaman-character { position: fixed; width: 64px; height: 64px; background-size: contain; background-repeat: no-repeat; background-position: center; z-index: 800; pointer-events: none; transition: none; }
+      .megaman-character.active { opacity: 1; }
+      .megaman-character.entering { animation: megaman-enter 1s ease-out; }
+      .megaman-character.leaving { animation: megaman-leave 1s ease-in; }
+      @keyframes megaman-enter { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+      @keyframes megaman-leave { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.5); opacity: 0; } }
+      .megaman-character.moving { animation: megaman-move 0.5s infinite alternate; }
+      @keyframes megaman-move { 0% { transform: translateY(0); } 100% { transform: translateY(-5px); } }
+      .megaman-character.shooting { animation: megaman-shoot 0.3s; }
+      @keyframes megaman-shoot { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
+      .megaman-character.attack { animation: megaman-attack 0.5s; }
+      @keyframes megaman-attack { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+      .hero-title { position: relative; transition: color 0.5s ease, text-shadow 0.5s ease; color: var(--color-secondary); text-shadow: 2px 2px 3px var(--color-primary); }
     `;
     document.head.appendChild(style);
   }
@@ -568,9 +357,18 @@ class MegamanController {
   handleDestruction(target) {
     if (!target || !target.element || this.isRegenerating) return;
 
-    // Zera o contador de ícones quando um nome é destruído
-    if (target.element.id === "destroyable-name") {
-      this.iconsDestroyedCount = 0;
+    // Avança o ciclo de ataque
+    switch (this.attackStage) {
+      case "destroying_name1":
+        this.attackStage = "destroying_subtitle";
+        break;
+      case "destroying_subtitle":
+        this.attackStage = "destroying_name2";
+        break;
+      case "destroying_name2":
+        this.iconsDestroyedCount = 0; // Zera contador
+        this.attackStage = "destroying_icons"; // Reinicia o ciclo
+        break;
     }
 
     this.element?.classList.add("attack");
@@ -599,7 +397,6 @@ class MegamanController {
 
       setTimeout(() => this.regenerateName(target), this.regenerationCooldown);
 
-      // Agenda um movimento aleatório para depois da animação de destruição
       setTimeout(() => {
         if (this.isActive && !this.isMoving) {
           this.moveToRandomPosition();
@@ -623,16 +420,13 @@ class MegamanController {
       }
       currentStep++;
       const destructionProgress = currentStep / totalSteps;
-
       const brokenText = this.createProgressivelyBrokenText(
         letters,
         destructionProgress
       );
       target.element.innerHTML = brokenText;
-
       target.element.style.color = `rgba(255, ${Math.floor(255 * (1 - destructionProgress))}, ${Math.floor(255 * (1 - destructionProgress))}, 1)`;
       target.element.style.textShadow = `2px 2px 0 #000, 0 0 ${10 * destructionProgress}px #ff0000`;
-
       if (currentStep >= totalSteps) clearInterval(breakingInterval);
     }, 100);
   }
@@ -651,38 +445,34 @@ class MegamanController {
       "▫",
     ];
     const glitchChars = ["!", "@", "#", "$", "%", "^", "&", "*", "~", "`"];
-
     return letters
       .map((char, index) => {
         if (char === " ") return " ";
-
         const letterProgress = Math.max(
           0,
           progress - (index / letters.length) * 0.2
         );
-
         if (letterProgress < 0.2) return char;
-        else if (letterProgress < 0.4) {
+        else if (letterProgress < 0.4)
           return Math.random() < 0.3
             ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
             : char;
-        } else if (letterProgress < 0.6) {
+        else if (letterProgress < 0.6)
           return Math.random() < 0.5
             ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
             : char;
-        } else if (letterProgress < 0.8) {
+        else if (letterProgress < 0.8)
           return Math.random() < 0.7
             ? destructionChars[
                 Math.floor(Math.random() * destructionChars.length)
               ]
             : char;
-        } else {
+        else
           return Math.random() < 0.9
             ? destructionChars[
                 Math.floor(Math.random() * destructionChars.length)
               ]
             : char;
-        }
       })
       .join("");
   }
@@ -690,7 +480,6 @@ class MegamanController {
   createAshEffect(originalText) {
     const chars = "█▓▒░!@#$%^&*()_+-=[]{}|;:,.<>?~`";
     const plainText = originalText.replace(/<[^>]*>/g, "");
-
     return plainText
       .split("")
       .map((char) =>
@@ -705,12 +494,10 @@ class MegamanController {
 
   regenerateName(target) {
     if (!target || !target.originalContainer || !this.isRegenerating) return;
-
     const newElement = document.createElement(target.element.tagName);
     for (const [name, value] of Object.entries(target.originalAttributes)) {
       newElement.setAttribute(name, value);
     }
-
     if (target.originalNextSibling) {
       target.originalContainer.insertBefore(
         newElement,
@@ -719,16 +506,12 @@ class MegamanController {
     } else {
       target.originalContainer.appendChild(newElement);
     }
-
-    target.element = newElement; // Atualiza a referência do elemento no objeto do alvo
-
+    target.element = newElement;
     const plainText = target.originalContent.replace(/<[^>]*>/g, "");
-
     const brokenChars = ["█", "▓", "▒", "░", "▄", "▀", "■", "□", "▪", "▫"];
     let currentStep = 0;
     const totalSteps = 10;
     let letters = [];
-
     for (let i = 0; i < plainText.length; i++) {
       if (plainText[i] === " ") letters.push(" ");
       else
@@ -739,38 +522,25 @@ class MegamanController {
     newElement.textContent = letters.join("");
     newElement.style.color = "rgba(255, 0, 0, 1)";
     newElement.style.textShadow = "2px 2px 0 #000, 0 0 10px #ff0000";
-
     const regenerationInterval = this.regenerationDuration / totalSteps;
-
     const interval = setInterval(() => {
       if (currentStep > totalSteps) {
         clearInterval(interval);
         this.isRegenerating = false;
         this.destructionCooldown = false;
-
         newElement.textContent = plainText;
         newElement.style.color = "";
         newElement.style.textShadow = "";
-
-        // Restaura as classes originais em vez de aplicar a animação padrão
         newElement.className = target.originalClasses;
-
-        // Adiciona a animação de brilho apenas se não for o subtítulo
         if (target.element.id !== "destroyable-subtitle") {
           newElement.style.animation =
             "titleGlow 2s ease-in-out infinite alternate";
         }
-
         setTimeout(() => {
           if (!target.element) return;
           const iconSpan = document.createElement("span");
-          iconSpan.innerHTML = `
-            <i class="fas fa-microchip" 
-               style="margin-left: 15px; vertical-align: middle; position: relative; top: -3px; color: var(--color-primary); animation: flicker 1.5s linear infinite;">
-            </i>
-          `;
+          iconSpan.innerHTML = `<i class="fas fa-microchip" style="margin-left: 15px; vertical-align: middle; position: relative; top: -3px; color: var(--color-primary); animation: flicker 1.5s linear infinite;"></i>`;
           target.element.appendChild(iconSpan);
-
           setTimeout(() => {
             if (iconSpan.parentNode) {
               iconSpan.parentNode.removeChild(iconSpan);
@@ -778,62 +548,47 @@ class MegamanController {
             }
           }, 4500);
         }, 100);
-
         this.setupClickListener(target);
         return;
       }
-
       const progressRatio = currentStep / totalSteps;
       const charsToReveal = Math.floor(progressRatio * plainText.length);
-
       let currentTextArr = letters.slice();
       for (let i = 0; i < charsToReveal; i++) {
         if (plainText[i] !== " ") currentTextArr[i] = plainText[i];
       }
-
       for (let i = charsToReveal; i < plainText.length; i++) {
         if (plainText[i] !== " ") {
           currentTextArr[i] =
             brokenChars[Math.floor(Math.random() * brokenChars.length)];
         }
       }
-
       newElement.textContent = currentTextArr.join("");
-
       const r = Math.floor(255 * (1 - progressRatio));
       const g = Math.floor(150 * progressRatio);
       const b = Math.floor(255 * progressRatio);
       newElement.style.color = `rgba(${r},${g},${b},1)`;
-
       const shadowRedIntensity = 10 * (1 - progressRatio);
       const shadowPurpleIntensity = 5 * progressRatio;
       newElement.style.textShadow = `2px 2px 0 rgba(0,0,0,0.7), 0 0 ${shadowRedIntensity}px rgba(255,0,0,${1 - progressRatio}), 0 0 ${shadowPurpleIntensity}px var(--color-primary)`;
-
       currentStep++;
     }, regenerationInterval);
-
     this.stats.successfulRegenerations++;
     this.updateScore(5);
   }
 
   start() {
     if (this.isActive) return;
-
     this.isActive = true;
     this.isPaused = false;
     this.stats.startTime = Date.now();
-
     this.element.style.opacity = "1";
     this.element.classList.add("active", "entering");
-
     setTimeout(() => {
       this.element?.classList.remove("entering");
     }, 1000);
-
-    // Inicia o comportamento clássico de movimento e tiro
     this.scheduleNextMove();
     this.scheduleNextShoot();
-
     if (window.audioSystem) {
       window.audioSystem.play("achievement");
     }
@@ -841,83 +596,94 @@ class MegamanController {
 
   stop() {
     if (!this.isActive) return;
-
     this.isActive = false;
     this.isPaused = false;
-
     if (this.stats.startTime) {
       this.stats.timeActive += Date.now() - this.stats.startTime;
       this.stats.startTime = null;
     }
-
     this.element.classList.add("leaving");
     setTimeout(() => {
       this.element.style.opacity = "0";
       this.element.classList.remove("leaving", "active");
     }, 1000);
-
     this.clearTimers();
     this.stopMovement();
-
     if (window.audioSystem) {
       window.audioSystem.play("click");
     }
   }
 
-  // Métodos de compatibilidade com o sistema antigo
   moveToRandomPosition() {
     if (!this.isActive || this.isPaused || this.isMoving || this.isShooting) {
       this.scheduleNextMove();
       return;
     }
-
-    this.findTargetElements(); // Garante que os alvos estão atualizados
+    this.findTargetElements();
     this.lastPosition = { ...this.position };
-
-    // Lógica refinada de decisão
-    if (this.iconsDestroyedCount < 2 && this.iconTargets.length > 0) {
-      // Prioriza ícones até destruir 2
-      const icon =
-        this.iconTargets[Math.floor(Math.random() * this.iconTargets.length)];
-      this.moveToIcon(icon);
-    } else {
-      // Quando 2 ícones forem destruídos, foca no nome "CARLOS FILHO"
-      const carlosFilhoTarget = this.targets.find(
-        (t) => t.element.id === "destroyable-name"
-      );
-      if (carlosFilhoTarget) {
-        this.currentTarget = carlosFilhoTarget;
-        this.moveToTarget();
-      } else {
-        // Fallback para movimento aleatório se o alvo principal não for encontrado
+    let target;
+    switch (this.attackStage) {
+      case "destroying_icons":
+        if (this.iconsDestroyedCount < 2 && this.iconTargets.length > 0) {
+          const availableIcons = Array.from(this.iconTargets).filter(
+            (icon) => icon.style.opacity !== "0"
+          );
+          if (availableIcons.length > 0) {
+            const icon =
+              availableIcons[Math.floor(Math.random() * availableIcons.length)];
+            this.moveToIcon(icon);
+            return;
+          }
+        }
+        this.attackStage = "destroying_name1";
+      case "destroying_name1":
+        target = this.targets.find((t) => t.element.id === "destroyable-name");
+        if (target) {
+          this.currentTarget = target;
+          this.moveToTarget();
+        }
+        break;
+      case "destroying_subtitle":
+        target = this.targets.find(
+          (t) => t.element.id === "destroyable-subtitle"
+        );
+        if (target) {
+          this.currentTarget = target;
+          this.moveToTarget();
+        }
+        break;
+      case "destroying_name2":
+        target = this.targets.find((t) => t.element.id === "destroyable-name");
+        if (target) {
+          this.currentTarget = target;
+          this.moveToTarget();
+        }
+        break;
+      default:
         this.targetPosition = this.getRandomPosition();
         this.direction =
           this.targetPosition.x < this.position.x ? "left" : "right";
         this.isMoving = true;
         this.isMovingToTarget = false;
         this.stats.totalMoves++;
-
         this.element.classList.add("moving");
         this.updateMovementSprite();
         this.updateMovement();
-      }
+        break;
     }
   }
 
   moveToTarget() {
     if (!this.currentTarget || !this.currentTarget.element) return;
-
     const rect = this.currentTarget.element.getBoundingClientRect();
     this.targetPosition = {
-      x: Math.max(50, rect.left + rect.width / 2 - 32), // Mira no centro
+      x: Math.max(50, rect.left + rect.width / 2 - 32),
       y: Math.max(50, rect.top + rect.height / 2 - 32),
     };
-
     this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
     this.isMoving = true;
     this.isMovingToTarget = true;
     this.stats.totalMoves++;
-
     this.element.classList.add("moving");
     this.updateMovementSprite();
     this.updateMovement();
@@ -927,19 +693,16 @@ class MegamanController {
     if (!icon) return;
     const rect = icon.getBoundingClientRect();
     this.targetPosition = {
-      x: rect.left + rect.width / 2 - 32, // centralizar
+      x: rect.left + rect.width / 2 - 32,
       y: rect.top + rect.height / 2 - 32,
     };
-
     this.direction = this.targetPosition.x < this.position.x ? "left" : "right";
     this.isMoving = true;
     this.isMovingToTarget = false;
     this.stats.totalMoves++;
-
     this.element.classList.add("moving");
     this.updateMovementSprite();
     this.updateMovement(() => {
-      // Quando chegar no ícone, destrói
       this.destroyIcon(icon);
     });
   }
@@ -954,34 +717,24 @@ class MegamanController {
       this.scheduleNextShoot();
       return;
     }
-
     if (this.isMoving) this.stopMovement();
-
-    // Determina a direção do tiro com base na posição do alvo
-    // Se não há um alvo atual, escolhe um aleatoriamente
     if (!this.currentTarget && this.targets.length > 0) {
       this.currentTarget =
         this.targets[Math.floor(Math.random() * this.targets.length)];
     }
-
-    // Determina a direção do tiro com base na posição do alvo atual
     if (this.currentTarget && this.currentTarget.element) {
       const nameRect = this.currentTarget.element.getBoundingClientRect();
       this.direction =
         this.position.x > nameRect.left + nameRect.width / 2 ? "left" : "right";
     }
-
     this.isShooting = true;
     this.stats.totalShots++;
     this.switchSprite(this.direction === "left" ? "shootingLeft" : "shooting");
     this.element.classList.add("shooting");
-
     if (window.audioSystem) {
       window.audioSystem.play("click");
     }
-
     this.checkNameDestruction();
-
     setTimeout(() => {
       if (this.isActive) {
         this.switchSprite(
@@ -990,7 +743,6 @@ class MegamanController {
         this.isShooting = false;
         this.element.classList.remove("shooting");
         this.scheduleNextShoot();
-
         if (Math.random() < 0.5) {
           setTimeout(() => {
             if (this.isActive && !this.isMoving) {
@@ -1002,7 +754,6 @@ class MegamanController {
     }, this.shootDuration);
   }
 
-  // Apenas para destruir o NOME
   checkNameDestruction() {
     if (
       !this.currentTarget ||
@@ -1012,29 +763,21 @@ class MegamanController {
       this.isRegenerating
     )
       return;
-
     const nameRect = this.currentTarget.element.getBoundingClientRect();
     const megamanX = this.position.x;
     const megamanY = this.position.y;
-
     const isShootingTowardsName =
       (this.direction === "left" && megamanX > nameRect.left) ||
       (this.direction === "right" && megamanX < nameRect.right);
-
-    if (!isShootingTowardsName) {
-      return;
-    }
-
+    if (!isShootingTowardsName) return;
     const distance = Math.sqrt(
       Math.pow(nameRect.left + nameRect.width / 2 - megamanX, 2) +
         Math.pow(nameRect.top + nameRect.height / 2 - megamanY, 2)
     );
-
     let destructionChance = 0;
     if (distance < 300) destructionChance = 0.9;
     else if (distance < 400) destructionChance = 0.7;
     else if (distance < 500) destructionChance = 0.5;
-
     if (destructionChance > 0 && Math.random() < destructionChance) {
       this.handleDestruction(this.currentTarget);
     }
@@ -1044,26 +787,15 @@ class MegamanController {
     if (this.element) {
       this.element.remove();
     }
-
     this.element = document.createElement("div");
     this.element.id = "megaman-character";
     this.element.className = "megaman-character";
     this.element.style.cssText = `
-      position: fixed;
-      width: 64px;
-      height: 64px;
-      background-image: url('${this.sprites.idle}');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      z-index: 800;
-      pointer-events: none;
-      transition: none;
-      left: ${this.position.x}px;
-      top: ${this.position.y}px;
-      opacity: 0;
+      position: fixed; width: 64px; height: 64px;
+      background-image: url('${this.sprites.idle}'); background-size: contain; background-repeat: no-repeat;
+      background-position: center; z-index: 800; pointer-events: none; transition: none;
+      left: ${this.position.x}px; top: ${this.position.y}px; opacity: 0;
     `;
-
     document.body.appendChild(this.element);
   }
 
@@ -1111,27 +843,20 @@ class MegamanController {
         setTimeout(() => {
           const oldPage = this.currentPage;
           this.detectCurrentPage();
-          if (oldPage !== this.currentPage) this.findNameElement();
+          if (oldPage !== this.currentPage) this.findTargetElements();
         }, 100);
       }
     });
     const pages = document.querySelectorAll(".page");
     pages.forEach((page) =>
-      observer.observe(page, {
-        attributes: true,
-        attributeFilter: ["class"],
-      })
+      observer.observe(page, { attributes: true, attributeFilter: ["class"] })
     );
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   findTargetElements() {
     this.detectCurrentPage();
     this.targets = [];
-
     const targetConfigs = [
       { selector: "#destroyable-name", originalContent: "CARLOS FILHO" },
       {
@@ -1139,7 +864,6 @@ class MegamanController {
         originalContent: "ENGENHEIRO DA COMPUTAÇÃO",
       },
     ];
-
     if (this.currentPage === "home") {
       targetConfigs.forEach((config) => {
         const element = document.querySelector(config.selector);
@@ -1150,7 +874,7 @@ class MegamanController {
             originalAttributes: {},
             originalContainer: element.parentNode,
             originalNextSibling: element.nextSibling,
-            originalClasses: element.className, // Salva as classes originais
+            originalClasses: element.className,
           };
           for (const attr of element.attributes) {
             targetData.originalAttributes[attr.name] = attr.value;
@@ -1160,8 +884,6 @@ class MegamanController {
         }
       });
     }
-    // Lógica para outras páginas pode ser adicionada aqui se necessário
-
     this.findIconsToDestroy();
   }
 
@@ -1176,14 +898,12 @@ class MegamanController {
     if (this.element && this.sprites[spriteName]) {
       this.currentSprite = spriteName;
       this.element.style.backgroundImage = `url('${this.sprites[spriteName]}')`;
-
       const isShootingSprite =
         spriteName === "shooting" || spriteName === "shootingLeft";
       const isDestroyingSprite = spriteName === "destroying";
-
       if (isDestroyingSprite) {
-        this.element.style.width = "203px";
-        this.element.style.height = "203px";
+        this.element.style.width = "190px";
+        this.element.style.height = "190px";
       } else if (isShootingSprite) {
         this.element.style.width = "207px";
         this.element.style.height = "207px";
@@ -1191,19 +911,14 @@ class MegamanController {
         this.element.style.width = "64px";
         this.element.style.height = "64px";
       }
-
       let x = this.position.x;
       let y = this.position.y;
-
-      // Ajusta a posição apenas para os sprites de tiro
       if (isShootingSprite) {
-        y -= 71.5; // Desloca para cima para alinhar a base
-
+        y -= 71.5;
         if (spriteName === "shootingLeft") {
           x -= 143;
         }
       }
-
       this.element.style.left = `${x}px`;
       this.element.style.top = `${y}px`;
     }
@@ -1278,10 +993,9 @@ class MegamanController {
       const clickHandler = () => {
         this.handleDestruction(target);
       };
-      // Remove o listener antigo para evitar duplicatas, se houver um
       target.element.removeEventListener("click", target.clickHandler);
       target.element.addEventListener("click", clickHandler, { once: true });
-      target.clickHandler = clickHandler; // Armazena a referência para poder remover depois
+      target.clickHandler = clickHandler;
     }
   }
 
@@ -1290,7 +1004,6 @@ class MegamanController {
     const activeTime = this.stats.startTime
       ? this.stats.timeActive + (currentTime - this.stats.startTime)
       : this.stats.timeActive;
-
     return {
       isActive: this.isActive,
       isPaused: this.isPaused,
@@ -1301,10 +1014,7 @@ class MegamanController {
       aiState: this.aiState,
       position: { ...this.position },
       boundaries: { ...this.boundaries },
-      stats: {
-        ...this.stats,
-        activeTime: Math.round(activeTime / 1000),
-      },
+      stats: { ...this.stats, activeTime: Math.round(activeTime / 1000) },
     };
   }
 
@@ -1321,39 +1031,26 @@ class MegamanController {
   }
   findIconsToDestroy() {
     this.iconTargets = document.querySelectorAll(".icon-to-destroy");
-    this.iconTargets.forEach((icon) => {
-      // Adiciona um listener para o evento de destruição, se necessário
-    });
   }
 
   destroyIcon(icon) {
     if (!icon || icon.style.opacity === "0") {
-      return; // não destruir se já estiver destruído ou em processo
+      return;
     }
-
-    this.isShooting = true; // Previne outros movimentos
-    this.iconsDestroyedCount++; // Incrementa o contador
+    this.isShooting = true;
+    this.iconsDestroyedCount++;
     this.switchSprite("destroying");
-
-    // 1. Efeito de vibração (Shake)
     icon.style.animation = "shake 0.5s ease-in-out";
-
-    // 2. Após a vibração, o ícone desaparece
     setTimeout(() => {
       icon.style.transition = "opacity 0.3s";
       icon.style.opacity = "0";
-      icon.style.animation = ""; // Limpa a animação
-    }, 500); // Duração do shake
-
-    // 3. Megaman volta ao estado normal após a animação de destruição
+      icon.style.animation = "";
+    }, 500);
     setTimeout(() => {
       this.isShooting = false;
       this.switchSprite("idle");
-    }, 1000); // Duração do gif 'destroiicon.gif'
-
-    // 4. Agenda a regeneração do ícone
+    }, 1000);
     setTimeout(() => {
-      // Efeito de regeneração (piscar)
       icon.style.opacity = "0";
       icon.style.transition = "opacity 0.2s linear";
       let flashes = 0;
@@ -1362,23 +1059,21 @@ class MegamanController {
         flashes++;
         if (flashes >= 6) {
           clearInterval(flickerInterval);
-          icon.style.opacity = "1"; // Garante que o ícone fique visível
+          icon.style.opacity = "1";
         }
       }, 200);
-    }, 10000); // 10 segundos
+    }, 1500); // Regeneração quase imediata
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   window.megamanController = new MegamanController();
-
   window.megaman = {
     start: () => window.megamanController?.start(),
     stop: () => window.megamanController?.stop(),
     status: () => window.megamanController?.getStatus(),
     resetStats: () => window.megamanController?.resetStats(),
   };
-
   console.log(
     '🎮 Mega Man Controller melhorado carregado! Use "megaman.start()" para iniciar.'
   );
