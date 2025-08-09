@@ -41,7 +41,8 @@ class MegamanController {
 
     this.sprites = {
       idle: "assets/sprites/parado10.gif",
-      idleLeft: "assets/sprites/megaman-pushing-esquerda.gif",
+      idleLeft: "assets/sprites/megaman-pushing-esquerda.gif", // Usado quando parado e virado para a esquerda
+      preShootingLeft: "assets/sprites/parado-reverso.gif", // Animação antes de atirar para a esquerda
       stopped: "assets/sprites/parado10.gif",
       shooting: "assets/sprites/atirando.gif",
       shootingLeft: "assets/sprites/atirando-esquerda.gif", // Novo sprite para atirar para a esquerda
@@ -187,16 +188,19 @@ class MegamanController {
   stopAndShootLeft(callback) {
     if (this.isShooting) return;
 
-    // Para o movimento e muda para sprite parado olhando para a esquerda
+    this.direction = "left";
     this.isMoving = false;
     this.element.classList.remove("moving");
-    this.direction = "left";
-    this.switchSprite("idleLeft");
+    // 1. Mostra a animação de preparação
+    this.switchSprite("preShootingLeft");
 
-    // Aguarda um momento parado antes de atirar
+    // 2. Aguarda um momento com a animação de preparação
     setTimeout(() => {
-      this.performShoot("left", callback);
-    }, 500);
+      if (this.isActive && !this.isShooting) {
+        // 3. Executa o tiro
+        this.performShoot("left", callback);
+      }
+    }, 300); // Aumentei o tempo para a animação ser mais visível
   }
 
   stopAndShootRight(callback) {
@@ -226,15 +230,17 @@ class MegamanController {
     this.switchSprite(direction === "left" ? "shootingLeft" : "shooting");
     this.element.classList.add("shooting");
 
+    this.checkNameDestruction();
+
     if (window.audioSystem) {
       window.audioSystem.play("click");
     }
 
-    this.checkNameDestruction();
-
     setTimeout(() => {
       if (this.isActive) {
-        this.switchSprite(direction === "left" ? "idleLeft" : "idle");
+        this.switchSprite(
+          this.direction === "left" ? "preShootingLeft" : "idle"
+        );
         this.isShooting = false;
         this.element.classList.remove("shooting");
         if (callback) callback();
@@ -940,10 +946,10 @@ class MegamanController {
 
     const nameRect = this.nameElement.getBoundingClientRect();
     const megamanRect = {
-      left: this.position.x,
-      top: this.position.y,
-      right: this.position.x + 64,
-      bottom: this.position.y + 64,
+      left: parseFloat(this.element.style.left),
+      top: parseFloat(this.element.style.top),
+      right: parseFloat(this.element.style.left) + this.element.clientWidth,
+      bottom: parseFloat(this.element.style.top) + this.element.clientHeight,
     };
 
     const distance = Math.sqrt(
@@ -952,11 +958,9 @@ class MegamanController {
     );
 
     let destructionChance = 0;
-    if (distance < 150) destructionChance = 0.9;
-    else if (distance < 250) destructionChance = 0.8;
+    if (distance < 250) destructionChance = 0.9;
     else if (distance < 350) destructionChance = 0.7;
     else if (distance < 450) destructionChance = 0.5;
-    else if (distance < 550) destructionChance = 0.3;
 
     if (destructionChance > 0 && Math.random() < destructionChance) {
       this.handleDestruction();
@@ -1106,20 +1110,21 @@ class MegamanController {
       this.currentSprite = spriteName;
       this.element.style.backgroundImage = `url('${this.sprites[spriteName]}')`;
 
-      const isShooting =
+      // Redimensiona apenas para os sprites de tiro
+      const isShootingSprite =
         spriteName === "shooting" || spriteName === "shootingLeft";
-      this.element.style.width = isShooting ? "207px" : "64px";
-      this.element.style.height = isShooting ? "207px" : "64px";
+      this.element.style.width = isShootingSprite ? "207px" : "64px";
+      this.element.style.height = isShootingSprite ? "207px" : "64px";
 
-      // Ajustes de posição para compensar o tamanho do sprite
       let x = this.position.x;
       let y = this.position.y;
 
-      if (isShooting) {
+      // Ajusta a posição apenas para os sprites de tiro
+      if (isShootingSprite) {
         y -= 71.5; // Desloca para cima para alinhar a base
 
         if (spriteName === "shootingLeft") {
-          x -= 143; // Aumenta o deslocamento para a esquerda para corrigir o alinhamento.
+          x -= 143;
         }
       }
 
