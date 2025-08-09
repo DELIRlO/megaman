@@ -313,11 +313,6 @@ Problema Solução
 - - Interatividade aumentada
 - - Gamificação com sistema de pontuação
 - - Totalmente responsivo.
-
-Mega Man não aparece Verifique se digitou megaman on corretamente
-Movimento muito rápido/lento Ajuste movementSpeed no código
-Não funciona no mobile Verifique se o terminal está acessível
-Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025 whatszap 91 88199828
 - ````
 `````
 
@@ -443,3 +438,8 @@ A IA agora segue um ciclo estratégico específico:
 ## 6. Conclusão
 
 As melhorias foram implementadas com sucesso, mantendo total compatibilidade com o sistema existente. A nova IA do Megaman agora apresenta um comportamento mais inteligente e estratégico, sempre parando antes de atirar e usando os sprites corretos para cada situação. O novo botão de movimento para esquerda foi adicionado sem alterar o layout existente, usando um ícone invertido conforme solicitado.
+
+Mega Man não aparece Verifique se digitou megaman on corretamente
+Movimento muito rápido/lento Ajuste movementSpeed no código
+Não funciona no mobile Verifique se o terminal está acessível
+Desenvolvido com ❤️ por Carlos Augusto Diniz Filho | 🎮 Portfólio 8-bit | 2025 whatszap 91 88199828
