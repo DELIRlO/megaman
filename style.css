@@ -1225,16 +1225,19 @@ body:hover {
 
 @keyframes controlButtonBlink {
   0% {
-    background-color: #00ff00 !important;
-    box-shadow: 0 0 15px #00ff00 !important;
+    background-color: rgba(0, 255, 0, 0.7) !important;
+    box-shadow: 0 0 8px rgba(0, 255, 0, 0.7) !important;
+    transform: scale(1);
   }
   50% {
-    background-color: rgba(0, 255, 0, 0.3) !important;
-    box-shadow: 0 0 5px #00ff00 !important;
+    background-color: rgba(0, 255, 0, 1) !important;
+    box-shadow: 0 0 18px rgba(0, 255, 0, 1) !important;
+    transform: scale(1.05);
   }
   100% {
-    background-color: #00ff00 !important;
-    box-shadow: 0 0 15px #00ff00 !important;
+    background-color: rgba(0, 255, 0, 0.7) !important;
+    box-shadow: 0 0 8px rgba(0, 255, 0, 0.7) !important;
+    transform: scale(1);
   }
 }
 
