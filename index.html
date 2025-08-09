@@ -125,8 +125,8 @@
         </div>
         <div
           class="menu-item megaman-control"
-          title="Forçar Movimento"
-          onclick="megamanControlAction('move', true)"
+          title="Mover para Direita"
+          onclick="megamanControlAction('move_right', true)"
         >
           <div class="menu-icon"><i class="fas fa-running"></i></div>
         </div>
@@ -189,11 +189,7 @@
       id="horizontal-lines-container"
     ></div>
     <div class="mobile-menu-shortcut" id="mobile-shortcut">
-      <div class="shortcut-dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <div class="shortcut-dots"><span></span><span></span><span></span></div>
     </div>
     <div class="mobile-menu-overlay" id="mobile-overlay">
       <div class="mobile-menu-content">
@@ -243,42 +239,37 @@
               href="https://github.com/delirlo"
               target="_blank"
               class="mobile-social-item"
+              ><div class="social-icon"><i class="fab fa-github"></i></div>
+              <span class="social-label">GitHub</span></a
             >
-              <div class="social-icon"><i class="fab fa-github"></i></div>
-              <span class="social-label">GitHub</span>
-            </a>
             <a
               href="https://linkedin.com/in/ysneshy/"
               target="_blank"
               class="mobile-social-item"
+              ><div class="social-icon"><i class="fab fa-linkedin"></i></div>
+              <span class="social-label">LinkedIn</span></a
             >
-              <div class="social-icon"><i class="fab fa-linkedin"></i></div>
-              <span class="social-label">LinkedIn</span>
-            </a>
             <a
               href="https://instagram.com/ysneshy"
               target="_blank"
               class="mobile-social-item"
+              ><div class="social-icon"><i class="fab fa-instagram"></i></div>
+              <span class="social-label">Instagram</span></a
             >
-              <div class="social-icon"><i class="fab fa-instagram"></i></div>
-              <span class="social-label">Instagram</span>
-            </a>
             <a
               href="https://facebook.com/ysneshy"
               target="_blank"
               class="mobile-social-item"
+              ><div class="social-icon"><i class="fab fa-facebook"></i></div>
+              <span class="social-label">Facebook</span></a
             >
-              <div class="social-icon"><i class="fab fa-facebook"></i></div>
-              <span class="social-label">Facebook</span>
-            </a>
             <a
               href="https://t.me/ysneshy2025"
               target="_blank"
               class="mobile-social-item"
+              ><div class="social-icon"><i class="fab fa-telegram"></i></div>
+              <span class="social-label">Telegram</span></a
             >
-              <div class="social-icon"><i class="fab fa-telegram"></i></div>
-              <span class="social-label">Telegram</span>
-            </a>
           </div>
         </div>
       </div>
@@ -340,17 +331,15 @@
           target="_blank"
           class="social-link"
           title="GitHub"
-        >
-          <div class="social-icon"><i class="fab fa-github-alt"></i></div>
-        </a>
+          ><div class="social-icon"><i class="fab fa-github-alt"></i></div
+        ></a>
         <a
           href="https://linkedin.com/in/ysneshy/"
           target="_blank"
           class="social-link"
           title="LinkedIn"
-        >
-          <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
-        </a>
+          ><div class="social-icon"><i class="fab fa-linkedin-in"></i></div
+        ></a>
       </div>
     </nav>
     <main id="main-content" class="main-content">
@@ -373,15 +362,15 @@
             <div class="terminal-header">
               <span class="terminal-title">TERMINAL_8BIT.EXE</span>
               <div class="terminal-controls">
-                <span class="terminal-btn">_</span>
-                <span class="terminal-btn">□</span>
-                <span class="terminal-btn">×</span>
+                <span class="terminal-btn">_</span
+                ><span class="terminal-btn">□</span
+                ><span class="terminal-btn">×</span>
               </div>
             </div>
             <div class="terminal-body">
               <div class="terminal-line">
-                <span class="terminal-prompt">C:\YSNES></span>
-                <span class="terminal-cursor">_</span>
+                <span class="terminal-prompt">C:\YSNES></span
+                ><span class="terminal-cursor">_</span>
               </div>
               <div id="terminal-output" class="terminal-output"></div>
               <div class="terminal-input-line">
@@ -398,13 +387,13 @@
         </div>
         <div class="hero-description" style="position: relative; z-index: 10">
           <p>
-            <strong style="position: relative; z-index: 11">
-              <i
+            <strong style="position: relative; z-index: 11"
+              ><i
                 class="fas fa-microchip yellow-icon"
                 style="position: relative; z-index: 12"
               ></i>
-              Tecnologia da Informação com expertise em:
-            </strong>
+              Tecnologia da Informação com expertise em:</strong
+            >
           </p>
           <ul
             class="professional-expertise"
@@ -433,13 +422,13 @@
             </li>
           </ul>
           <p>
-            <strong style="position: relative; z-index: 11">
-              <i
+            <strong style="position: relative; z-index: 11"
+              ><i
                 class="fas fa-star yellow-icon"
                 style="position: relative; z-index: 12"
               ></i>
-              Destaques profissionais:
-            </strong>
+              Destaques profissionais:</strong
+            >
           </p>
           <ul
             class="professional-highlights"
@@ -476,13 +465,13 @@
             </li>
           </ul>
           <p>
-            <strong style="position: relative; z-index: 11">
-              <i
+            <strong style="position: relative; z-index: 11"
+              ><i
                 class="fas fa-key yellow-icon"
                 style="position: relative; z-index: 12"
               ></i>
-              Competências-chave:
-            </strong>
+              Competências-chave:</strong
+            >
           </p>
           <ul class="key-skills" style="position: relative; z-index: 11">
             <li style="position: relative; z-index: 12">
@@ -561,12 +550,10 @@
         <p>Você descobriu o código Konami!</p>
         <div class="mini-game">
           <div class="game-score">
-            <span class="score-label">SCORE: </span>
-            <span id="game-score">0</span>
+            <span class="score-label">SCORE: </span
+            ><span id="game-score">0</span>
           </div>
-          <div class="game-area">
-            <div class="player-sprite"></div>
-          </div>
+          <div class="game-area"><div class="player-sprite"></div></div>
         </div>
         <button onclick="closeKonamiGame()">FECHAR</button>
       </div>
@@ -580,64 +567,57 @@
     <script src="starfield/starfield.js"></script>
     <script>
       function updateAudioIcons() {
-        const musicIcon = document.getElementById("music-icon");
-        const musicButton = document.getElementById("music-button");
+        const musicIcon = document.getElementById("music-icon"),
+          musicButton = document.getElementById("music-button");
         if (musicButton && musicIcon) {
-          const isMusicEnabled =
+          const e =
             window.audioSystem && window.audioSystem.backgroundMusicEnabled;
-          if (!isMusicEnabled) {
-            musicButton.classList.remove("music-button-playing");
-            musicButton.classList.add("music-button-paused");
-          } else {
-            musicButton.classList.remove("music-button-paused");
-            musicButton.classList.add("music-button-playing");
-          }
+          e
+            ? (musicButton.classList.remove("music-button-paused"),
+              musicButton.classList.add("music-button-playing"))
+            : (musicButton.classList.remove("music-button-playing"),
+              musicButton.classList.add("music-button-paused"));
         }
-        const muteIcon = document.getElementById("mute-icon");
-        if (muteIcon && window.audioSystem) {
-          muteIcon.innerHTML = window.audioSystem.isMuted
+        const e = document.getElementById("mute-icon");
+        if (e && window.audioSystem)
+          e.innerHTML = window.audioSystem.isMuted
             ? '<i class="fas fa-volume-mute"></i>'
             : '<i class="fas fa-volume-up"></i>';
-        }
       }
       document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
           if (window.audioSystem) {
-            const originalToggleBgMusic =
-              window.audioSystem.toggleBackgroundMusic;
+            const e = window.audioSystem.toggleBackgroundMusic;
             window.audioSystem.toggleBackgroundMusic = function () {
-              const result = originalToggleBgMusic.apply(this, arguments);
-              setTimeout(updateAudioIcons, 100);
-              return result;
+              const t = e.apply(this, arguments);
+              return (setTimeout(updateAudioIcons, 100), t);
             };
-            const originalToggleMute = window.audioSystem.toggleMute;
+            const t = window.audioSystem.toggleMute;
             window.audioSystem.toggleMute = function () {
-              const result = originalToggleMute.apply(this, arguments);
-              setTimeout(updateAudioIcons, 100);
-              return result;
+              const e = t.apply(this, arguments);
+              return (setTimeout(updateAudioIcons, 100), e);
             };
           }
-          updateAudioIcons();
-          setInterval(updateAudioIcons, 2000);
-        }, 1000);
+          (updateAudioIcons(), setInterval(updateAudioIcons, 2e3));
+        }, 1e3);
       });
     </script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const cursor = document.getElementById("custom-cursor");
-        document.body.addEventListener("mouseenter", () => {
-          cursor.style.display = "block";
-        });
-        document.addEventListener("mousemove", (e) => {
-          cursor.style.left = `${e.clientX}px`;
-          cursor.style.top = `${e.clientY}px`;
-        });
-        document.addEventListener("mousedown", () => {
-          cursor.style.transform = "scale(0.8)";
-        });
-        document.addEventListener("mouseup", () => {
-          cursor.style.transform = "scale(1)";
-        });
+        const e = document.getElementById("custom-cursor");
+        (document.body.addEventListener("mouseenter", () => {
+          e.style.display = "block";
+        }),
+          document.addEventListener("mousemove", (t) => {
+            ((e.style.left = `${t.clientX}px`),
+              (e.style.top = `${t.clientY}px`));
+          }),
+          document.addEventListener("mousedown", () => {
+            e.style.transform = "scale(0.8)";
+          }),
+          document.addEventListener("mouseup", () => {
+            e.style.transform = "scale(1)";
+          }));
       });
     </script>
     <div class="energy-circuit">
@@ -653,105 +633,99 @@
     <div id="audio-debug"></div>
     <script>
       function toggleSocialMenu() {
-        const container = document.getElementById("social-buttons-container");
-        const button = document.getElementById("social-menu-button");
-        const megamanButton = document.getElementById("megaman-control-button");
-        if (container.style.display === "none" || !container.style.display) {
-          container.style.display = "flex";
-          button.classList.add("active");
-          if (megamanButton) {
-            megamanButton.style.display = "flex";
-          }
+        const e = document.getElementById("social-buttons-container"),
+          t = document.getElementById("social-menu-button"),
+          o = document.getElementById("megaman-control-button");
+        if ("none" === e.style.display || !e.style.display) {
+          ((e.style.display = "flex"), t.classList.add("active"));
+          if (o) o.style.display = "flex";
         } else {
-          container.style.display = "none";
-          button.classList.remove("active");
-          if (megamanButton) {
-            megamanButton.style.display = "none";
-            const megamanControls = document.getElementById(
-              "megaman-controls-container"
-            );
-            if (megamanControls) {
-              megamanControls.style.display = "none";
-            }
-            megamanButton.classList.remove("active");
+          ((e.style.display = "none"), t.classList.remove("active"));
+          if (o) {
+            o.style.display = "none";
+            const e = document.getElementById("megaman-controls-container");
+            if (e) e.style.display = "none";
+            o.classList.remove("active");
           }
         }
-        if (window.audioSystem) {
-          window.audioSystem.play("click");
-        }
+        if (window.audioSystem) window.audioSystem.play("click");
       }
-
       function toggleMegamanControls() {
-        const container = document.getElementById("megaman-controls-container");
-        const button = document.getElementById("megaman-control-button");
-        if (container.style.display === "none" || !container.style.display) {
-          container.style.display = "flex";
-          button.classList.add("active");
-        } else {
-          container.style.display = "none";
-          button.classList.remove("active");
-        }
-        if (window.audioSystem) {
-          window.audioSystem.play("click");
-        }
+        const e = document.getElementById("megaman-controls-container"),
+          t = document.getElementById("megaman-control-button");
+        if ("none" === e.style.display || !e.style.display)
+          ((e.style.display = "flex"), t.classList.add("active"));
+        else ((e.style.display = "none"), t.classList.remove("active"));
+        if (window.audioSystem) window.audioSystem.play("click");
       }
-
-      function megamanControlAction(action, value) {
-        if (!window.megamanController) {
-          console.log("❌ Controlador do Mega Man não encontrado.");
-          return;
-        }
-        if (action === "set_mode") {
-          window.megamanController.setControlMode(value);
-          console.log(`🤖 Modo de controle alterado para: ${value}`);
-          return;
-        }
-        switch (action) {
+      function megamanControlAction(e, t) {
+        if (!window.megamanController)
+          return void console.log("❌ Controlador do Mega Man não encontrado.");
+        if ("set_mode" === e)
+          return (
+            window.megamanController.setControlMode(t),
+            void console.log(`🤖 Modo de controle alterado para: ${t}`)
+          );
+        switch (e) {
           case "on":
-            window.megamanController.start();
-            console.log("🤖 Mega Man ativado via botão!");
+            (window.megamanController.start(),
+              console.log("🤖 Mega Man ativado via botão!"));
             break;
           case "off":
-            window.megamanController.stop();
-            console.log("🤖 Mega Man desativado via botão!");
+            (window.megamanController.stop(),
+              console.log("🤖 Mega Man desativado via botão!"));
             break;
           case "shoot":
-            if (window.megamanController.isActive) {
-              window.megamanController.shoot(true);
-              console.log("💥 Mega Man atirou via botão!");
-            } else {
-              console.log("❌ Mega Man precisa estar ativo para atirar.");
-            }
+            window.megamanController.isActive
+              ? (window.megamanController.shoot(!0),
+                console.log("💥 Mega Man atirou via botão!"))
+              : console.log("❌ Mega Man precisa estar ativo para atirar.");
             break;
-          case "move":
+          case "move_right":
             if (window.megamanController.isActive) {
-              window.megamanController.moveToRandomPosition(true);
-              console.log("🏃 Mega Man se moveu via botão!");
-            } else {
-              console.log("❌ Mega Man precisa estar ativo para se mover.");
-            }
-            break;
-          case "move_left":
-            if (window.megamanController.isActive) {
-              const leftPosition = {
-                x: Math.max(50, window.megamanController.position.x - 200),
+              const e = {
+                x: Math.min(
+                  window.megamanController.boundaries.maxX,
+                  window.megamanController.position.x + 200
+                ),
                 y: window.megamanController.position.y,
               };
               window.megamanController.moveToPosition(
-                leftPosition,
+                e,
+                () => {
+                  console.log("🏃 Mega Man se moveu para direita via botão!");
+                },
+                !0
+              );
+            } else
+              console.log("❌ Mega Man precisa estar ativo para se mover.");
+            break;
+          case "move_left":
+            if (window.megamanController.isActive) {
+              const e = {
+                x: Math.max(
+                  window.megamanController.boundaries.minX,
+                  window.megamanController.position.x - 200
+                ),
+                y: window.megamanController.position.y,
+              };
+              window.megamanController.moveToPosition(
+                e,
                 () => {
                   console.log("🏃 Mega Man se moveu para esquerda via botão!");
                 },
-                true
+                !0
               );
-            } else {
+            } else
               console.log("❌ Mega Man precisa estar ativo para se mover.");
-            }
             break;
+          case "move":
+            window.megamanController.isActive
+              ? (window.megamanController.moveToRandomPosition(!0),
+                console.log("🏃 Mega Man se moveu via botão!"))
+              : console.log("❌ Mega Man precisa estar ativo para se mover.");
         }
-        if (window.audioSystem) {
-          window.audioSystem.play("click");
-        }
+        if (window.audioSystem) window.audioSystem.play("click");
       }
     </script>
     <button id="back-to-top" title="Voltar ao topo" class="back-to-top">
@@ -759,61 +733,57 @@
     </button>
     <script>
       function initAudioDebug() {
-        const debugEl = document.getElementById("audio-debug");
-        if (!debugEl || !window.audioSystem) return;
-        debugEl.style.display = "flex";
-        debugEl.style.alignItems = "center";
-        debugEl.style.gap = "15px";
-        debugEl.style.padding = "8px 12px";
-        const formatTime = (seconds) => {
-          if (!seconds) return "0.0s";
-          const mins = Math.floor(seconds / 60);
-          const secs = (seconds % 60).toFixed(1);
-          return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
-        };
-        const updateDebugInfo = () => {
-          try {
-            const audio = window.audioSystem;
-            const now = audio.audioContext?.currentTime || 0;
-            const elapsed =
-              audio.backgroundMusic && audio.musicStartTime
-                ? formatTime(now - audio.musicStartTime)
-                : "0.0s";
-            const musicState = audio.backgroundMusicEnabled ? "ON" : "OFF";
-            const muteState = audio.isMuted ? "MUDO" : "SOM";
-            debugEl.innerHTML = `
-        <span title="Música de fundo">🎵 ${musicState}</span>
-        <span title="Tempo decorrido">⏱ ${elapsed}</span>
+        const e = document.getElementById("audio-debug");
+        if (!e || !window.audioSystem) return;
+        ((e.style.display = "flex"),
+          (e.style.alignItems = "center"),
+          (e.style.gap = "15px"),
+          (e.style.padding = "8px 12px"));
+        const t = (t) => {
+            if (!t) return "0.0s";
+            const o = Math.floor(t / 60),
+              n = (t % 60).toFixed(1);
+            return o > 0 ? `${o}m ${n}s` : `${n}s`;
+          },
+          o = () => {
+            try {
+              const o = window.audioSystem,
+                n = o.audioContext?.currentTime || 0,
+                i =
+                  o.backgroundMusic && o.musicStartTime
+                    ? t(n - o.musicStartTime)
+                    : "0.0s",
+                s = o.backgroundMusicEnabled ? "ON" : "OFF",
+                a = o.isMuted ? "MUDO" : "SOM";
+              ((e.innerHTML = `
+        <span title="Música de fundo">🎵 ${s}</span>
+        <span title="Tempo decorrido">⏱ ${i}</span>
        
-        <span title="Estado mudo">${
-          audio.isMuted ? "🔇" : "🔊"
-        } ${muteState}</span>
-      `;
-            debugEl.style.borderColor = audio.isMuted ? "#ff5555" : "#8A2BE2";
-          } catch (error) {
-            console.error("Audio debug error:", error);
-            debugEl.innerHTML = "DEBUG ERROR";
-          }
-        };
-        const debugInterval = setInterval(updateDebugInfo, 500);
-        window.addEventListener("resize", updateDebugInfo);
-        return () => clearInterval(debugInterval);
+        <span title="Estado mudo">${o.isMuted ? "🔇" : "🔊"} ${a}</span>
+      `),
+                (e.style.borderColor = o.isMuted ? "#ff5555" : "#8A2BE2"));
+            } catch (t) {
+              (console.error("Audio debug error:", t),
+                (e.innerHTML = "DEBUG ERROR"));
+            }
+          };
+        const n = setInterval(o, 500);
+        return (window.addEventListener("resize", o), () => clearInterval(n));
       }
       function setupAudioDebug() {
-        if (window.audioSystem) {
-          return initAudioDebug();
-        } else {
-          const checkInterval = setInterval(() => {
+        if (window.audioSystem) return initAudioDebug();
+        {
+          const t = setInterval(() => {
             if (window.audioSystem) {
-              clearInterval(checkInterval);
+              clearInterval(t);
               initAudioDebug();
             }
           }, 300);
           setTimeout(() => {
-            clearInterval(checkInterval);
-            const debugEl = document.getElementById("audio-debug");
-            if (debugEl) debugEl.style.display = "none";
-          }, 10000);
+            clearInterval(t);
+            const t = document.getElementById("audio-debug");
+            if (t) t.style.display = "none";
+          }, 1e4);
         }
       }
       document.addEventListener("DOMContentLoaded", setupAudioDebug);
@@ -931,56 +901,35 @@
     </footer>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const container = document.querySelector(".matrix-rain");
-        const chars =
-          "01" +
-          "0000000000000000▣\n" +
-          "0111111111111110▣\n" +
-          "0100000000000010▣\n" +
-          "0101111111111010▣\n" +
-          "0101000000001010▣\n" +
-          "0101011111101010▣\n" +
-          "0101010000101010▣\n" +
-          "0101010110101010▣\n" +
-          "0101010110101010▣\n" +
-          "0101010000101010▣\n" +
-          "0101011111101010▣\n" +
-          "0101000000001010▣\n" +
-          "0101111111111010▣\n" +
-          "0100000000000010▣\n" +
-          "0111111111111110▣\n" +
-          "0000000000000000▣";
-        const columnCount = Math.floor(window.innerWidth / 20);
-        for (let i = 0; i < columnCount; i++) {
-          const track = document.createElement("div");
-          track.className = "matrix-track";
-          track.style.setProperty("--delay", i);
-          track.style.left = `${i * 20}px`;
-          for (let j = 0; j < 30; j++) {
-            const char = document.createElement("div");
-            const randomChar = chars[Math.floor(Math.random() * chars.length)];
-            if (randomChar === "0" || randomChar === "1") {
-              char.innerHTML = `<strong>${randomChar}</strong>`;
-            } else {
-              char.textContent = randomChar;
-            }
-            char.style.opacity = (30 - j) / 30;
-            char.style.transition = "opacity 0.3s";
-            track.appendChild(char);
+        const e = document.querySelector(".matrix-rain"),
+          t =
+            "010000000000000000▣\n0111111111111110▣\n0100000000000010▣\n0101111111111010▣\n0101000000001010▣\n0101011111101010▣\n0101010000101010▣\n0101010110101010▣\n0101010110101010▣\n0101010000101010▣\n0101011111101010▣\n0101000000001010▣\n0101111111111010▣\n0100000000000010▣\n0111111111111110▣\n0000000000000000▣";
+        const o = Math.floor(window.innerWidth / 20);
+        for (let n = 0; n < o; n++) {
+          const o = document.createElement("div");
+          ((o.className = "matrix-track"),
+            o.style.setProperty("--delay", n),
+            (o.style.left = `${n * 20}px`));
+          for (let n = 0; n < 30; n++) {
+            const i = document.createElement("div"),
+              s = t[Math.floor(Math.random() * t.length)];
+            ("0" === s || "1" === s
+              ? (i.innerHTML = `<strong>${s}</strong>`)
+              : (i.textContent = s),
+              (i.style.opacity = (30 - n) / 30),
+              (i.style.transition = "opacity 0.3s"),
+              o.appendChild(i));
           }
-          container.appendChild(track);
+          e.appendChild(o);
         }
         setInterval(() => {
-          document.querySelectorAll(".matrix-track div").forEach((char) => {
+          document.querySelectorAll(".matrix-track div").forEach((e) => {
             if (Math.random() > 0.7) {
-              const randomChar =
-                chars[Math.floor(Math.random() * chars.length)];
-              if (randomChar === "0" || randomChar === "1") {
-                char.innerHTML = `<strong>${randomChar}</strong>`;
-              } else {
-                char.textContent = randomChar;
-              }
-              char.style.opacity = 1;
+              const o = t[Math.floor(Math.random() * t.length)];
+              ("0" === o || "1" === o
+                ? (e.innerHTML = `<strong>${o}</strong>`)
+                : (e.textContent = o),
+                (e.style.opacity = 1));
             }
           });
         }, 300);

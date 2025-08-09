@@ -1219,22 +1219,22 @@ body:hover {
 /* Estilo para o botão de modo de controle ativo */
 .control-mode-active {
   animation: controlButtonBlink 1s infinite !important;
-  background-color: #ff0000 !important;
-  border-color: #ff0000 !important;
+  background-color: #00ff00 !important; /* Verde */
+  border-color: #00ff00 !important;
 }
 
 @keyframes controlButtonBlink {
   0% {
-    background-color: #ff0000 !important;
-    box-shadow: 0 0 15px #ff0000 !important;
+    background-color: #00ff00 !important;
+    box-shadow: 0 0 15px #00ff00 !important;
   }
   50% {
-    background-color: rgba(255, 0, 0, 0.3) !important;
-    box-shadow: 0 0 5px #ff0000 !important;
+    background-color: rgba(0, 255, 0, 0.3) !important;
+    box-shadow: 0 0 5px #00ff00 !important;
   }
   100% {
-    background-color: #ff0000 !important;
-    box-shadow: 0 0 15px #ff0000 !important;
+    background-color: #00ff00 !important;
+    box-shadow: 0 0 15px #00ff00 !important;
   }
 }
 

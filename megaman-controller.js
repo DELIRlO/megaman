@@ -89,13 +89,22 @@ class MegamanController {
 
   setControlMode(mode) {
     if (["ia", "manual", "all"].includes(mode)) {
-      this.controlMode = mode;
-      console.log(`Modo de controle do Megaman definido para: ${mode}`);
+      if (this.controlMode === mode) {
+        this.controlMode = "all"; // Volta para o modo padrão se clicar no ativo
+      } else {
+        this.controlMode = mode;
+      }
+
+      console.log(
+        `Modo de controle do Megaman definido para: ${this.controlMode}`
+      );
       this.updateButtonStyles();
+
       clearTimeout(this.shootTimer);
       clearTimeout(this.moveTimer);
       this.shootTimer = null;
       this.moveTimer = null;
+
       if (
         (this.controlMode === "ia" || this.controlMode === "all") &&
         this.isActive
@@ -624,7 +633,6 @@ class MegamanController {
       return;
     if (!isManual && this.controlMode !== "ia" && this.controlMode !== "all")
       return;
-
     if (!this.isActive || this.isPaused || this.isMoving || this.isShooting) {
       if (!isManual) this.scheduleNextMove();
       return;
@@ -722,7 +730,6 @@ class MegamanController {
       return;
     if (!isManual && this.controlMode !== "ia" && this.controlMode !== "all")
       return;
-
     if (
       !this.isActive ||
       this.isPaused ||
