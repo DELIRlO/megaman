@@ -43,6 +43,7 @@ class AudioSystem {
       teleport: "./assets/audio/teleport.mp3",
       achievement: "./assets/audio/achievement.mp3",
       click: "./assets/audio/click.mp3",
+      ataque: "./assets/audio/ataque.mp3",
     };
 
     for (const [key, path] of Object.entries(soundFiles)) {
@@ -182,6 +183,7 @@ class AudioSystem {
       teleport: { freq: [400, 1200], duration: 0.3 },
       achievement: { freq: [1200, 800, 1200], duration: 0.5 },
       click: { freq: 1000, duration: 0.05 },
+      ataque: { freq: [200, 100], duration: 0.2 },
       bgMusic: { freq: 440, duration: 1.5, loop: true },
     };
 

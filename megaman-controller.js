@@ -253,7 +253,7 @@ class MegamanController {
     this.stats.totalShots++;
     this.switchSprite(this.direction === "left" ? "shootingLeft" : "shooting");
     this.element.classList.add("shooting");
-    if (window.audioSystem) window.audioSystem.play("click");
+    if (window.audioSystem) window.audioSystem.play("ataque");
     this.checkNameDestruction();
     setTimeout(() => {
       if (this.isActive) {
@@ -340,6 +340,7 @@ class MegamanController {
     this.switchSprite("destroying");
     icon.style.animation = "shake 0.5s ease-in-out";
     setTimeout(() => {
+      if (window.audioSystem) window.audioSystem.play("ataque");
       icon.style.transition = "opacity 0.3s";
       icon.style.opacity = "0";
       icon.style.animation = "";
@@ -465,8 +466,8 @@ class MegamanController {
         );
     }
     newElement.textContent = letters.join("");
-    newElement.style.color = "rgba(255, 0, 0, 1)";
-    newElement.style.textShadow = "2px 2px 0 #000, 0 0 10px #ff0000";
+    newElement.style.color = "rgba(0, 0, 255, 1)";
+    newElement.style.textShadow = "2px 2px 0 #000, 0 0 10px #0000ff";
     const regenerationInterval = this.regenerationDuration / totalSteps;
     const interval = setInterval(() => {
       if (currentStep > totalSteps) {
@@ -498,11 +499,13 @@ class MegamanController {
       newElement.textContent = currentTextArr.join("");
       const r = Math.floor(255 * (1 - progressRatio));
       const g = Math.floor(150 * progressRatio);
-      const b = Math.floor(255 * progressRatio);
+      const b = 255; // Manter o azul forte
       newElement.style.color = `rgba(${r},${g},${b},1)`;
       const shadowRedIntensity = 10 * (1 - progressRatio);
-      const shadowPurpleIntensity = 5 * progressRatio;
-      newElement.style.textShadow = `2px 2px 0 rgba(0,0,0,0.7), 0 0 ${shadowRedIntensity}px rgba(255,0,0,${1 - progressRatio}), 0 0 ${shadowPurpleIntensity}px var(--color-primary)`;
+      const shadowBlueIntensity = 15 * progressRatio;
+      newElement.style.textShadow = `2px 2px 0 rgba(0,0,0,0.7), 0 0 ${shadowRedIntensity}px rgba(255,0,0,${
+        1 - progressRatio
+      }), 0 0 ${shadowBlueIntensity}px rgba(0,0,255,1)`;
       currentStep++;
     }, regenerationInterval);
     this.stats.successfulRegenerations++;
