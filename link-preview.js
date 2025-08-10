@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const linkRegex = /(carlosfilho\.vercel\.app|carlosdiniz\.vercel\.app)/gi;
-  const previewImageUrl =
-    "https://carlosdiniz.vercel.app/assets/imagens/preview.png";
+  const previewImageUrl = "https://carlosdiniz.vercel.app/preview.png";
 
   const MOUSE_LEAVE_DELAY = 300; // ms
   let hidePreviewTimer = null;
