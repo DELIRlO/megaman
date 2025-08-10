@@ -298,35 +298,45 @@ class MegamanController {
 
   handleDestruction(target) {
     if (!target || !target.element || this.isRegenerating) return;
+
+    // Oculta o elemento original e o marca para regeneração
+    target.element.style.display = "none";
+
     if (target.element.id === "destroyable-name") {
       this.aiTargetingState = "icon1";
     } else if (target.element.id === "destroyable-subtitle") {
       this.aiTargetingState = "icon2";
     }
+
     this.element?.classList.add("attack");
-    target.element.style.animation = "shake 0.3s ease-in-out";
-    this.animateLetterBreaking(target);
+
+    // Cria um contêiner temporário para a animação
+    const regenContainer = document.createElement("div");
+    regenContainer.className = "processor-container";
+    target.originalContainer.insertBefore(regenContainer, target.element);
+
+    this.animateLetterBreaking(regenContainer, target.originalContent);
+
     setTimeout(() => {
-      if (target.element) {
-        target.element.style.animation = "ash-fall 1.5s ease-in-out";
-        target.element.innerHTML = this.createAshEffect(target.originalContent);
-        target.element.style.color = "#333";
-        target.element.style.textShadow = "0 0 5px rgba(100, 100, 100, 0.5)";
-      }
+      regenContainer.innerHTML = this.createAshEffect(target.originalContent);
+      regenContainer.style.color = "#333";
+      regenContainer.style.textShadow = "0 0 5px rgba(100, 100, 100, 0.5)";
     }, 800);
+
     this.destructionCooldown = true;
     this.stats.nameDestructions++;
     this.updateScore(10);
+
     setTimeout(() => {
-      if (target.element?.parentNode) target.element.remove();
+      regenContainer.remove(); // Remove o contêiner de cinzas
       this.element?.classList.remove("attack");
       this.isRegenerating = true;
-      setTimeout(() => this.regenerateName(target), this.regenerationCooldown);
-      // Movimento pós-destruição
+      this.regenerateName(target); // Inicia a regeneração no elemento original
+
       setTimeout(() => {
         if (this.isActive && !this.isMoving) this.moveToRandomPosition();
       }, this.animationDuration + 100);
-    }, this.animationDuration);
+    }, this.animationDuration + 1500); // Aumenta o tempo para a animação de cinzas
   }
 
   destroyIcon(icon) {
@@ -440,86 +450,86 @@ class MegamanController {
 
   regenerateName(target) {
     if (!target || !target.originalContainer || !this.isRegenerating) return;
-    const newElement = document.createElement(target.element.tagName);
-    for (const [name, value] of Object.entries(target.originalAttributes)) {
-      newElement.setAttribute(name, value);
-    }
-    if (target.originalNextSibling) {
-      target.originalContainer.insertBefore(
-        newElement,
-        target.originalNextSibling
-      );
-    } else {
-      target.originalContainer.appendChild(newElement);
-    }
-    target.element = newElement;
+
+    const regenContainer = document.createElement("div");
+    regenContainer.className = "processor-container";
+    target.originalContainer.insertBefore(regenContainer, target.element);
+
+    const processorImage = document.createElement("div");
+    processorImage.className = "processor-image";
+    regenContainer.appendChild(processorImage);
+
+    const textElement = document.createElement("span");
+    regenContainer.appendChild(textElement);
+
     const plainText = target.originalContent.replace(/<[^>]*>/g, "");
     const brokenChars = ["█", "▓", "▒", "░", "▄", "▀", "■", "□", "▪", "▫"];
     let currentStep = 0;
     const totalSteps = 10;
+
     let letters = [];
     for (let i = 0; i < plainText.length; i++) {
-      if (plainText[i] === " ") letters.push(" ");
-      else
-        letters.push(
-          brokenChars[Math.floor(Math.random() * brokenChars.length)]
-        );
+      letters.push(
+        plainText[i] === " "
+          ? " "
+          : brokenChars[Math.floor(Math.random() * brokenChars.length)]
+      );
     }
-    newElement.textContent = letters.join("");
-    newElement.style.color = "rgba(0, 0, 255, 1)";
-    newElement.style.textShadow = "2px 2px 0 #000, 0 0 10px #0000ff";
+    textElement.textContent = letters.join("");
+    textElement.style.color = "rgba(0, 0, 255, 1)";
+    textElement.style.textShadow = "2px 2px 0 #000, 0 0 10px #0000ff";
+
     const regenerationInterval = this.regenerationDuration / totalSteps;
     const interval = setInterval(() => {
       if (currentStep > totalSteps) {
         clearInterval(interval);
         this.isRegenerating = false;
         this.destructionCooldown = false;
-        newElement.textContent = plainText;
-        newElement.style.color = "";
-        newElement.style.textShadow = "";
-        newElement.className = target.originalClasses;
-        if (target.element.id !== "destroyable-subtitle") {
-          newElement.style.animation =
-            "titleGlow 2s ease-in-out infinite alternate";
-        }
+        regenContainer.remove();
+        target.element.style.display = "";
         this.setupClickListener(target);
         return;
       }
+
       const progressRatio = currentStep / totalSteps;
       const charsToReveal = Math.floor(progressRatio * plainText.length);
       let currentTextArr = letters.slice();
+
       for (let i = 0; i < charsToReveal; i++) {
         if (plainText[i] !== " ") currentTextArr[i] = plainText[i];
       }
       for (let i = charsToReveal; i < plainText.length; i++) {
-        if (plainText[i] !== " ")
+        if (plainText[i] !== " ") {
           currentTextArr[i] =
             brokenChars[Math.floor(Math.random() * brokenChars.length)];
+        }
       }
-      newElement.textContent = currentTextArr.join("");
+
+      textElement.textContent = currentTextArr.join("");
+
       const r = Math.floor(255 * (1 - progressRatio));
       const g = Math.floor(150 * progressRatio);
-      const b = 255; // Manter o azul forte
-      newElement.style.color = `rgba(${r},${g},${b},1)`;
+      const b = 255;
+      textElement.style.color = `rgba(${r},${g},${b},1)`;
+
       const shadowRedIntensity = 10 * (1 - progressRatio);
       const shadowBlueIntensity = 15 * progressRatio;
-      newElement.style.textShadow = `2px 2px 0 rgba(0,0,0,0.7), 0 0 ${shadowRedIntensity}px rgba(255,0,0,${
-        1 - progressRatio
-      }), 0 0 ${shadowBlueIntensity}px rgba(0,0,255,1)`;
+      textElement.style.textShadow = `2px 2px 0 rgba(0,0,0,0.7), 0 0 ${shadowRedIntensity}px rgba(255,0,0,${1 - progressRatio}), 0 0 ${shadowBlueIntensity}px rgba(0,0,255,1)`;
+
       currentStep++;
     }, regenerationInterval);
+
     this.stats.successfulRegenerations++;
     this.updateScore(5);
   }
 
-  animateLetterBreaking(target) {
-    if (!target || !target.element) return;
-    const plainText = target.originalContent.replace(/<[^>]*>/g, "");
+  animateLetterBreaking(container, originalText) {
+    const plainText = originalText.replace(/<[^>]*>/g, "");
     const letters = plainText.split("");
     let currentStep = 0;
     const totalSteps = 8;
     const breakingInterval = setInterval(() => {
-      if (!target.element) {
+      if (!container) {
         clearInterval(breakingInterval);
         return;
       }
@@ -529,9 +539,9 @@ class MegamanController {
         letters,
         destructionProgress
       );
-      target.element.innerHTML = brokenText;
-      target.element.style.color = `rgba(255, ${Math.floor(255 * (1 - destructionProgress))}, ${Math.floor(255 * (1 - destructionProgress))}, 1)`;
-      target.element.style.textShadow = `2px 2px 0 #000, 0 0 ${10 * destructionProgress}px #ff0000`;
+      container.innerHTML = brokenText;
+      container.style.color = `rgba(255, ${Math.floor(255 * (1 - destructionProgress))}, ${Math.floor(255 * (1 - destructionProgress))}, 1)`;
+      container.style.textShadow = `2px 2px 0 #000, 0 0 ${10 * destructionProgress}px #ff0000`;
       if (currentStep >= totalSteps) clearInterval(breakingInterval);
     }, 100);
   }
