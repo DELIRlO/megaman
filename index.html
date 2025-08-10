@@ -10,9 +10,20 @@
       content="Desenvolvedor, programador e Técnico computacional autodidata"
     />
     <meta
+      id="og-image"
       property="og:image"
       content="https://carlosdiniz.vercel.app/preview.png"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <script>
+      document
+        .getElementById("og-image")
+        .setAttribute(
+          "content",
+          `https://carlosdiniz.vercel.app/preview.png?v=${new Date().getTime()}`
+        );
+    </script>
     <title>Carlos Filho - Portfólio 8-bit's</title>
     <link
       rel="shortcut icon"
