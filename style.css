@@ -3366,9 +3366,9 @@ footer {
   padding: 15px 0;
   width: 100%;
   position: relative;
-  bottom: 0;
-  z-index: 100; /* Mantém um z-index razoável para o layout normal */
+  z-index: 100;
   backdrop-filter: blur(5px);
+  margin-top: 200px; /* Afasta o rodapé do conteúdo principal */
 }
 
 .footer-content {

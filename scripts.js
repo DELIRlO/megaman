@@ -329,6 +329,9 @@ function initializeMenu() {
 }
 
 function navigateToPage(pageName) {
+  if (pageName === "contato") {
+    pageName = "home"; // Redireciona "contato" para "home"
+  }
   const currentPage = document.querySelector(".page.active");
   if (currentPage) {
     currentPage.classList.remove("active");
