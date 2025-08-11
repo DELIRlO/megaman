@@ -393,19 +393,10 @@
               </div>
             </div>
             <div class="terminal-body">
-              <div class="terminal-line">
-                <span class="terminal-prompt">C:\YSNES></span
-                ><span class="terminal-cursor">_</span>
-              </div>
-              <div id="terminal-output" class="terminal-output"></div>
+              <div id="terminal-output"></div>
               <div class="terminal-input-line">
                 <span class="terminal-prompt">C:\YSNES></span>
-                <input
-                  type="text"
-                  id="terminal-input"
-                  class="terminal-input"
-                  placeholder="Digite 'help' ou escreva megaman on ou off Para GAMER comecar"
-                />
+                <input type="text" id="terminal-input" class="terminal-input" />
               </div>
             </div>
           </div>
@@ -591,6 +582,7 @@
     <script src="pages/projetos.js"></script>
     <script src="starfield/starfield.js"></script>
     <script src="link-preview.js"></script>
+    <script src="terminal-effect.js"></script>
     <script>
       function updateAudioIcons() {
         const musicIcon = document.getElementById("music-icon"),

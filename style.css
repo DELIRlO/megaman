@@ -3366,8 +3366,8 @@ footer {
   padding: 15px 0;
   width: 100%;
   position: relative;
-  bottom: 20px;
-  z-index: 100;
+  bottom: 0; /* Removido o 'bottom: 20px' */
+  z-index: 99; /* Reduzido para ficar abaixo de menus e transições */
   backdrop-filter: blur(5px);
 }
 
@@ -3480,6 +3480,11 @@ footer {
     padding: 0;
     flex-direction: column;
     gap: 10px;
+  }
+
+  /* Desativa o efeito Matrix em telas pequenas para economizar recursos */
+  .matrix-rain {
+    display: none;
   }
 }
 
@@ -3609,4 +3614,46 @@ footer {
   flex-direction: column;
   gap: 5px;
   padding-left: 0; /* Remove qualquer indentação acidental */
+}
+
+/* Efeito de digitação para o terminal */
+#terminal-output {
+  display: flex;
+  align-items: center;
+  font-family: "Press Start 2P", monospace;
+  font-size: 12px;
+  min-height: 20px;
+}
+
+#terminal-output .prompt {
+  color: #ffffff;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+#terminal-output .typed-text {
+  font-weight: normal;
+}
+
+#terminal-output .typed-text {
+  color: #8a2be2; /* Roxo */
+}
+
+#terminal-output .cursor {
+  display: inline-block;
+  background-color: #8a2be2; /* Roxo */
+  width: 8px;
+  height: 14px;
+  margin-left: 4px;
+  animation: blink-block 0.75s step-end infinite;
+}
+
+@keyframes blink-block {
+  from,
+  to {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #8a2be2;
+  }
 }
