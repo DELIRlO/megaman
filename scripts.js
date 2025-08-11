@@ -600,7 +600,30 @@ function createBlogPage() {
 }
 
 function createContatoPage() {
-  return `<div class="page-content"><h1>CONTATO</h1><div class="contact-section"><div class="contact-info"><div class="contact-item"><div class="contact-icon">📍</div><div class="contact-text"><strong>ENDEREÇO</strong><br>Data:37 Promorar,Val-de-Cans nº 231<br>Belém,Pará-Brasil</div></div><div class="contact-item"><div class="contact-icon">📧</div><div class="contact-text"><strong>E-MAIL</strong><br>carlosaugustodiniz@outlook.com</div></div><div class="contact-item"><div class="contact-icon">💼</div><div class="contact-text"><strong>LINKEDIN</strong><br>www.linkedin.com/in/ysneshy/</div></div><div class="contact-item"><div class="contact-icon">🌐</div><div class="contact-text"><strong>PORTFÓLIO</strong><br>https://carlosfilho.vercel.app</div></div></div><div class="contact-form"><h2>ENVIAR MENSAGEM</h2><form id="contact-form"><div class="form-group"><label>NOME:</label><input type="text" name="name" required></div><div class="form-group"><label>E-MAIL:</label><input type="email" name="email" required></div><div class="form-group"><label>MENSAGEM:</label><textarea name="message" rows="5" required></textarea></div><button type="submit">ENVIAR MENSAGEM</button></form></div></div></div>`;
+  return `<div class="page-content">
+    <h1>CONTATO</h1>
+    <div class="contact-section">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-text"><strong>ENDEREÇO</strong><br>Data:37 Promorar,Val-de-Cans nº 231<br>Belém,Pará-Brasil</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div class="contact-text"><strong>E-MAIL</strong><br>carlosaugustodiniz@outlook.com</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💼</div>
+          <div class="contact-text"><strong>LINKEDIN</strong><br>www.linkedin.com/in/ysneshy/</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🌐</div>
+          <div class="contact-text"><strong>PORTFÓLIO</strong><br>https://carlosfilho.vercel.app</div>
+        </div>
+      </div>
+      <!-- Formulário removido para teste de performance em mobile -->
+    </div>
+  </div>`;
 }
 
 function triggerMegamanTransition() {
