@@ -3621,7 +3621,7 @@ footer {
   display: flex;
   align-items: center;
   font-family: "Press Start 2P", monospace;
-  font-size: 12px;
+  font-size: 10px;
   min-height: 20px;
 }
 
@@ -3655,5 +3655,24 @@ footer {
   }
   50% {
     background-color: #8a2be2;
+  }
+}
+
+.typed-text {
+  display: inline-block; /* Garante que o cursor fique alinhado */
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
 }

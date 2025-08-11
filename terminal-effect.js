@@ -18,22 +18,26 @@ document.addEventListener("DOMContentLoaded", () => {
     promptSpan.textContent = "C:\\YSNES> ";
     outputElement.appendChild(promptSpan);
 
-    // Cria e adiciona o texto digitado
+    // Cria um único span para o texto digitado + cursor
     const textSpan = document.createElement("span");
     textSpan.className = "typed-text";
-    textSpan.textContent = textToType.substring(0, charIndex);
-    outputElement.appendChild(textSpan);
 
-    // Cria e adiciona o cursor
+    // Adiciona o texto até o caractere atual
+    textSpan.textContent = textToType.substring(0, charIndex);
+
+    // Adiciona o cursor como parte do texto (usando um span interno)
     const cursorSpan = document.createElement("span");
     cursorSpan.className = "cursor";
-    outputElement.appendChild(cursorSpan);
+    cursorSpan.textContent = "|"; // Ou pode ser um caractere vazio com CSS
+    textSpan.appendChild(cursorSpan);
+
+    outputElement.appendChild(textSpan);
 
     if (charIndex < textToType.length) {
       charIndex++;
       setTimeout(typeWriter, 156);
     } else {
-      // Mantém o cursor no final e se prepara para reiniciar
+      // Mantém o cursor piscando no final e se prepara para reiniciar
       setTimeout(() => {
         charIndex = 0;
         typeWriter();
